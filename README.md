@@ -124,7 +124,7 @@ sua ferramenta):
 
 ### 5. O diagrama
 
-`diagrama/arquitetura-real-codex.html` é um resumo visual de todo o fluxo (papéis,
+`diagrama/arquitetura-multimodelo.html` é um resumo visual de todo o fluxo (papéis,
 setas de quem chama quem, limites de turno, o que exige autorização humana). Abra
 o `.html` em qualquer navegador. Não precisa de servidor nem de internet.
 
@@ -152,18 +152,9 @@ conselho-de-ia/
     test-multimodel-routing.ps1
     grok-prompt-clean.py
   diagrama/
-    arquitetura-real-codex.html
-    arquitetura-real-codex.png    (atenção: veja a nota abaixo)
+    arquitetura-multimodelo.html
+    arquitetura-multimodelo.png
 ```
-
-## Nota sobre o diagrama PNG
-
-`diagrama/arquitetura-real-codex.png` é uma versão exportada anteriormente e está
-desatualizada em relação ao `.html` ao lado (por exemplo, ele mostra o modelo de
-volume fixo em esforço máximo o tempo todo, enquanto a versão atual usa esforço
-alto como padrão e o máximo só em tarefa complexa). Use o `.html` como referência
-principal. Se quiser um PNG atualizado, abra o `.html` num navegador e tire um
-print da tela, ou exporte de novo a partir dele.
 
 ## O que este kit não faz
 
