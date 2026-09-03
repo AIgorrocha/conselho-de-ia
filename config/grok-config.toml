@@ -1,0 +1,58 @@
+# Trecho de configuracao do Grok CLI (perfil interativo padrao) para mesclar
+# em ~/.grok/config.toml. Nao sobrescreva o arquivo inteiro: funda estas
+# chaves nas secoes correspondentes do seu config.toml existente.
+
+[models]
+default = "grok-4.6"
+default_reasoning_effort = "high"
+
+[features]
+telemetry = false
+
+[telemetry]
+trace_upload = false
+
+[marketplace]
+default_skills_installs_purged = true
+official_marketplace_auto_installed = true
+
+[[marketplace.sources]]
+name = "xAI Official"
+git = "https://github.com/xai-org/plugin-marketplace.git"
+
+# Se voce usa um MCP de memoria cross-sessao (qualquer servidor MCP de
+# memoria compativel), declare-o aqui como [mcp_servers.<nome>], apontando
+# para a sua propria instancia. Nao ha um MCP de memoria embutido neste kit.
+
+[ui]
+max_thoughts_width = 120
+fork_secondary_model = "grok-4.6"
+yolo = false
+compact_mode = false
+permission_mode = "auto"
+
+# Desativa compatibilidade automatica com skills/regras/agentes/MCPs/hooks de
+# outras CLIs (Claude, Cursor, Codex) para manter o roteamento explicito.
+[compat.claude]
+skills = false
+rules = false
+agents = false
+mcps = false
+hooks = false
+sessions = false
+
+[compat.cursor]
+skills = false
+rules = false
+agents = false
+mcps = false
+hooks = false
+sessions = false
+
+[compat.codex]
+skills = false
+rules = false
+agents = false
+mcps = false
+hooks = false
+sessions = false

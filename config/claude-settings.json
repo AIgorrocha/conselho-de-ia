@@ -1,0 +1,15 @@
+{
+  "_comentario": "Trecho de settings.json do Claude Code para mesclar em ~/.claude/settings.json (Windows: %USERPROFILE%\\.claude\\settings.json). Nao sobrescreva o arquivo inteiro: copie as chaves 'env' e 'modelSettings' para dentro do seu settings.json existente, mesclando com o que ja esta la.",
+  "env": {
+    "CLAUDE_CODE_SUBAGENT_MODEL": "claude-sonnet-5"
+  },
+  "effortLevel": "high",
+  "modelSettings": {
+    "claude-fable-5-1": {
+      "effortLevel": "high"
+    },
+    "claude-sonnet-5": {
+      "effortLevel": "high"
+    }
+  }
+}

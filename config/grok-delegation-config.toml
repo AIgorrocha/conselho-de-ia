@@ -1,0 +1,78 @@
+# Trecho de configuracao do Grok CLI para o PERFIL ISOLADO de delegacao
+# textual, mesclado em ~/.grok-delegation/config.toml (um GROK_HOME separado
+# do perfil interativo, usado so pelas chamadas feitas pelo condutor). Nao
+# sobrescreva o arquivo inteiro: funda estas chaves.
+#
+# Este perfil fica fora de qualquer repositorio com controle de versao, sem
+# indexacao de codigo, sem fetch remoto implicito e sem carregar variaveis de
+# ambiente locais do projeto (.envrc). Ver skills/grok-delegation/SKILL.md
+# para como ele e invocado.
+
+[cli]
+auto_update = false
+use_leader = false
+
+[models]
+default = "grok-4.6"
+default_reasoning_effort = "high"
+
+[features]
+telemetry = false
+feedback = false
+lsp_tools = false
+codebase_indexing = false
+remote_fetch = false
+
+[telemetry]
+trace_upload = false
+
+[folder_trust]
+enabled = false
+
+[session]
+load_envrc = false
+
+[tools]
+respect_gitignore = true
+
+# Ignora as skills globais instaladas no perfil interativo normal: a
+# delegacao textual nao deve herdar skills que assumem acesso de escrita ou
+# contexto de outro projeto. Ajuste o caminho para onde voce guarda skills
+# globais.
+[skills]
+ignore = ["~/.agents/skills"]
+
+[plugins]
+disabled = [
+  "codex",
+  "context7",
+  "frontend-design",
+  "superpowers",
+]
+
+[compat.claude]
+skills = false
+rules = false
+agents = false
+mcps = false
+hooks = false
+sessions = false
+
+[compat.cursor]
+skills = false
+rules = false
+agents = false
+mcps = false
+hooks = false
+sessions = false
+
+[compat.codex]
+skills = false
+rules = false
+agents = false
+mcps = false
+hooks = false
+sessions = false
+
+[marketplace]
+default_skills_installs_purged = true

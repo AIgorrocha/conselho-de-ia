@@ -1,0 +1,32 @@
+# Trecho de configuracao do Codex CLI para mesclar em ~/.codex/config.toml
+# (Windows: %USERPROFILE%\.codex\config.toml). Nao sobrescreva o arquivo
+# inteiro: cole ou funda estas chaves nas secoes correspondentes do seu
+# config.toml existente. Nomes de perfil foram renomeados para termos
+# neutros (eram nomes de projeto internos do autor).
+
+model = "gpt-5.6-sol"
+model_reasoning_effort = "high"
+
+[agents]
+enabled = true
+default_subagent_model = "gpt-5.6-terra"
+default_subagent_reasoning_effort = "high"
+max_concurrent_threads_per_session = 3
+max_depth = 1
+
+# Perfil de uso diario / condutor padrao.
+[profiles.padrao]
+model = "gpt-5.6-sol"
+model_reasoning_effort = "high"
+
+# Perfil explicito de condutor (mesmos valores do padrao; existe para deixar
+# a intencao clara quando voce troca de perfil na CLI).
+[profiles.condutor]
+model = "gpt-5.6-sol"
+model_reasoning_effort = "high"
+
+# Perfil de volume alternativo: usar so quando o modelo de volume principal
+# (Grok ou equivalente) nao estiver disponivel.
+[profiles.volume-fallback]
+model = "gpt-5.6-terra"
+model_reasoning_effort = "medium"

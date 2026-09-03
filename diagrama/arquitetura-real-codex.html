@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arquitetura real do Codex</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    background: #0D0D0D;
+    -webkit-text-size-adjust: 100%;
+  }
+  svg { display: block; width: 100%; height: auto; max-width: 100%; }
+</style>
+</head>
+<body>
+<svg viewBox="0 0 3400 1900" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Arquitetura real do Codex: matriz de modelos e orquestracao">
+  <defs>
+    <style>
+      .t-title { font-family: "Space Grotesk", "Avenir Next", "Futura", "Helvetica Neue", system-ui, sans-serif; font-weight: 700; }
+      .t-name  { font-family: "Inter", -apple-system, "SF Pro Display", "Helvetica Neue", "Segoe UI", Arial, sans-serif; }
+      .t-mono  { font-family: "Geist Mono", ui-monospace, "SF Mono", "Menlo", "Consolas", monospace; }
+      .ink   { fill: #FFFFFF; }
+      .muted { fill: #A0A0A0; }
+      .accent{ fill: #4A90D9; }
+    </style>
+    <marker id="setaFwd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#A0A0A0"/>
+    </marker>
+    <marker id="setaVolta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#FFFFFF"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="3400" height="1900" fill="#0D0D0D"/>
+
+  <!-- Cabecalho -->
+  <text class="t-title ink" x="90" y="68" font-size="48">Arquitetura real do Codex</text>
+  <text class="t-name muted" x="90" y="102" font-size="21">Como o Codex conduz Grok e Claude no dia a dia. Matriz de modelos e orquestração.</text>
+
+  <!-- ===================== FILEIRA 1: 00 Igor -> Custo total -> 01 Codex ===================== -->
+
+  <!-- 00 Igor, autoridade humana -->
+  <rect x="90" y="135" width="1300" height="415" rx="10" fill="#1A1A1A" stroke="#FFFFFF" stroke-width="4"/>
+  <text class="t-mono muted" x="134" y="181" font-size="21" letter-spacing="2">00 · IGOR, AUTORIDADE HUMANA</text>
+  <text class="t-name ink" x="134" y="243" font-size="36" font-weight="700">Eu defino objetivo, risco e proibições</text>
+  <text class="t-name muted" x="134" y="281" font-size="19">Nenhum modelo é autoridade final. Demonstrar com fonte, código, teste ou cálculo antes de julgar.</text>
+  <text class="t-name ink" x="134" y="319" font-size="25" font-weight="700">Silêncio não é aprovação</text>
+  <text class="t-mono ink" x="134" y="355" font-size="17" font-weight="700" letter-spacing="1">EXIGE O MEU SIM EXPLÍCITO PARA:</text>
+
+  <!-- Pills de proibicao: 2 fileiras de 3 -->
+  <g>
+    <rect x="134" y="375" width="394" height="42" rx="21" fill="none" stroke="#EF4444" stroke-width="2"/>
+    <text class="t-mono ink" x="331" y="401" font-size="18" text-anchor="middle">IRREVERSÍVEL</text>
+    <rect x="542" y="375" width="394" height="42" rx="21" fill="none" stroke="#EF4444" stroke-width="2"/>
+    <text class="t-mono ink" x="739" y="401" font-size="18" text-anchor="middle">PÚBLICA</text>
+    <rect x="950" y="375" width="394" height="42" rx="21" fill="none" stroke="#EF4444" stroke-width="2"/>
+    <text class="t-mono ink" x="1147" y="401" font-size="18" text-anchor="middle">FINANCEIRA</text>
+    <rect x="134" y="425" width="394" height="42" rx="21" fill="none" stroke="#EF4444" stroke-width="2"/>
+    <text class="t-mono ink" x="331" y="451" font-size="18" text-anchor="middle">JURÍDICA</text>
+    <rect x="542" y="425" width="394" height="42" rx="21" fill="none" stroke="#EF4444" stroke-width="2"/>
+    <text class="t-mono ink" x="739" y="451" font-size="18" text-anchor="middle">DESTRUTIVA</text>
+    <rect x="950" y="425" width="394" height="42" rx="21" fill="none" stroke="#EF4444" stroke-width="2"/>
+    <text class="t-mono ink" x="1147" y="451" font-size="18" text-anchor="middle">DE IDENTIDADE</text>
+  </g>
+
+  <path d="M1390,342 H1430" stroke="#A0A0A0" stroke-width="4" fill="none" marker-end="url(#setaFwd)"/>
+
+  <!-- Criterio de custo total -->
+  <rect x="1430" y="135" width="700" height="415" rx="16" fill="#1A1A1A" stroke="#7C3AED" stroke-width="2.5" stroke-dasharray="8,6"/>
+  <text class="t-name ink" x="1780" y="180" font-size="21" font-weight="700" text-anchor="middle">CRITÉRIO DE ACIONAMENTO</text>
+  <text class="t-mono accent" x="1780" y="216" font-size="16" text-anchor="middle">1. Toda tarefa começa no esforço PADRÃO</text>
+  <text class="t-name muted" x="1780" y="242" font-size="16" text-anchor="middle">Subir é exceção declarada ("xhigh porque..."), nunca hábito</text>
+  <text class="t-mono accent" x="1780" y="278" font-size="16" text-anchor="middle">2. Só sobe se a tarefa for COMPLEXA (1 sinal basta):</text>
+  <text class="t-name muted" x="1780" y="304" font-size="15" text-anchor="middle">a) vários sistemas ou arquivos dependentes entre si</text>
+  <text class="t-name muted" x="1780" y="326" font-size="15" text-anchor="middle">b) sem gabarito verificável (teste, número, fonte)</text>
+  <text class="t-name muted" x="1780" y="348" font-size="15" text-anchor="middle">c) erro custa retrabalho grande, efeito externo ou arquitetura</text>
+  <text class="t-name muted" x="1780" y="370" font-size="15" text-anchor="middle">d) tentativa no padrão falhou ou voltou sem veredito</text>
+  <text class="t-mono accent" x="1780" y="406" font-size="16" text-anchor="middle">3. Custo total decide QUEM é chamado</text>
+  <text class="t-name muted" x="1780" y="430" font-size="15" text-anchor="middle">limite de uso + tempo humano + retrabalho + risco + atraso</text>
+  <text class="t-name muted" x="1780" y="452" font-size="15" text-anchor="middle">Grok = volume com fim observável · Fable = julgamento</text>
+  <text class="t-name muted" x="1780" y="474" font-size="15" text-anchor="middle">Condutor = busca curta, rg, teste, poucos arquivos</text>
+  <text class="t-mono muted" x="1780" y="512" font-size="14" text-anchor="middle">Sem veredito ou cortado pelo teto = incompleto, segue por evidência local</text>
+
+  <path d="M2130,342 H2150 V442 H2170" stroke="#A0A0A0" stroke-width="4" fill="none" marker-end="url(#setaFwd)"/>
+
+  <!-- 01 Codex, condutor -->
+  <rect x="2170" y="135" width="1140" height="615" rx="8" fill="#1A1A1A" stroke="#4A90D9" stroke-width="4"/>
+  <circle cx="2740" cy="135" r="8" fill="#4A90D9"/>
+  <text class="t-mono muted" x="2214" y="181" font-size="21" letter-spacing="2">01 · CODEX, CONDUTOR PADRÃO</text>
+  <text class="t-name accent" x="2214" y="263" font-size="40" font-weight="700">Decompõe, constrói, confere</text>
+  <text class="t-name muted" x="2214" y="313" font-size="23">Decompõe a tarefa e atribui responsabilidades</text>
+  <text class="t-name muted" x="2214" y="347" font-size="23">Cria ou altera a fonte principal</text>
+  <text class="t-name muted" x="2214" y="381" font-size="23">Confronta com código, dados, testes e fontes</text>
+  <text class="t-name muted" x="2214" y="415" font-size="23">Integra resultados e fecha o ciclo</text>
+  <path d="M2214,447 H3266" stroke="#262626" stroke-width="1.5"/>
+  <text class="t-mono accent" x="2214" y="483" font-size="20">ESFORÇO: gpt-5.6-sol, high é o padrão</text>
+  <text class="t-mono muted" x="2214" y="511" font-size="18">xhigh só em tarefa complexa (critério ao lado)</text>
+  <text class="t-mono muted" x="2214" y="537" font-size="17">Subagente do Codex: gpt-5.6-terra, high. Nunca max/ultra</text>
+  <text class="t-mono muted" x="2214" y="561" font-size="17">terra medium: só volume excepcional sem Grok</text>
+  <text class="t-mono muted" x="2214" y="597" font-size="16">Chamada externa: tarefa autocontida, escopo</text>
+  <text class="t-mono muted" x="2214" y="621" font-size="16">delimitado, entrega verificável, condição de parada</text>
+  <text class="t-mono muted" x="2214" y="645" font-size="16">Nunca envia segredo</text>
+
+  <!-- ===================== FAIXA DE CONVOCACAO: Codex -> Grok / Codex -> Claude ===================== -->
+
+  <path d="M2450,750 V800 Q2450,816 2434,816 H576 Q560,816 560,832 V860" stroke="#A0A0A0" stroke-width="4" fill="none" marker-end="url(#setaFwd)"/>
+  <text class="t-mono ink" x="560" y="884" font-size="20" text-anchor="middle">Codex chama o Grok</text>
+  <text class="t-name muted" x="560" y="908" font-size="17" text-anchor="middle">grok-delegation local, CLI oficial, SuperGrok</text>
+  <rect x="340" y="920" width="440" height="32" rx="16" fill="none" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6,5"/>
+  <text class="t-mono ink" x="560" y="941" font-size="14" text-anchor="middle">1 CHAMADA PADRÃO · 2ª SÓ COM FALHA VERIFICÁVEL</text>
+  <path d="M560,952 V980" stroke="#A0A0A0" stroke-width="4" fill="none" marker-end="url(#setaFwd)"/>
+
+  <path d="M3030,750 V800 Q3030,816 3014,816 H2721 Q2705,816 2705,832 V860" stroke="#A0A0A0" stroke-width="4" fill="none" marker-end="url(#setaFwd)"/>
+  <text class="t-mono ink" x="2705" y="884" font-size="20" text-anchor="middle">Codex chama o Claude</text>
+  <text class="t-name muted" x="2705" y="908" font-size="17" text-anchor="middle">fable-advisor.cmd: claude-fable-5-1, high (nunca max)</text>
+  <rect x="2485" y="920" width="440" height="32" rx="16" fill="none" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6,5"/>
+  <text class="t-mono ink" x="2705" y="941" font-size="14" text-anchor="middle">1 CHAMADA POR DECISÃO · MÁX 800 PALAVRAS</text>
+  <path d="M2705,952 V980" stroke="#A0A0A0" stroke-width="4" fill="none" marker-end="url(#setaFwd)"/>
+
+  <!-- ===================== FILEIRA 2: 02 Grok + Variance | 03 Claude ===================== -->
+
+  <!-- 02 Grok -->
+  <rect x="90" y="980" width="940" height="470" rx="8" fill="#1A1A1A" stroke="#262626" stroke-width="1.5"/>
+  <text class="t-mono muted" x="134" y="1022" font-size="19" letter-spacing="2">02 · GROK, MOTOR DE VOLUME</text>
+  <text class="t-name ink" x="134" y="1075" font-size="38" font-weight="700">Grok</text>
+  <text class="t-mono muted" x="134" y="1110" font-size="17">volume, pesquisa e comparação</text>
+  <text class="t-name muted" x="134" y="1152" font-size="21">Cobertura, pesquisa, comparação e localização de lacunas</text>
+  <text class="t-name muted" x="134" y="1184" font-size="21">Tarefas simples com fim observável</text>
+  <text class="t-name muted" x="134" y="1216" font-size="21">Fluxo novo: começa somente leitura</text>
+  <text class="t-name muted" x="134" y="1248" font-size="21">Não aprova nem altera a fonte principal sem escopo explícito</text>
+  <path d="M134,1276 H982" stroke="#262626" stroke-width="1.5"/>
+  <text class="t-mono ink" x="134" y="1310" font-size="18">Modelo fixo: grok-4.6, high (xhigh só em tarefa complexa)</text>
+  <text class="t-mono muted" x="134" y="1338" font-size="17">Turnos: 4 padrão, até 6 pesquisa volumosa mensurável. Nunca 8 padrão</text>
+  <text class="t-mono muted" x="134" y="1366" font-size="17">2 turnos sem evidência nova = tarefa inconclusiva</text>
+
+  <!-- Conector Grok -> Variance (variance nasce da regra "nao altera fonte sem escopo") -->
+  <path d="M1030,1200 H1070" stroke="#EF4444" stroke-width="2" stroke-dasharray="5,4" fill="none"/>
+
+  <!-- Variance Grok Build (excecao datada) -->
+  <rect x="1070" y="980" width="940" height="470" rx="8" fill="#1A1A1A" stroke="#EF4444" stroke-width="2.5" stroke-dasharray="8,6"/>
+  <text class="t-mono ink" x="1114" y="1020" font-size="18" font-weight="700" letter-spacing="1">VARIANCE (EXCEÇÃO REGISTRADA)</text>
+  <text class="t-name ink" x="1114" y="1070" font-size="28" font-weight="700">Grok Build nos terminais</text>
+  <text class="t-mono muted" x="1114" y="1102" font-size="16">exceção, não regra geral</text>
+  <text class="t-name muted" x="1114" y="1140" font-size="19">Substitui em parte: "Grok não altera a fonte principal"</text>
+  <text class="t-name muted" x="1114" y="1170" font-size="19">Delegação textual (grok-delegation) continua só leitura</text>
+  <text class="t-name muted" x="1114" y="1202" font-size="18">Grok Build (CLI oficial xAI, grok-4.6, high) é o padrão</text>
+  <text class="t-name muted" x="1114" y="1228" font-size="18">dos terminais dedicados de execução e volume</text>
+  <path d="M1114,1256 H1962" stroke="#262626" stroke-width="1.5"/>
+  <text class="t-mono ink" x="1114" y="1288" font-size="17">Edita SÓ os arquivos atribuídos naquela tarefa do terminal</text>
+  <text class="t-mono muted" x="1114" y="1316" font-size="16">NÃO inclui: commit, push, deploy, credencial, destrutivo, efeito externo</text>
+  <text class="t-mono muted" x="1114" y="1344" font-size="16">Mantido: 1 terminal Claude Fable pra memória, julgamento e crítica adversarial</text>
+
+  <!-- 03 Claude / Fable -->
+  <rect x="2100" y="980" width="1210" height="470" rx="8" fill="#1A1A1A" stroke="#262626" stroke-width="1.5"/>
+  <text class="t-mono muted" x="2144" y="1022" font-size="19" letter-spacing="2">03 · CLAUDE, FABLE RARO</text>
+  <text class="t-name ink" x="2144" y="1075" font-size="38" font-weight="700">Claude</text>
+  <text class="t-mono muted" x="2144" y="1110" font-size="17">julgamento fino, raro</text>
+  <text class="t-name muted" x="2144" y="1152" font-size="21">Interpretação do conjunto, crítica adversarial, narrativa, copy</text>
+  <text class="t-name muted" x="2144" y="1184" font-size="21">Decisão conceitual difícil</text>
+  <text class="t-name muted" x="2144" y="1216" font-size="21">Não usar pra pesquisa volumosa nem autoria contínua quando</text>
+  <text class="t-name muted" x="2144" y="1248" font-size="21">Grok ou Codex resolvem com custo total menor</text>
+  <path d="M2144,1276 H3266" stroke="#262626" stroke-width="1.5"/>
+  <text class="t-mono ink" x="2144" y="1310" font-size="18">Conector: fable-advisor.cmd</text>
+  <text class="t-mono muted" x="2144" y="1338" font-size="17">claude-fable-5-1, high. Nunca max por padrão</text>
+  <text class="t-mono muted" x="2144" y="1366" font-size="17">Leitura por padrão. Escrita exige flag --write explícita</text>
+  <text class="t-mono muted" x="2144" y="1422" font-size="17">Subagentes do Claude Code: claude-sonnet-5, high</text>
+  <text class="t-mono muted" x="2144" y="1394" font-size="17">1 chamada por decisão, máx 800 palavras</text>
+
+  <!-- ===================== RETORNO: Grok/Claude -> 04 Codex confere ===================== -->
+
+  <path d="M560,1450 V1500 Q560,1516 576,1516 H1054 Q1070,1516 1070,1532 V1560" stroke="#FFFFFF" stroke-width="4" fill="none" marker-end="url(#setaVolta)"/>
+  <path d="M2705,1450 V1500 Q2705,1516 2689,1516 H1386 Q1370,1516 1370,1532 V1560" stroke="#FFFFFF" stroke-width="4" fill="none" marker-end="url(#setaVolta)"/>
+  <circle cx="800" cy="1516" r="24" fill="#FFFFFF"/>
+  <text class="t-name" x="800" y="1525" font-size="24" font-weight="700" text-anchor="middle" fill="#0D0D0D">1</text>
+  <circle cx="2000" cy="1516" r="24" fill="#FFFFFF"/>
+  <text class="t-name" x="2000" y="1525" font-size="24" font-weight="700" text-anchor="middle" fill="#0D0D0D">2</text>
+
+  <!-- ===================== FILEIRA 3: 04 Codex confere -> 05 Igor decide ===================== -->
+
+  <!-- 04 Codex confere -->
+  <rect x="870" y="1560" width="700" height="210" rx="10" fill="#1A1A1A" stroke="#4A90D9" stroke-width="2.5"/>
+  <text class="t-mono accent" x="914" y="1600" font-size="19" letter-spacing="2">04 · CODEX CONFERE</text>
+  <text class="t-name ink" x="914" y="1640" font-size="20">Confronta o que voltou com a fonte, código,</text>
+  <text class="t-name ink" x="914" y="1668" font-size="20">dados e testes antes de aceitar</text>
+  <text class="t-name muted" x="914" y="1705" font-size="16">Só então integra e fecha o ciclo</text>
+
+  <path d="M1570,1665 H1600 V1695 H1630" stroke="#FFFFFF" stroke-width="4" fill="none" marker-end="url(#setaVolta)"/>
+
+  <!-- 05 Igor decide -->
+  <rect x="1630" y="1560" width="900" height="270" rx="10" fill="#1A1A1A" stroke="#FFFFFF" stroke-width="4"/>
+  <text class="t-mono muted" x="1674" y="1602" font-size="19" letter-spacing="2">05 · EU DECIDO</text>
+  <text class="t-name ink" x="1674" y="1660" font-size="34" font-weight="700">A palavra final é minha</text>
+  <text class="t-name muted" x="1674" y="1702" font-size="19">Toda ação irreversível, pública, financeira,</text>
+  <text class="t-name muted" x="1674" y="1728" font-size="19">jurídica, destrutiva ou de identidade exige o meu sim explícito</text>
+  <text class="t-name ink" x="1674" y="1775" font-size="23" font-weight="700">Silêncio não é aprovação</text>
+
+  <!-- Legenda -->
+  <path d="M90,1840 H3310" stroke="#262626" stroke-width="1.5"/>
+  <g class="t-mono muted" font-size="17">
+    <rect x="90" y="1862" width="18" height="18" fill="#FFFFFF"/>
+    <text x="118" y="1877">Autoridade humana (Igor)</text>
+    <rect x="780" y="1862" width="18" height="18" fill="#4A90D9"/>
+    <text x="808" y="1877">Condutor (Codex)</text>
+    <rect x="1400" y="1862" width="18" height="18" fill="none" stroke="#3A3A3A" stroke-width="1.5"/>
+    <text x="1428" y="1877">Papel padrão de modelo</text>
+    <rect x="2050" y="1862" width="18" height="18" fill="none" stroke="#7C3AED" stroke-width="2" stroke-dasharray="4,3"/>
+    <text x="2078" y="1877">Regra de orçamento/turnos</text>
+    <rect x="2750" y="1862" width="18" height="18" fill="none" stroke="#EF4444" stroke-width="2" stroke-dasharray="4,3"/>
+    <text x="2778" y="1877">Proibição / variance</text>
+  </g>
+</svg>
+</body>
+</html>
