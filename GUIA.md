@@ -118,12 +118,12 @@ começa no esforço padrão, e só sobe quando a tarefa realmente exige.
 | Papel | Padrão | Só em tarefa complexa |
 |---|---|---|
 | Condutor | esforço alto | esforço máximo, só em tarefa complexa |
-| Subagente do condutor | esforço alto | não sobe |
+| Subagente do condutor | esforço alto | não sobe (esforço médio só para volume excepcional, quando o modelo de volume não está disponível) |
 | Modelo de volume | esforço alto | esforço máximo, só em tarefa complexa |
 | Modelo de julgamento | esforço alto | não sobe (esforço máximo proibido por padrão) |
-| Subagente do assistente de código local | esforço alto | não sobe |
+| Subagentes abertos pelo modelo de julgamento | esforço alto | não sobe |
 
-**Por quê o padrão já é "alto" e não "médio":** um esforço baixo demais devolve
+**Por que o padrão já é "alto" e não "médio":** um esforço baixo demais devolve
 respostas rasas com mais frequência, e aí você paga de novo com uma segunda
 chamada para corrigir. "Alto" costuma ser o ponto de equilíbrio. O que fica restrito
 é o nível seguinte, o mais caro de todos, que só se justifica quando o custo de
@@ -166,18 +166,20 @@ incompleto e siga com a evidência local que você já tem.
 ## 5. Como montar isso na prática
 
 1. Escolha os três papéis (condutor, volume, julgamento) com os modelos que você já
-   tem acesso hoje. Não precisa ser os mesmos três modelos do exemplo.
+   tem acesso hoje. Não precisam ser os mesmos três modelos do exemplo.
 2. Escreva essas regras no arquivo de instruções da sua IA principal (o texto que
    ela lê antes de cada conversa), não como um lembrete solto no meio de uma
    conversa. Regra que não está escrita de forma permanente se perde na primeira
    sessão nova. Este kit já traz esse texto pronto em `regras/`.
 3. Comece pedindo que o modelo de volume e o de julgamento trabalhem só em modo de
    leitura: eles pesquisam, comparam, analisam, mas não alteram nada direto. Só o
-   condutor mexe na fonte principal do seu trabalho.
-4. Defina, junto com você mesmo, o que conta como "ação irreversível" no seu
+   condutor mexe na fonte principal do seu trabalho. Se mais tarde você abrir um
+   terminal dedicado para o modelo de volume executar direto, ele edita só os
+   arquivos atribuídos naquela tarefa, e continua sem commit, publicação ou
+   qualquer efeito externo (exceção registrada em `regras/AGENTS.md`).
+4. Defina para você mesmo o que conta como "ação irreversível" no seu
    contexto. Publicar um conteúdo, mandar uma mensagem, gastar dinheiro, apagar
-   algo. Escreva essa lista, porque é ela que aciona a regra do item 2 da seção
-   anterior.
+   algo. Escreva essa lista, porque é ela que aciona a regra da seção 2.
 5. Configure o esforço de cada papel conforme a tabela da seção 4, e escreva junto
    os quatro sinais de "tarefa complexa" que autorizam subir de esforço.
 6. Revise depois de um tempo de uso: se você perceber que está sempre aprovando
