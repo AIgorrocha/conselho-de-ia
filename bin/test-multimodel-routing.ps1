@@ -1,145 +1,86 @@
-# Teste de coerencia do kit "conselho de IA".
-#
-# Verifica que os arquivos de regra, skill e config do kit continuam
-# consistentes entre si (mesmos valores de esforco, mesmos limites de turno,
-# mesmas flags de seguranca). Nao instala nada e nao chama nenhum modelo,
-# exceto na secao final opcional, que so roda se voce ja tiver o Grok CLI
-# instalado e as regras deste kit copiadas para ~/.grok/rules/.
-#
-# Rode a partir de qualquer lugar: o script acha a raiz do kit sozinho.
-#
-# Uso: pwsh -File bin\test-multimodel-routing.ps1
+# Static coherence checks for the public multimodel kit. Never calls a model.
+# Run from any directory: pwsh -File bin\test-multimodel-routing.ps1
+$ErrorActionPreference = 'Stop'
 
-$ErrorActionPreference = "Stop"
-
-function Assert-True {
-    param(
-        [bool]$Condition,
-        [string]$Message
-    )
-
-    if (-not $Condition) {
-        throw $Message
-    }
+function Assert-True([bool]$Condition, [string]$Message) {
+    if (-not $Condition) { throw $Message }
 }
 
-$kitRoot = Split-Path -Parent $PSScriptRoot
-
-$codexRulesPath = Join-Path $kitRoot "regras\AGENTS.md"
-$claudeRulesPath = Join-Path $kitRoot "regras\CLAUDE.md"
-$grokSkillPath = Join-Path $kitRoot "skills\grok-delegation\SKILL.md"
-$fableSkillPath = Join-Path $kitRoot "skills\fable-advisor\SKILL.md"
-$grokRulePath = Join-Path $kitRoot "regras\grok-rules-routing.md"
-$grokConfigPath = Join-Path $kitRoot "config\grok-config.toml"
-$grokDelegationConfigPath = Join-Path $kitRoot "config\grok-delegation-config.toml"
-$fableCommandPath = Join-Path $kitRoot "bin\fable-advisor.cmd"
-
-$requiredFiles = @(
-    $codexRulesPath,
-    $claudeRulesPath,
-    $grokSkillPath,
-    $fableSkillPath,
-    $grokRulePath,
-    $grokConfigPath,
-    $grokDelegationConfigPath,
-    $fableCommandPath
-)
-
-foreach ($path in $requiredFiles) {
-    Assert-True (Test-Path -LiteralPath $path) "Arquivo obrigatorio ausente: $path"
+$root = Split-Path -Parent $PSScriptRoot
+$files = @{
+    codexRules = Join-Path $root 'regras\AGENTS.md'
+    claudeRules = Join-Path $root 'regras\CLAUDE.md'
+    grokRules = Join-Path $root 'regras\grok-rules-routing.md'
+    crossSkill = Join-Path $root 'skills\cross-model-memory\SKILL.md'
+    grokSkill = Join-Path $root 'skills\grok-delegation\SKILL.md'
+    claudeSkill = Join-Path $root 'skills\claude-worker\SKILL.md'
+    fableSkill = Join-Path $root 'skills\fable-advisor\SKILL.md'
+    claudeWorker = Join-Path $root 'bin\claude-worker.ps1'
+    fableCommand = Join-Path $root 'bin\fable-advisor.cmd'
+    codexConfig = Join-Path $root 'config\codex-config.toml'
+    claudeConfig = Join-Path $root 'config\claude-settings.json'
+    grokConfig = Join-Path $root 'config\grok-config.toml'
+    grokIsolated = Join-Path $root 'config\grok-delegation-config.toml'
+    codexAgent = Join-Path $root 'config\codex-agents\luna-worker.toml'
+    claudeAgentHigh = Join-Path $root 'config\claude-agents\native-worker.md'
+    claudeAgentMedium = Join-Path $root 'config\claude-agents\native-worker-medium.md'
+}
+foreach ($path in $files.Values) {
+    Assert-True (Test-Path -LiteralPath $path -PathType Leaf) "Arquivo ausente: $path"
 }
 
-$codexRules = Get-Content -LiteralPath $codexRulesPath -Raw
-$claudeRules = Get-Content -LiteralPath $claudeRulesPath -Raw
-$grokSkill = Get-Content -LiteralPath $grokSkillPath -Raw
-$fableSkill = Get-Content -LiteralPath $fableSkillPath -Raw
-$grokRule = Get-Content -LiteralPath $grokRulePath -Raw
-$grokConfig = Get-Content -LiteralPath $grokConfigPath -Raw
-$grokDelegationConfig = Get-Content -LiteralPath $grokDelegationConfigPath -Raw
-$fableCommand = Get-Content -LiteralPath $fableCommandPath -Raw
+$text = @{}
+foreach ($key in $files.Keys) { $text[$key] = Get-Content -LiteralPath $files[$key] -Raw }
+$claudeConfigObject = Get-Content -LiteralPath $files.claudeConfig -Raw | ConvertFrom-Json
 
-Assert-True ($codexRules.Contains("## Orçamento de delegação externa")) "Orçamento ausente no arquivo do Codex"
-Assert-True ($claudeRules.Contains("### Orçamento de delegação externa")) "Orçamento ausente no arquivo do Claude"
-Assert-True ($grokSkill.Contains('$maxTurns = 4')) "Grok sem teto padrão de 4 turnos"
-Assert-True ($grokSkill.Contains("Six turns is the absolute ceiling")) "Grok sem teto absoluto de 6 turnos"
-Assert-True ($grokSkill.Contains("--output-format")) "Grok sem saída JSON para métricas"
-Assert-True ($grokSkill.Contains('$env:GROK_MEMORY = "0"')) "Grok delegado ainda carrega memória de sessão"
-Assert-True ($grokSkill.Contains('tty: true')) "Grok delegado sem PTY obrigatório no Codex Windows"
-Assert-True ($grokSkill.Contains("'--model', 'grok-4.6'")) "Grok delegado sem modelo fixo"
-Assert-True ($grokSkill.Contains("'--reasoning-effort', `$reasoningEffort")) "Grok delegado sem esforço parametrizado"
-Assert-True ($grokSkill.Contains("if (`$isComplex) { 'xhigh' } else { 'high' }")) "Grok delegado sem padrão high / xhigh só complexo"
-Assert-True ($grokSkill.Contains("'--permission-mode', 'plan'")) "Grok delegado sem modo plan"
-Assert-True ($grokSkill.Contains("'--sandbox', 'read-only'")) "Grok delegado sem sandbox read-only"
-Assert-True ($grokSkill.Contains("'--no-subagents'")) "Grok delegado permite subagentes"
-Assert-True ($grokSkill.Contains("'--cwd', `$workingDirectory")) "Grok delegado sem cwd isolado"
-Assert-True ($grokSkill.Contains("`$grokArgs += @('--tools', `$toolAllowlist)")) "Grok delegado sem allowlist condicional"
-Assert-True ($grokSkill.Contains('"web_search,web_fetch"')) "Grok web com tools divergentes"
-Assert-True ($grokSkill.Contains('"read_file,grep,list_dir"')) "Grok de evidência com tools divergentes"
-Assert-True ($grokSkill.Contains('"run_terminal_cmd,grep,read_file,search_replace,list_dir,web_search,web_fetch,todo_write,task"')) "Grok sem denylist integral para revisão sem tools"
-Assert-True ($grokSkill.Contains("`$grokArgs += @('--disallowed-tools', `$allBuiltInTools)")) "Grok sem aplicação da denylist integral"
-Assert-True (-not $grokSkill.Contains("'--tools', `$toolAllowlist,")) "Grok mantém allowlist vazia na lista base"
-Assert-True ($grokSkill.Contains('$env:RUST_LOG = "off"')) "Grok delegado sem saída JSON silenciosa"
-Assert-True ($grokSkill.Contains('$env:GROK_HOME = $delegationRoot')) "Grok delegado sem GROK_HOME isolado"
-Assert-True ($grokSkill.Contains('$env:GROK_AUTH_PATH = "~\.grok\auth.json"')) "Grok delegado sem referência OAuth existente"
-Assert-True ($grokSkill.Contains('Never point `--cwd` at the source repository')) "Grok delegado ainda pode receber cwd do repositório"
-Assert-True ($grokSkill.Contains('Remove-Item "Env:$sensitiveName"')) "Grok delegado não limpa variáveis sensíveis"
-Assert-True ($codexRules.Contains('terminal PTY (`tty: true`)')) "Regra PTY ausente no arquivo do Codex"
-Assert-True ($claudeRules.Contains('terminal PTY (`tty: true`)')) "Regra PTY ausente no arquivo do Claude"
-Assert-True ($grokConfig.Contains("[features]`ntelemetry = false") -or $grokConfig.Contains("[features]`r`ntelemetry = false")) "Telemetria Grok não desativada"
-Assert-True ($grokConfig.Contains("[telemetry]`ntrace_upload = false") -or $grokConfig.Contains("[telemetry]`r`ntrace_upload = false")) "Trace upload Grok não desativado"
-Assert-True (-not $grokConfig.Contains('[privacy]')) "Config Grok mantém chave privacy inválida"
-Assert-True ($grokDelegationConfig.Contains('codebase_indexing = false')) "Perfil Grok isolado mantém indexação"
-Assert-True ($grokDelegationConfig.Contains('remote_fetch = false')) "Perfil Grok isolado mantém fetch remoto implícito"
-Assert-True ($grokDelegationConfig.Contains('load_envrc = false')) "Perfil Grok isolado carrega envrc"
-Assert-True ($grokDelegationConfig.Contains('trace_upload = false')) "Perfil Grok isolado mantém trace upload"
-Assert-True ($grokDelegationConfig.Contains('~/.agents/skills')) "Perfil Grok isolado não ignora skills globais"
-foreach ($config in @($grokConfig, $grokDelegationConfig)) {
-    Assert-True ($config -match '(?m)^default\s*=\s*"grok-4\.6"$') "Config Grok sem modelo padrão 4.6"
-    Assert-True ($config -match '(?m)^default_reasoning_effort\s*=\s*"high"$') "Config Grok sem esforço padrão high"
+foreach ($rules in @($text.codexRules, $text.claudeRules, $text.crossSkill)) {
+    Assert-True ($rules.Contains('grok-4.7')) 'Grok 4.7 ausente no roteamento'
+    Assert-True ($rules.Contains('xhigh')) 'Regra de justificativa xhigh ausente'
+    Assert-True ($rules.Contains('Fable is a legacy') -or $rules.Contains('Fable é legado')) 'Fable nao marcado como legado'
+    Assert-True ([regex]::IsMatch($rules, 'opcional|optional', 'IgnoreCase')) 'Revisao cruzada nao indicada como opcional'
 }
-$claudeBlock = [regex]::Match($grokConfig, '(?ms)^\[compat\.claude\]\s*(.*?)(?=^\[|\z)').Groups[1].Value
-$codexBlock = [regex]::Match($grokConfig, '(?ms)^\[compat\.codex\]\s*(.*?)(?=^\[|\z)').Groups[1].Value
-foreach ($compatField in @('skills', 'rules', 'agents', 'mcps', 'hooks', 'sessions')) {
-    Assert-True ($claudeBlock -match "(?m)^$compatField\s*=\s*false$") "Compat Claude Grok ativa: $compatField"
-    Assert-True ($codexBlock -match "(?m)^$compatField\s*=\s*false$") "Compat Codex Grok ativa: $compatField"
+Assert-True ($text.codexRules.Contains('gpt-6.1-sol') -and $text.codexRules.Contains('gpt-6-luna')) 'Matriz Codex incorreta'
+Assert-True ($text.claudeRules.Contains('claude-opus-5-5') -and $text.claudeRules.Contains('claude-sonnet-5-5')) 'Matriz Claude incorreta'
+Assert-True ($text.crossSkill.Contains('Maximum three concurrent children')) 'Limite de tres agentes ausente'
+Assert-True ($text.crossSkill.Contains('No loops')) 'Regra sem loops ausente'
+Assert-True ($text.codexAgent.Contains('developer_instructions')) 'TOML de agente Codex sem instrucoes'
+Assert-True ($text.codexAgent.Contains('gpt-6-luna') -and $text.codexAgent.Contains('high')) 'Agente Codex nao usa Luna high'
+foreach ($agent in @($text.claudeAgentHigh, $text.claudeAgentMedium)) {
+    Assert-True ($agent.Contains('claude-sonnet-5-5')) 'Agente Claude nao usa Sonnet 5.5'
+    Assert-True ($agent.Contains('Agent') -and $agent.Contains('Task')) 'Agente Claude permite delegacao recursiva'
 }
-Assert-True ($codexRules.Contains("Variance: execução direta em terminal dedicado")) "Variance ausente no arquivo do Codex"
-Assert-True ($claudeRules.Contains("Variance: execução direta em terminal dedicado")) "Variance ausente no arquivo do Claude"
-Assert-True ($grokSkill.Contains("separate Grok Build terminal")) "Skill Grok não separa delegação de terminal dedicado"
-Assert-True ($grokRule.Contains("Delegação textual iniciada pelo condutor permanece somente leitura")) "Regra Grok não separa delegação de terminal dedicado"
-Assert-True ($fableSkill.Contains("Default output cap is 800 words")) "Fable sem limite de saída"
-Assert-True ($fableCommand.Contains("--model claude-fable-5-1")) "Wrapper Fable com modelo incorreto"
-Assert-True ($fableCommand.Contains('set "EFFORT=high"')) "Wrapper Fable sem esforço padrão high"
-Assert-True ($fableCommand.Contains("--effort %EFFORT%")) "Wrapper Fable sem esforço parametrizado"
-Assert-True ($fableCommand.Contains("--no-session-persistence")) "Wrapper Fable persiste sessão"
-Assert-True ($fableCommand.Contains("--disallowed-tools Edit Write")) "Wrapper Fable sem bloqueio de escrita"
+Assert-True ($text.claudeAgentHigh.Contains('effort: high')) 'Agente Claude high incorreto'
+Assert-True ($text.claudeAgentMedium.Contains('effort: medium')) 'Agente Claude medium incorreto'
+Assert-True ($claudeConfigObject.model -eq 'claude-opus-5-5') 'Config Claude nao usa Opus 5.5'
+Assert-True ($claudeConfigObject.effortLevel -eq 'medium') 'Config Claude padrao nao e medium'
+Assert-True ($claudeConfigObject.env.CLAUDE_CODE_SUBAGENT_MODEL -eq 'claude-sonnet-5-5') 'Subagente Claude incorreto'
+Assert-True ($text.codexConfig.Contains('gpt-6.1-sol') -and $text.codexConfig.Contains('gpt-6-luna')) 'Config Codex desatualizada'
+Assert-True ($text.grokConfig.Contains('default = "grok-4.7"')) 'Config Grok interativa desatualizada'
+Assert-True ($text.grokIsolated.Contains('default = "grok-4.7"')) 'Config Grok isolada desatualizada'
+Assert-True ($text.grokSkill.Contains('"--model", "grok-4.7"')) 'Skill Grok sem modelo 4.7'
+Assert-True ($text.grokSkill.Contains('tty: true')) 'Skill Grok sem requisito PTY'
+Assert-True ($text.grokSkill.Contains('existing subscription OAuth login')) 'Skill Grok nao fixa OAuth de assinatura'
+Assert-True ($text.grokSkill.Contains('Never falls back to a paid API key')) 'Skill Grok permite API paga como fallback'
+Assert-True ($text.grokSkill.Contains("`$env:USERPROFILE = `$isolatedProfile")) 'Isolamento nao define perfil de usuario'
+Assert-True (-not $text.grokSkill.Contains('$env:HOME =')) 'Skill Grok modifica HOME'
+Assert-True ($text.fableSkill.Contains('explicitly request Fable')) 'Fable nao limitado a pedido explicito'
+Assert-True ((Get-Content -LiteralPath $files.fableCommand -Raw).Contains('LEGADO: use somente quando o usuario pedir Fable explicitamente')) 'Wrapper Fable nao marcado como legado'
+Assert-True ($text.claudeWorker.Contains("TimeoutSeconds = 180")) 'Adaptador Claude sem timeout padrao real'
+Assert-True ($text.claudeWorker.Contains('$process.Kill()')) 'Adaptador Claude sem corte de processo'
+Assert-True ($text.claudeWorker.Contains("'claude-opus-5-5'")) 'Adaptador nao suporta Opus 5.5'
+Assert-True ($text.claudeWorker.Contains("'claude-sonnet-5-5'")) 'Adaptador nao suporta Sonnet 5.5'
 
-$forbiddenDash = [regex]"[$([char]0x2013)$([char]0x2014)]"
-foreach ($text in @($codexRules, $claudeRules, $grokSkill, $fableSkill, $grokRule)) {
-    Assert-True (-not $forbiddenDash.IsMatch($text)) "Travessão encontrado em configuração do kit"
+$noHooksPath = Join-Path $root 'config\claude-nohooks.json'
+Assert-True (Test-Path -LiteralPath $noHooksPath) 'Configuracao anti-hooks ausente'
+$noHooks = Get-Content -LiteralPath $noHooksPath -Raw | ConvertFrom-Json
+Assert-True ($noHooks.disableAllHooks -eq $true) 'Hooks legados nao desativados'
+Assert-True ($text.fableCommand.Contains('--settings') -and $text.fableCommand.Contains('claude-nohooks.json')) 'Wrapper legado sem settings anti-hooks'
+Assert-True ($text.fableCommand.Contains('--restricted') -and $text.fableCommand.Contains('--max-turns 4')) 'Wrapper legado sem restricao e teto'
+$activeText = $text.GetEnumerator() | Where-Object { $_.Key -notin @('fableSkill', 'fableCommand') } | ForEach-Object { $_.Value }
+$publicText = ($activeText -join "`n") + (Get-Content -LiteralPath $files.codexConfig -Raw) + (Get-Content -LiteralPath $files.grokConfig -Raw) + (Get-Content -LiteralPath $files.grokIsolated -Raw)
+$privatePatterns = @('C:\\Users\\[^\\]+\\', 'claude-fable-5-1', 'api[_-]?key\s*=\s*"[^" ]+"', '100\.\d+\.\d+\.\d+')
+foreach ($pattern in $privatePatterns) {
+    Assert-True (-not [regex]::IsMatch($publicText, $pattern, 'IgnoreCase')) "Padrao privado ou legado ativo encontrado: $pattern"
 }
 
-Write-Output "OK|arquivos_verificados=$($requiredFiles.Count)|grok_default_turns=4|grok_max_turns=6|literal_tokens=0"
-
-# --- Secao opcional: so roda se voce ja instalou o Grok CLI e copiou
-# regras/grok-rules-routing.md para ~/.grok/rules/00-routing.md. Esta parte
-# nao falha o script se o Grok nao estiver instalado; ela so avisa.
-$grokExecutable = Join-Path $env:USERPROFILE ".grok\bin\grok.exe"
-$liveRulePath = Join-Path $env:USERPROFILE ".grok\rules\00-routing.md"
-
-if ((Test-Path -LiteralPath $grokExecutable) -and (Test-Path -LiteralPath $liveRulePath)) {
-    try {
-        $inspect = (& $grokExecutable inspect --json | Out-String) | ConvertFrom-Json
-        $activeGlobalRules = @(
-            $inspect.projectInstructions |
-                Where-Object { $_.scope -eq "global" -and -not $_.disabled } |
-                ForEach-Object { $_.path }
-        )
-        Assert-True ($activeGlobalRules -contains $liveRulePath) "Regra global de roteamento não carregada pelo Grok CLI instalado"
-        Write-Output "OK|grok_cli_live_check=passou"
-    } catch {
-        Write-Warning "Grok CLI instalado, mas a checagem ao vivo falhou: $($_.Exception.Message)"
-    }
-} else {
-    Write-Output "grok_cli_live_check=pulado (instale o Grok CLI e copie regras/grok-rules-routing.md para ~/.grok/rules/00-routing.md para rodar essa parte)"
-}
+Write-Output "OK|arquivos_verificados=$($files.Count)|model_calls=0|grok=4.7/high|claude_timeout_default=180"

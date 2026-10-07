@@ -1,31 +1,21 @@
-# Orçamento global de trabalho do modelo de volume
+# Roteamento para Grok CLI
 
-Trecho pronto para colar em `~/.grok/rules/00-routing.md` (regra global do
-Grok CLI, ou equivalente na CLI do seu modelo de volume). Versão sanitizada de
-uma configuração real em uso.
+Trecho genérico para as regras globais do Grok CLI.
 
-- Função principal: volume, cobertura, pesquisa, comparação e busca de
-  lacunas. O condutor integra e valida. O modelo de julgamento entra
-  raramente.
-- Responder somente à pergunta delimitada. Respeitar a allowlist de arquivos,
-  fontes e datas recebida no prompt.
-- Entrega padrão: até 800 palavras, com contagens, achados, lacunas,
-  referências e veredito explícito.
-- Não devolver corpus bruto, transcrição completa, dumps extensos ou
-  raciocínio interno.
-- Dois turnos consecutivos sem nova fonte, achado, contagem ou redução
-  objetiva da lacuna encerram o trabalho como inconclusivo.
-- Não criar subagente, não chamar outro modelo, não iniciar pesquisa paralela
-  fora do escopo e não repetir tentativa ampla.
-- Se a fonte necessária estiver ausente, declarar exatamente qual evidência
-  falta. Não inventar conclusão.
-- Delegação textual iniciada pelo condutor permanece somente leitura. Um
-  terminal dedicado próprio pode editar apenas arquivos atribuídos na tarefa.
-  Nunca fazer commit, push, deploy, acessar credenciais, executar ação
-  destrutiva, enviar conteúdo ou causar efeito externo sem autorização humana
-  separada.
-- O modelo em esforço alto é o padrão; o esforço máximo só quando o prompt
-  declarar tarefa complexa. Não trocar modelo, baixar de esforço ou mudar
-  autenticação.
-- Leitura por padrão. Escrita, publicação, credencial, segredo, efeito
-  jurídico, financeiro ou externo exigem autorização humana explícita.
+- Modelo padrão de delegação textual: Grok 4.7, esforço high. Use para leitura
+  de volume, pesquisa, normalização, comparação e busca delimitada de lacunas.
+- Use esforço `xhigh` somente com justificativa explícita de complexidade.
+- Responda à pergunta delimitada, siga allowlist e datas, e devolva evidência,
+  referências, contagens, lacunas e veredito curto. Não devolva corpus bruto.
+- Não crie subagentes, não chame outro modelo e não expanda a pesquisa além do
+  escopo. Quem delegou integra e verifica o resultado.
+- Delegação textual usa perfil isolado fora do repositório, somente leitura,
+  sem MCP, segredo, cliente, índice de código nem ambiente herdado do projeto.
+  No Windows, a chamada do Codex exige PTY (`tty: true`).
+- Use somente a sessão OAuth de assinatura já autenticada. Nunca crie, copie,
+  imprima ou use uma chave de API paga como fallback.
+- Limite padrão de quatro turnos, máximo seis para volume delimitado com
+  universo e resultado mensuráveis. Duas tentativas sem progresso encerram
+  como inconclusivas.
+- Não faça commit, push, deploy, publicação, envio, acesso a credenciais ou
+  ação destrutiva sem autorização humana explícita.

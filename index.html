@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Regras, configurações e conectores públicos para Codex, Claude Code e Grok, com subagentes nativos e revisão cruzada opcional.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Crect width=%2740%27 height=%2740%27 rx=%278%27 fill=%27%238abaff%27/%3E%3Ctext x=%2720%27 y=%2728%27 text-anchor=%27middle%27 font-family=%27sans-serif%27 font-size=%2725%27%3EC%3C/text%3E%3C/svg%3E">
+<title>Conselho de IA</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#0d0d0d;color:#f5f7fb;font:18px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}main{max-width:1160px;margin:0 auto;padding:70px 28px 40px}h1{font-size:clamp(42px,7vw,76px);line-height:1.05;letter-spacing:-.04em;margin:18px 0 24px}h2{font-size:27px;margin:0 0 18px}.eyebrow{font-size:14px;color:#8abaff;letter-spacing:.08em;text-transform:uppercase}.intro{font-size:22px;max-width:850px;color:#c3cad6;margin-bottom:28px}a{color:#9fc7ff;text-underline-offset:4px}nav{display:flex;gap:15px;flex-wrap:wrap;margin-bottom:44px}nav a{border:1px solid #52627a;padding:11px 18px;border-radius:8px;text-decoration:none}nav a:first-child{background:#a6caff;color:#101723;border-color:#a6caff;font-weight:700}a:focus-visible{outline:3px solid #fff;outline-offset:5px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#191b20;border:1px solid #363b46;border-radius:12px;padding:23px}.card h3{font-size:25px;margin:5px 0 12px}.card p{margin:8px 0}.role{color:#aeb9cb;font-size:15px}.notes{margin-top:35px;border-top:1px solid #363b46;padding-top:28px}.notes p{max-width:950px;color:#c3cad6}footer{margin-top:35px;font-size:14px;color:#aeb9cb}@media(max-width:760px){main{padding:35px 20px}.grid{grid-template-columns:1fr}.intro{font-size:19px}}
+</style>
+</head>
+<body><main>
+<div class="eyebrow">Arquitetura multimodelo · 07/10/2026</div>
+<h1>Conselho de IA</h1>
+<p class="intro">Cada plataforma conduz seu trabalho. Subagentes nativos recebem tarefas delimitadas. O resultado é conferido com fontes e testes.</p>
+<nav aria-label="Conteúdo do kit"><a href="diagrama/arquitetura-multimodelo.html">Ver a arquitetura</a><a href="https://github.com/AIgorrocha/conselho-de-ia/blob/main/GUIA.md">Ler o guia</a><a href="https://github.com/AIgorrocha/conselho-de-ia">Abrir o kit no GitHub</a></nav>
+<section aria-labelledby="platforms"><h2 id="platforms">Duas cadeias nativas e apoio para volume</h2><div class="grid">
+<article class="card"><div class="role">Codex</div><h3>Sol 6.1 + Luna 6</h3><p>Principal em medium, high para tarefas complexas.</p><p>Subagentes Luna em high, medium para tarefas simples.</p></article>
+<article class="card"><div class="role">Claude Code</div><h3>Opus 5.5 + Sonnet 5.5</h3><p>Principal em medium, high para tarefas complexas.</p><p>Subagentes Sonnet em high, medium para tarefas simples.</p></article>
+<article class="card"><div class="role">Grok CLI</div><h3>Grok 4.7 high</h3><p>Leitura de volume, pesquisa, comparação e normalização.</p><p>Delegação textual isolada e somente leitura.</p></article>
+</div></section>
+<section class="notes" aria-labelledby="method"><h2 id="method">Escopo, limites e prova</h2><p>Ao menos uma tarefa útil por sessão principal. Até três filhos simultâneos, um dono por arquivo e nenhuma redelegação pelos trabalhadores. Paralelo para escopos independentes; sequência para dependências.</p><p>Revisão cruzada opcional, somente leitura e sem loop. O condutor integra e testa. Ações públicas, financeiras, destrutivas ou irreversíveis exigem autorização explícita.</p><p>Kit público de instalação manual. Sem credenciais, configurações privadas ou instalador automático. Subagentes não garantem economia de tokens.</p></section>
+<footer><a href="diagrama/arquitetura-multimodelo.png">Baixar o diagrama em PNG</a> · <a href="https://github.com/AIgorrocha/conselho-de-ia/blob/main/LICENSE">Licença</a></footer>
+</main></body>
+</html>

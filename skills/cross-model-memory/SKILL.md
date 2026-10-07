@@ -1,42 +1,57 @@
 ---
 name: cross-model-memory
-description: Coordinate Codex, Grok 4.6 high, Claude Fable 5.1 high, and a shared memory MCP across sessions without uncontrolled recursive model calls. Use when a task needs cross-model handoff, shared project history, memory verification, or bounded multi-model work. Codex is the default conductor unless the user explicitly chooses another order or owner.
+description: Coordinate platform-native Codex or Claude sessions, optional Grok volume reading, optional read-only cross-review, and a compatible shared memory service without recursive calls.
 ---
 
-# Cross-Model Memory
+# Cross-model coordination
 
-Note: this skill was written against a specific memory MCP server called `ai-memory` in the author's own setup. `ai-memory` is not part of this kit; it is simply the author's cross-session memory server. Any MCP-compatible memory server (vector store, note database, or similar) can fill the same role. Replace the tool name below with whichever memory MCP you actually run.
+The user chooses the platform and objective. Keep the main session on the
+platform where it started. Do not move task state between active Codex and
+Claude work unless requested.
 
-The three-role architecture (conductor, volume, judgment) is the automatic default, not an obligation. Without a user override, Codex owns decomposition, source changes, integration, evidence checks, and closure. The user's explicit workflow may change the starting model, order, phase owner, or receiving model.
+## Native routing
 
-## Routing
+| Main platform | Conductor | Native leaf agents |
+|---|---|---|
+| Codex | `gpt-6.1-sol`, medium by default, high for complex work | `gpt-6-luna`, high by default, medium for simple bounded work |
+| Claude Code | `claude-opus-5-5`, medium by default, high for complex work | `claude-sonnet-5-5`, high by default, medium for simple bounded work |
 
-1. Follow an explicit user-defined sequence first. A valid example is Fable planning, Codex implementation, then Grok coverage or review.
-2. Otherwise, send volume, coverage, comparison, research, and gap finding to `grok-delegation`.
-3. Otherwise, send rare holistic interpretation, adversarial critique, narrative, copy, and hard conceptual judgment to `fable-advisor`.
-4. Keep implementation and final verification in Codex by default.
-5. Avoid recursive or self-directed model calls. A user-defined sequence may include multiple models when every transition has an explicit owner, bounded scope, and observable endpoint.
+- Every real work session assigns at least one useful bounded task to a native
+  subagent. For small tasks, delegate a meaningful verification.
+- The conductor plans briefly, assigns file ownership, uses parallel workers
+  only for independent tasks, sequences dependent work, integrates and proves
+  the final result.
+- Maximum three concurrent children. Leaf workers and cross-reviewers do not
+  spawn agents or call another model. No recursive delegation.
+- Agent spawning is instruction policy, not an automatic background hook.
+  New settings apply to new sessions, not already open ones.
 
-## Shared memory
+## Optional external calls
 
-Current code, tests, configuration, databases, and source artifacts override historical memory.
+- Use `grok-4.7` high for bounded bulk reading, research, normalization,
+  comparison, and gaps. Use the `grok-delegation` skill. Textual delegation is
+  isolated and read-only, uses the existing subscription OAuth login, and
+  requires PTY on Windows. Never use a paid API key fallback. `xhigh` requires
+  an explicit complexity reason.
+- Cross-review is optional, read-only, and non-recursive. Codex may ask Claude
+  Opus 5.5 high; Claude may ask Codex Sol 6.1 high. Grok may ask either. One
+  bounded review per need. The conductor confronts findings with local source,
+  code, tests, or primary evidence.
+- Fable is a legacy option only when the user explicitly requests it. It is
+  not in default routing.
 
-Before delegating a task that depends on history, query your memory MCP and include only the minimum relevant context in the task. Prefer a handoff when another session or model must resume work. Do not copy full transcripts into prompts.
+## Memory and evidence
 
-For Grok, always state the exact workspace, project, and scope in the prompt for a memory query or handoff call. Its HTTP MCP has no implicit project context.
+Current source, tests, configuration, and records outrank old memory. Query a
+compatible memory service before work that depends on past decisions. Send
+only relevant history. A handoff preserves session continuity; a durable page
+records a lasting decision or learning. Follow the memory service's own skill
+for writes. Do not put secrets or customer data in prompts or memory without
+explicit authorization and the required checks.
 
-For Claude memory retrieval, do not use permission mode `plan`. Plan mode blocks MCP calls and may create a plan file. Start a one-shot Fable 5.1 high session with:
-
-- permission mode `manual`
-- `--strict-mcp-config`
-- one temporary MCP configuration containing only your memory server
-- the memory server's auth token referenced from the environment, never embedded
-- only `ToolSearch` and the named read-only memory tool allowed
-- Bash, Edit, Write, NotebookEdit, WebFetch, WebSearch, Task, and Skill denied
-- browser and session persistence disabled
-
-After the read, discard temporary configuration and any test-only page. A durable page, learning, deletion, or shared handoff requires the corresponding memory-server skill and the user's authorization.
-
-## Evidence contract
-
-Every delegated task must specify the objective, supplied evidence, expected output, size limit, uncertainty rule, and stopping condition. Codex compares the result with primary evidence before accepting it. Human authorization remains mandatory for irreversible, public, financial, legal, destructive, or identity-related actions.
+Each delegated task names objective, evidence, allowed scope, owner, expected
+output, size limit, timeout or turn cap, uncertainty rule, and stopping
+condition. Claude external calls default to four turns, max eight for one
+coherent bounded package and use a real caller timeout. Grok defaults to four,
+max six for measurable bulk work. No loops; two attempts without progress
+stop as inconclusive. No model is final authority.

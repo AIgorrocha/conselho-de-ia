@@ -3,7 +3,7 @@
 # chaves nas secoes correspondentes do seu config.toml existente.
 
 [models]
-default = "grok-4.6"
+default = "grok-4.7"
 default_reasoning_effort = "high"
 
 [features]
@@ -26,7 +26,7 @@ git = "https://github.com/xai-org/plugin-marketplace.git"
 
 [ui]
 max_thoughts_width = 120
-fork_secondary_model = "grok-4.6"
+fork_secondary_model = "grok-4.7"
 yolo = false
 compact_mode = false
 permission_mode = "auto"

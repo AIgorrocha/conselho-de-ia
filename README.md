@@ -1,166 +1,148 @@
 # Conselho de IA
 
-Configuração real de orquestração entre três modelos de IA (um condutor, um modelo
-de volume mais barato e um modelo de julgamento raro), sanitizada para uso público.
-Se você usa mais de uma IA no seu trabalho e quer parar de copiar e colar a mesma
-pergunta em três abas até uma resposta "parecer boa", este kit é o método por trás
-disso, pronto para adaptar.
+Kit público de regras, configurações e conectores para Codex, Claude Code e Grok
+CLI. Atualizado em **7 de outubro de 2026**. Cada sessão permanece na plataforma
+em que começou, delega trabalho delimitado a subagentes nativos e confere o
+resultado com fontes e testes.
 
-Não é um produto nem uma instalação automática. É um conjunto de arquivos de texto
-(regras, configurações e conectores de linha de comando) para você ler, entender e
-colar nos lugares certos das suas próprias ferramentas.
+[Abrir o site](https://aigorrocha.github.io/conselho-de-ia/) ·
+[Ler o método](GUIA.md) · [Ver o diagrama](diagrama/arquitetura-multimodelo.html)
 
-## Para quem é isto
+## Papéis e modelos
 
-Para quem já usa pelo menos duas CLIs de IA diferentes no trabalho (por exemplo
-Codex, Claude Code e Grok CLI) e quer que elas sigam uma divisão de papéis
-consistente, em vez de cada uma improvisar sozinha. Não é preciso saber programar
-para ler o `GUIA.md`; os arquivos em `regras/`, `config/`, `skills/` e `bin/` são
-técnicos e exigem alguma familiaridade com terminal e edição de arquivos de
-configuração.
+| Plataforma | Principal | Subagentes nativos |
+|---|---|---|
+| Codex | `gpt-6.1-sol`, `medium`; `high` para tarefas complexas | `gpt-6-luna`, `high`; `medium` para tarefas simples |
+| Claude Code | `claude-opus-5-5`, `medium`; `high` para tarefas complexas | `claude-sonnet-5-5`, `high`; `medium` para tarefas simples |
+| Grok CLI | `grok-4.7`, `high`, para volume, pesquisa e normalização | Delegação textual somente leitura, sem redelegação |
+
+Toda sessão principal de trabalho delega ao menos um pacote útil. Até três filhos
+simultâneos, dono explícito por arquivo, paralelo para trabalho independente e
+sequência para dependências. O condutor integra e testa. Delegação é política de
+instrução, não um hook que inicia processos automaticamente.
+
+Revisão cruzada é opcional: Codex pode consultar Opus 5.5 `high`; Claude pode
+consultar Sol 6.1 `high`; Grok pode consultar um deles. Revisores são somente
+leitura e não redelegam. Fable saiu do fluxo padrão; seus arquivos permanecem
+como legado.
 
 ## Comece por aqui
 
-1. Leia `GUIA.md` primeiro. Ele explica o método (por que três papéis, por que um
-   limite de chamadas, por que você sempre tem a palavra final) sem jargão técnico.
-2. Volte para este README para a parte de instalação.
+1. Leia [GUIA.md](GUIA.md), que explica a divisão de trabalho e os limites.
+2. Instale e autentique as CLIs que pretende usar, com sua própria assinatura.
+3. Mescle somente os trechos necessários dos exemplos abaixo.
+4. Rode a verificação local e valide uma tarefa pequena na sua instalação.
 
-## Pré-requisitos
+O kit não instala CLIs nem inclui autenticação. Não substitua suas configurações
+inteiras pelos exemplos. Não copie configurações privadas para este repositório.
+Editar configuração não altera modelo ou esforço de uma sessão já aberta.
 
-Você não precisa ter os três, mas cada arquivo deste kit assume uma dessas
-ferramentas já instalada:
+O protocolo reutilizável está em `prompts/multimodelo.md`. Pode ser colado na
+conversa ou instalado em `~/.codex/prompts/multimodelo.md` se sua versão suporta
+prompts personalizados. A presença de `/prompts:multimodelo` no menu do aplicativo
+depende do runtime; instalar o arquivo não comprova essa disponibilidade.
 
-- **Codex CLI** (ou outro condutor de sua escolha), para os arquivos em
-  `regras/AGENTS.md` e `config/codex-config.toml`.
-- **Grok CLI** (ou outro modelo de volume), para `regras/grok-rules-routing.md`,
-  `config/grok-config.toml`, `config/grok-delegation-config.toml` e
-  `skills/grok-delegation/`.
-- **Claude Code**, para `regras/CLAUDE.md`, `config/claude-settings.json` e
-  `skills/fable-advisor/` e `skills/cross-model-memory/`.
-- **PowerShell** no Windows, para rodar `bin/fable-advisor.cmd` e
-  `bin/test-multimodel-routing.ps1`. Em Mac/Linux, adapte os caminhos e o `.cmd`
-  para o shell que você usa (os comandos internos das CLIs são os mesmos).
-- **Python 3**, só se você for usar `bin/grok-prompt-clean.py` (um filtro opcional
-  de hook, explicado abaixo).
+## Instalação manual
 
-Nenhuma dessas ferramentas é obrigatória sozinha: use os arquivos que correspondem
-às CLIs que você já tem.
+### Regras
 
-## Instalação passo a passo
+| Arquivo do kit | Destino |
+|---|---|
+| `regras/AGENTS.md` | `~/.codex/AGENTS.md` |
+| `regras/CLAUDE.md` | `~/.claude/CLAUDE.md` |
+| `regras/grok-rules-routing.md` | `~/.grok/rules/00-routing.md` |
 
-Isto é colar trechos de texto em arquivos que já existem (ou que a própria
-ferramenta cria na primeira vez que você a abre). Nenhum arquivo aqui sobrescreve o
-seu automaticamente: você decide o que mesclar.
+Leia e mescle com as instruções existentes. No Windows, `~` representa o diretório
+do usuário. Ajuste os caminhos para sua instalação.
 
-### 1. Regras de cada CLI (arquivos de instrução)
+### Configurações e agentes
 
-- Abra `regras/AGENTS.md` deste kit e cole o conteúdo dentro de
-  `~/.codex/AGENTS.md` (no Windows, `%USERPROFILE%\.codex\AGENTS.md`). Se o
-  arquivo já existir com outro conteúdo, cole no final ou funda as seções.
-- Abra `regras/CLAUDE.md` deste kit e cole dentro de `~/.claude/CLAUDE.md`.
-- Abra `regras/grok-rules-routing.md` deste kit e salve como
-  `~/.grok/rules/00-routing.md` (crie a pasta `rules` se não existir).
+| Arquivo do kit | Destino ou uso |
+|---|---|
+| `config/codex-config.toml` | Mesclar em `~/.codex/config.toml` |
+| `config/claude-settings.json` | Mesclar os campos públicos em `~/.claude/settings.json` |
+| `config/grok-config.toml` | Mesclar em `~/.grok/config.toml` |
+| `config/grok-delegation-config.toml` | Perfil isolado em `~/.grok-delegation/config.toml` |
+| `config/claude-agents/native-worker.md` | `~/.claude/agents/native-worker.md`, Sonnet em `high` |
+| `config/claude-agents/native-worker-medium.md` | `~/.claude/agents/native-worker-medium.md`, Sonnet em `medium` |
 
-### 2. Configuração de cada CLI
+No Claude, escolha esses agentes customizados para fixar modelo e esforço, em vez
+de um agente embutido que force outro modelo. No Codex, `[agents]` define Luna
+como trabalhador nativo padrão. Confira o modelo efetivo nos registros da CLI.
+Disponibilidade e nomes podem variar conforme versão e assinatura.
 
-Cada arquivo em `config/` é um **trecho**, não o arquivo inteiro. Abra o seu
-`config.toml` (ou `settings.json`) existente e cole as chaves dentro, na seção
-correspondente. Não substitua o arquivo inteiro pelo daqui.
+Para agentes Codex nomeados, há exemplos high e medium em `config/codex-agents/`.
+Copie-os para `~/.codex/agents/` e use o mecanismo de agentes da sua versão.
 
-- `config/codex-config.toml` → mesclar em `~/.codex/config.toml`.
-- `config/grok-config.toml` → mesclar em `~/.grok/config.toml` (o perfil do dia a
-  dia do Grok CLI).
-- `config/grok-delegation-config.toml` → mesclar em `~/.grok-delegation/config.toml`
-  (um perfil separado e isolado, usado só quando o condutor chama o Grok por
-  conta própria; veja a seção 4).
-- `config/claude-settings.json` → mesclar as chaves `env` e `modelSettings` dentro
-  de `~/.claude/settings.json`.
+### Skills
 
-### 3. Skills
+Copie as pastas ativas de `skills/` para o diretório da ferramenta, por exemplo
+`~/.agents/skills/` ou `~/.claude/skills/`:
 
-Copie as três pastas de `skills/` para onde a sua CLI local guarda skills (no
-Claude Code, normalmente `~/.claude/skills/`; algumas CLIs também aceitam um
-diretório compartilhado do tipo `~/.agents/skills/`, verifique a documentação da
-sua ferramenta):
+- `cross-model-memory`: plataforma nativa, delegação e revisão opcional.
+- `grok-delegation`: leitura isolada, PTY no Windows, limites e síntese.
+- `claude-worker`: chamada delimitada ao Sonnet ou revisão pelo Opus.
 
-- `skills/grok-delegation/` ensina o condutor a chamar o modelo de volume de forma
-  limitada, só leitura, com teto de turnos.
-- `skills/fable-advisor/` ensina o condutor a chamar o modelo de julgamento de
-  forma pontual, com uma tarefa autocontida por chamada.
-- `skills/cross-model-memory/` coordena os três quando a tarefa depende de
-  histórico entre sessões. Ela foi escrita citando um MCP de memória específico do
-  autor original (`ai-memory`); troque pelo MCP de memória que você usa, ou remova
-  essa skill se você não tem um servidor de memória cross-sessão.
+O MCP `ai-memory` citado nas regras é opcional e não vem configurado no kit.
+Configure seu próprio servidor ou adapte as referências à memória que usa.
+Não cole endpoint privado nem credencial nestes exemplos públicos.
 
-### 4. Conectores de linha de comando
+### Conector Claude
 
-- `bin/fable-advisor.cmd` é o script que o condutor chama para acionar o modelo de
-  julgamento. Copie para uma pasta no seu `PATH` (por exemplo `~/bin/`) e ajuste o
-  caminho do executável dentro do arquivo para onde a sua CLI está instalada.
-- `bin/grok-prompt-clean.py` é um filtro opcional: só é necessário se você
-  configurar um hook de `UserPromptSubmit` no Grok CLI que encaminha prompts para
-  um servidor de memória, e esse servidor usa a primeira linha do prompt como
-  título. Se você não tem esse hook, ignore este arquivo.
-- `bin/test-multimodel-routing.ps1` é um teste de coerência: confere se os
-  arquivos de regra, skill e config deste kit continuam consistentes entre si
-  (mesmos valores de esforço, mesmos limites de turno, mesmas flags de segurança).
-  Rode com:
+Copie `bin/claude-worker.ps1` para uma pasta local de scripts. Exemplo de revisão:
 
-  ```powershell
-  pwsh -File bin\test-multimodel-routing.ps1
-  ```
-
-  ou, no PowerShell padrão do Windows:
-
-  ```powershell
-  powershell -File bin\test-multimodel-routing.ps1
-  ```
-
-  A maior parte do teste roda sozinha, só lendo os arquivos deste kit, sem
-  precisar de nenhuma CLI instalada. A última seção do teste é opcional: ela só
-  roda de verdade se você já tiver o Grok CLI instalado e a regra do passo 1 copiada
-  para `~/.grok/rules/00-routing.md`; caso contrário, ela avisa e pula sem falhar o
-  teste.
-
-### 5. O diagrama
-
-`diagrama/arquitetura-multimodelo.html` é um resumo visual de todo o fluxo (papéis,
-setas de quem chama quem, limites de turno, o que exige autorização humana). Abra
-o `.html` em qualquer navegador. Não precisa de servidor nem de internet.
-
-## Mapa dos arquivos
-
-```
-conselho-de-ia/
-  README.md                      este arquivo: instalação
-  GUIA.md                         o método, em linguagem simples
-  regras/
-    CLAUDE.md                    cole em ~/.claude/CLAUDE.md
-    AGENTS.md                    cole em ~/.codex/AGENTS.md
-    grok-rules-routing.md        cole em ~/.grok/rules/00-routing.md
-  config/
-    codex-config.toml            trecho para ~/.codex/config.toml
-    grok-config.toml             trecho para ~/.grok/config.toml
-    grok-delegation-config.toml  trecho para ~/.grok-delegation/config.toml
-    claude-settings.json         trecho para ~/.claude/settings.json
-  skills/
-    grok-delegation/SKILL.md
-    fable-advisor/SKILL.md
-    cross-model-memory/SKILL.md
-  bin/
-    fable-advisor.cmd
-    test-multimodel-routing.ps1
-    grok-prompt-clean.py
-  diagrama/
-    arquitetura-multimodelo.html
-    arquitetura-multimodelo.png
+```powershell
+powershell -NoProfile -File .\bin\claude-worker.ps1 -TaskFile .\pacote.md -Workspace C:\trabalho\projeto -Model claude-opus-5-5 -Effort high -MaxTurns 4 -TimeoutSeconds 180
 ```
 
-## O que este kit não faz
+O padrão é somente leitura. `-Write` autoriza escrita apenas com Sonnet, dentro do
+workspace atribuído. O prompt segue pela entrada padrão (STDIN), preservando
+aspas e acentos no PowerShell 5.1. O conector desativa hooks, MCP e redelegação
+para essa chamada. Exige Claude Code instalado e autenticado; ajuste o executável
+com `-ClaudeExecutable <caminho-do-binario>` quando necessário. No Windows, use
+o `claude.exe` nativo; shims `.cmd`, `.bat` e `.ps1` são recusados.
 
-- Não instala nenhuma CLI para você. Assume que Codex, Grok CLI e/ou Claude Code
-  já estão instalados e autenticados na sua própria assinatura.
-- Não inclui nenhuma credencial, chave de API, endereço de servidor ou dado de
-  cliente. Tudo isso foi removido da configuração original.
-- Não é uma cópia idêntica da configuração privada de ninguém; é uma versão
-  generalizada dela.
+O contador de turnos do CLI não garante orçamento. O timeout limita o tempo e
+retorna `124` ao encerrar o processo iniciado. Confira também resultado,
+ferramentas negadas e uso reportado. `--bare` pode desativar a autenticação por
+assinatura esperada; não é usado neste conector.
+
+`bin/grok-prompt-clean.py` é um filtro local opcional para quem configura hooks de
+memória. O kit não instala hooks nem conecta servidores por conta própria.
+
+## Validação
+
+```powershell
+powershell -NoProfile -File .\bin\test-multimodel-routing.ps1
+```
+
+O teste padrão confere coerência e proteções sem chamar modelos ou publicar.
+Testes sintéticos não comprovam autenticação, disponibilidade, consumo ou
+estabilidade da sua instalação. Faça um smoke test delimitado em workspace
+descartável antes de usar em trabalho real.
+
+## Publicação
+
+O site estático usa GitHub Pages com a branch `main` e a raiz do repositório.
+`index.html` apresenta o kit; `diagrama/arquitetura-multimodelo.html` contém o
+diagrama, e o PNG é a exportação da mesma versão. Não há backend, coleta de
+formulários nem instalador automático.
+
+## Limites e segurança
+
+- Sem loop entre modelos. Cada pacote tem objetivo, escopo, entrega e teto.
+- Claude externo: quatro turnos por padrão, até oito em pacote definido;
+  timeout padrão de 180 segundos. Grok: quatro, até seis em volume delimitado,
+  com teto de tempo definido por quem chama.
+- Dois turnos sem progresso encerram como inconclusivo. Sínteses até 400 palavras.
+- Credenciais e dados de clientes ficam fora de Git e dos pacotes de revisão.
+- Ações públicas, financeiras, destrutivas ou irreversíveis exigem autorização
+  explícita. O kit não concede autorização de commit, push ou deploy.
+- Subagentes podem aumentar tokens. Economia depende de medição do custo total,
+  incluindo coordenação, tempo humano, retrabalho e risco.
+
+## Referências
+
+[Subagentes do Codex](https://learn.chatgpt.com/docs/agent-configuration/subagents),
+[subagentes do Claude Code](https://code.claude.com/docs/en/sub-agents) e
+[modelos do Claude Code](https://code.claude.com/docs/en/model-config).

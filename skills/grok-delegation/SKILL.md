@@ -1,99 +1,95 @@
 ---
 name: grok-delegation
-description: Delegate bounded read-only work to the official Grok CLI on the user's subscription, locked to grok-4.6 at high reasoning (xhigh only for a task that meets the complexity criterion). Use when the user asks to use Grok or when cross-model routing assigns volume, research, comparison, coverage, gap finding, or another task with a verifiable endpoint to Grok. Do not use for final approval or unsupervised source changes.
+description: Delegate bounded, read-only bulk reading, research, normalization, comparisons, and gap finding to the official Grok CLI using its existing subscription login. Uses grok-4.7 high by default; xhigh needs an explicit complexity reason. Never falls back to a paid API key.
 ---
 
-# Grok Delegation
+# Grok delegation
 
-Use Grok as a read-only fork while Codex remains the default conductor and final verifier. If the user explicitly defines another sequence or receiving owner, follow that workflow instead.
+Use Grok 4.7 for bounded volume work. The calling conductor owns scope,
+integration, and final verification. This skill covers textual delegation,
+not a dedicated terminal where the user explicitly assigned Grok file edits.
 
-This skill governs a textual delegation started by Codex. It does not govern a separate Grok Build terminal assigned as its own dedicated execution terminal. That terminal may edit only its explicitly owned files, but still cannot commit, push, deploy, access credentials, perform destructive work, send anything, or cause another external effect without separate human authorization.
+## Invocation boundaries
 
-Invoke the official executable directly. Paths below assume the default install locations on Windows; adjust for your own home directory or platform.
+- Use the official Grok CLI and its existing subscription OAuth login. Do not
+  create, copy, print, or fall back to an API key or metered endpoint.
+- Run in an isolated profile outside the source repository. Pass only a
+  sanitized evidence pack or allowlisted copies. Read-only, no shell, no
+  subagents, no repository discovery, no MCP or inherited project environment.
+- On Windows, invoke through a PTY (`tty: true`). Empty output without PTY is
+  a runtime failure. Remove ANSI control codes before parsing JSON.
+- Default `grok-4.7`, `high`, four turns. `xhigh` only with a written reason
+  tied to task complexity. Maximum six turns for bounded bulk work.
+- Caller sets a wall-clock timeout. One call per subtask; retry only after a
+  verifiable runtime failure or a named evidence gap, with smaller scope.
+- Never send secrets, client data, full transcripts, or personal filesystem
+  paths. A missing verdict or max-turn stop is incomplete, not approval.
+
+## PowerShell outline
+
+Adjust the CLI discovery and isolated root for your platform. `GROK_AUTH_PATH`
+references the existing interactive subscription login; never copy its file.
 
 ```powershell
-$delegationRoot = "~\.grok-delegation"
+$delegationRoot = Join-Path $env:USERPROFILE ".grok-delegation"
 $workingDirectory = Join-Path $delegationRoot "cwd"
+$isolatedProfile = Join-Path $delegationRoot "home"
+New-Item -ItemType Directory -Path $delegationRoot, $workingDirectory, $isolatedProfile -Force | Out-Null
 $env:GROK_HOME = $delegationRoot
-$env:GROK_AUTH_PATH = "~\.grok\auth.json"
-$env:HOME = Join-Path $delegationRoot "home"
-$env:USERPROFILE = $env:HOME
+$env:GROK_AUTH_PATH = Join-Path $env:USERPROFILE ".grok\auth.json"
+$env:USERPROFILE = $isolatedProfile
 $env:GROK_MEMORY = "0"
 $env:RUST_LOG = "off"
-foreach ($sensitiveName in @(
-    "AI_MEMORY_AUTH_TOKEN",
-    "ANTHROPIC_API_KEY",
-    "OPENAI_API_KEY",
-    "XAI_API_KEY",
-    "GEMINI_API_KEY",
-    "GOOGLE_API_KEY",
-    "GITHUB_TOKEN",
-    "GH_TOKEN",
-    "DATABASE_URL",
-    "SUPABASE_SERVICE_ROLE_KEY",
-    "GROK_AUTH_PROVIDER_COMMAND",
-    "GROK_CLI_CHAT_PROXY_BASE_URL",
-    "GROK_MODELS_BASE_URL",
-    "GROK_LOG_FILE"
+foreach ($name in @(
+    "XAI_API_KEY", "ANTHROPIC_API_KEY", "OPENAI_API_KEY", "GEMINI_API_KEY",
+    "GOOGLE_API_KEY", "GITHUB_TOKEN", "GH_TOKEN", "DATABASE_URL"
 )) {
-    Remove-Item "Env:$sensitiveName" -ErrorAction SilentlyContinue
+    Remove-Item "Env:$name" -ErrorAction SilentlyContinue
 }
+
+$grok = (Get-Command grok -ErrorAction Stop).Source
 $maxTurns = 4
-$isComplex = $false  # $true only when the task meets the global complexity criterion
-$reasoningEffort = if ($isComplex) { 'xhigh' } else { 'high' }
-$toolAllowlist = if ($needsWeb) {
-    "web_search,web_fetch"
-} elseif ($needsEvidenceFiles) {
-    "read_file,grep,list_dir"
-} else {
-    $null
-}
-$allBuiltInTools = "run_terminal_cmd,grep,read_file,search_replace,list_dir,web_search,web_fetch,todo_write,task"
-$grokArgs = @(
-    '-p', $task,
-    '--model', 'grok-4.6',
-    '--reasoning-effort', $reasoningEffort,
-    '--permission-mode', 'plan',
-    '--sandbox', 'read-only',
-    '--no-subagents',
-    '--max-turns', "$maxTurns",
-    '--output-format', 'json',
-    '--no-auto-update',
-    '--no-alt-screen',
-    '--verbatim',
-    '--cwd', $workingDirectory
+$reasoningEffort = "high" # use xhigh only with a written complexity reason
+$argsList = @(
+    "-p", $task,
+    "--model", "grok-4.7",
+    "--reasoning-effort", $reasoningEffort,
+    "--permission-mode", "plan",
+    "--sandbox", "read-only",
+    "--no-subagents",
+    "--max-turns", "$maxTurns",
+    "--output-format", "json",
+    "--no-auto-update",
+    "--no-alt-screen",
+    "--cwd", $workingDirectory,
+    "--disallowed-tools",
+    "run_terminal_cmd,grep,read_file,search_replace,list_dir,web_search,web_fetch,todo_write,task",
+    "--disable-web-search"
 )
-if ($null -ne $toolAllowlist) {
-    $grokArgs += @('--tools', $toolAllowlist)
-} else {
-    $grokArgs += @('--disallowed-tools', $allBuiltInTools)
-}
-if (-not $needsWeb) {
-    $grokArgs += '--disable-web-search'
-}
-& '~\.grok\bin\grok.exe' @grokArgs
+& $grok @argsList
 ```
 
-On Windows inside Codex, the `exec_command` invocation must set `tty: true`. Grok 1.0.5 can return no captured stdout through the non-PTY Codex pipe even when the executable and login are healthy. PTY output can contain terminal control bytes around the JSON. Strip ANSI bytes and parse the complete object from the first `{` through the last `}`. Version 1.0.5 returns final response in the top-level `text` field, with `stopReason`, `usage`, `num_turns` and `modelUsage` beside it. An empty or unparsable object is a runtime failure, never a review result.
+For a web-only lookup or an evidence pack, replace the denylist with a
+task-specific allowlist containing only `web_search,web_fetch` or
+`read_file,grep,list_dir` through `--tools`. For web lookup also remove
+`--disable-web-search`; keep shell, edits, and agent tools denied. Never pass
+an empty `--tools` value. On Windows,
+the shell invocation must enable PTY. Put the complete evidence and question
+in one bounded prompt; do not expose the source repository as `--cwd`.
 
-Never pass `--tools ""`. Grok 1.0.5 ignores an empty allowlist and restores its default toolset. A tool-free review must pass `--disallowed-tools` with every official built-in ID: `run_terminal_cmd`, `grep`, `read_file`, `search_replace`, `list_dir`, `web_search`, `web_fetch`, `todo_write` and `task`. Keep `--no-subagents` as a second boundary.
+## Deliverable and verification
 
-Textual delegation always runs under `~\.grok-delegation`, outside every Git worktree. Never point `--cwd` at the source repository. Prefer an embedded evidence pack. For a larger sanitized corpus, place only the allowlisted files under the isolated `cwd`, set `$needsEvidenceFiles = $true`, and keep source names, clients, credentials, secrets, gitignored files, and raw transcripts out. Do not grant shell or write tools. The OAuth subscription is referenced through `GROK_AUTH_PATH`; never copy or print `auth.json`, and clear `XAI_API_KEY` so the call cannot switch to metered API auth.
+Ask for a short verdict, counts, findings, gaps, and source references. Default
+answer cap is 400 words. Stop after two consecutive turns with no new source,
+finding, count, or measurable reduction of the gap. Record `num_turns`,
+duration, outcome, and token fields when present; missing cost is unknown.
+The conductor checks claims against primary evidence before integrating them.
 
-The isolated profile has no active global rules, skills, MCP, memory, telemetry, trace upload, codebase index, environment-file loading, or repository access. A measured one-turn smoke test fell from roughly 20,600 to 11,500 total tokens after isolating the profile. Fixed context is still material, so avoid microcalls and use one bounded call for a useful corpus and measurable endpoint.
+## Model catalogue
 
-Every `$task` must be self-contained and include one primary question, an allowlist of files or sources, the expected deliverable, an 800-word default cap, evidence requirements, and stopping conditions. Include this stagnation rule: stop inconclusive after two consecutive turns without a new source, finding, count, or objective reduction of the gap. Never include secrets or full transcripts.
-
-Use one call per independent subtask by default. Four turns is the default ceiling. Six turns is the absolute ceiling and is allowed only for bulk research with a defined universe, measurable endpoint, and source cap. Split larger work before launch. Do not use eight turns.
-
-A second call for the same subtask requires a verifiable runtime failure or a named missing evidence item. Narrow the second scope by at least half or target only that missing item. Never repeat a broad prompt. Up to three calls may run concurrently only when scopes and evidence do not overlap.
-
-Grok should process the large corpus and return only counts, concise findings, gaps, and source references. Do not inject raw corpus or long Grok output into Codex. Treat a contradictory answer, missing verdict, interrupted run, or max-turn stop as incomplete.
-
-Do not use workspace discovery for a small independent code review. If the user explicitly requests Grok review, Codex prepares a diff or evidence pack of at most 20,000 characters and requests one response without repository tools. Otherwise Codex reviews the small local change because it has lower total cost.
-
-Use the JSON result to record `num_turns`, duration, outcome, and `modelUsage` token fields when present. A missing cost field is unknown, not zero. Do not enable external telemetry or prompt logging for this accounting.
-
-Keep `--permission-mode plan` and `--sandbox read-only` unless the user explicitly authorizes Grok to write. Codex, or the receiving owner explicitly chosen by the user, confronts the result with current code, data, tests, or primary sources before integrating it.
-
-If authentication fails, stop and report the gap. Do not fall back to another Grok model, a metered API key, reasoning below high, or the community bridge without the user's authorization.
+If the isolated profile reports `unknown model id`, inspect `grok models` in
+the interactive and isolated profiles before retrying. A fresh profile may
+have an outdated catalogue. If the interactive catalogue already offers 4.7,
+refresh the isolated catalogue using the CLI or copy only its verified model
+metadata cache. Never copy authentication files or downgrade to another model
+silently. Stop if 4.7 is unavailable for the authenticated subscription.
