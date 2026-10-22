@@ -1,7 +1,7 @@
 # Conselho de IA
 
 Kit público de regras, configurações e conectores para Codex, Claude Code e Grok
-CLI. Atualizado em **7 de outubro de 2026**. Cada sessão permanece na plataforma
+CLI. Atualizado em **22 de outubro de 2026**. Cada sessão permanece na plataforma
 em que começou, delega trabalho delimitado a subagentes nativos e confere o
 resultado com fontes e testes.
 
@@ -41,6 +41,10 @@ O protocolo reutilizável está em `prompts/multimodelo.md`. Pode ser colado na
 conversa ou instalado em `~/.codex/prompts/multimodelo.md` se sua versão suporta
 prompts personalizados. A presença de `/prompts:multimodelo` no menu do aplicativo
 depende do runtime; instalar o arquivo não comprova essa disponibilidade.
+
+[Qualidade, contexto e dados](QUALIDADE-CONTEXTO-DADOS.md) complementa o método
+com critérios para priorizar qualidade, escolher tarefas por capacidade e validar
+memória, RAG, MCP e pilotos sem presumir que configuração prova runtime.
 
 ## Instalação manual
 
