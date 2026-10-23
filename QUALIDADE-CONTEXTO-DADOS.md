@@ -17,6 +17,11 @@ de roteamento, não garantias de disponibilidade ou de runtime.
 
 ## Roteamento e responsabilidade
 
+- Fluxo principal escolhido em 23/10/2026: Opus/Sonnet planejam no Claude,
+  `PASSAGEM.md` leva o plano ao Codex App, Sol/Luna executam e testam, Astra high
+  faz revisão independente. É preferência escolhida, não ranking universal.
+  Microtarefas não precisam atravessar dois fornecedores. Alternativa: começar
+  no Codex e consultar Claude pelo conector existente com pacote delimitado.
 - Codex: Astra high conduz por padrão; Sol 6.1 executa tarefas médias ou conduz quando escolhido; Luna 6 recebe tarefas simples delimitadas. Claude Code: Opus
   5.5 conduz; Sonnet 5.5 recebe tarefas delimitadas. Use os esforços dos exemplos
   do kit como padrão ajustável, não como ranking absoluto de modelos.
@@ -29,6 +34,10 @@ de roteamento, não garantias de disponibilidade ou de runtime.
 
 ## Contexto, memória e bancos
 
+- ai-memory é obrigatório na arquitetura ensinada. A [próxima aula](memoria/README.md)
+  monta e organiza a memória comum para uso individual e empresarial. O modelo
+  público do kit não instala servidor nem comprova runtime. Providers LLM e
+  consolidação generativa permanecem opcionais, sem tornar a memória opcional.
 - Memória de longo prazo recupera decisões e contexto entre sessões. É um índice
   de recall, não fonte de verdade para o estado atual do produto ou cliente.
 - Banco operacional registra e serve o estado transacional atual. Warehouse
@@ -45,6 +54,11 @@ de roteamento, não garantias de disponibilidade ou de runtime.
 
 ## Conectores, hooks e geração visual
 
+- MCP (Model Context Protocol, protocolo de contexto e ferramentas) conecta
+  clientes compatíveis e autorizados. Não é conexão universal de aplicativos.
+  Memória compartilhada não transfere conversa, autorização nem execução.
+  Namespace não é barreira de segurança. No uso empresarial, configure e verifique
+  identidades, permissões e escopos conforme a versão e o acesso pretendido.
 - MCP conectado significa que há uma configuração/conexão disponível. Não prova
   que uma chamada ocorreu, que o conteúdo foi capturado ou que um hook foi
   autorizado. Verifique ferramentas visíveis, chamadas, registros e trust do

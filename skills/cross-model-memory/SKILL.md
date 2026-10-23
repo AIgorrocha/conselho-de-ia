@@ -1,13 +1,17 @@
 ---
 name: cross-model-memory
-description: Coordinate platform-native Codex or Claude sessions, optional Grok volume reading, optional read-only cross-review, and a compatible shared memory service without recursive calls.
+description: Coordinate Claude planning, Codex execution and independent Astra review with required shared ai-memory, native leaf agents and optional bounded cross-review.
 ---
 
 # Cross-model coordination
 
-The user chooses the platform and objective. Keep the main session on the
-platform where it started. Do not move task state between active Codex and
-Claude work unless requested.
+The user chooses objective and permissions. The course flow selected on
+2026-10-23 plans with Claude Opus/Sonnet, passes a sanitized plan to a new Codex
+App session for Sol/Luna execution, runs tests, then requests independent Astra
+high review. Each phase stays native. Do not run two writers on the same files.
+This is a chosen preference, not a universal quality ranking or a requirement
+to use two vendors for every small task. Starting in Codex and consulting Claude
+through the existing connector is an alternative.
 
 ## Native routing
 
@@ -42,12 +46,30 @@ Claude work unless requested.
 
 ## Memory and evidence
 
+Shared ai-memory is required in this taught architecture. Installation and
+organization are covered in the next lesson; the public memoria/ model is not
+an installed server. Without setup, declare the pending layer and use a manual
+PASSAGEM.md rehearsal, not a claim of complete architecture. LLM providers and
+generative consolidation remain optional.
+
 Current source, tests, configuration, and records outrank old memory. Query a
 compatible memory service before work that depends on past decisions. Send
 only relevant history. A handoff preserves session continuity; a durable page
 records a lasting decision or learning. Follow the memory service's own skill
 for writes. Do not put secrets or customer data in prompts or memory without
 explicit authorization and the required checks.
+
+MCP connects compatible authorized clients, not every app. memory_query
+retrieves history; memory_read_page fetches the full decision. memory_message_send
+delivers to another project's inbox only when explicitly authorized by the human.
+Memory is not messaging. Namespaces do not provide security isolation, and shared
+memory does not automatically transfer conversations, permissions or execution.
+
+The official openai/codex-plugin-cc offers rescue for task delegation and transfer
+for importing a reviewed synthetic Claude session into Codex. Review is read-only.
+Check availability and runtime; do not assume rescue enables native leaf chains.
+Use sanitized PASSAGEM.md and a new Codex App session as the manual fallback.
+The plugin is not the memory connection. Never import private transcripts.
 
 Each delegated task names objective, evidence, allowed scope, owner, expected
 output, size limit, timeout or turn cap, uncertainty rule, and stopping

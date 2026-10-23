@@ -1,12 +1,30 @@
 # Conselho de IA
 
 Kit público de regras, configurações e conectores para Codex, Claude Code e Grok
-CLI. Atualizado em **23 de outubro de 2026**. Cada sessão permanece na plataforma
-em que começou, delega trabalho delimitado a subagentes nativos e confere o
-resultado com fontes e testes.
+CLI. Revisão **v2026.10.23**, de **23 de outubro de 2026**, baseada no commit
+`6ffd360`. O fluxo escolhido para o curso planeja no Claude Code com Opus/Sonnet,
+passa o plano ao Codex App para execução com Sol/Luna, testa e recebe revisão
+independente Astra high. ai-memory é a camada obrigatória de memória comum.
+É uma preferência de trabalho, não um ranking universal entre fornecedores.
 
 [Abrir o site](https://aigorrocha.github.io/conselho-de-ia/) ·
-[Ler o método](GUIA.md) · [Ver o diagrama](diagrama/arquitetura-multimodelo.html)
+[Ler o método](GUIA.md) · [Ver o diagrama](diagrama/arquitetura-multimodelo.html) ·
+[Memória comum e próxima aula](memoria/README.md)
+
+## Fluxo principal e alternativa
+
+1. Claude Code: Opus 5.5 planeja e delega análise delimitada ao Sonnet 5.5.
+2. Fixe plano, fontes, arquivos, aceite e permissões em `PASSAGEM.md`. Encerre
+   a escrita anterior e abra o Codex App no projeto, em sessão nova.
+3. Codex: Sol 6.1 high conduz a execução escolhida e Luna 6 high executa tarefas
+   simples. O condutor integra e testa; Astra high revisa a versão fixada em
+   contexto separado. Correção posterior exige nova conferência do trecho mudado.
+4. Consulte e mantenha ai-memory no escopo autorizado. Ela preserva decisões e
+   histórico, sem transferir automaticamente conversa, permissões ou ações.
+
+Alternativa: começar no Codex App e consultar Claude pelo conector existente
+`bin/claude-worker.ps1`. Não é obrigatório usar dois fornecedores em toda
+microtarefa. Cada fase preserva sua plataforma e seus subagentes nativos.
 
 ## Papéis e modelos
 
@@ -29,8 +47,8 @@ como legado.
 ## Prática para alunos
 
 Abra o [exemplo completo de agentes e skills](exemplos/curso-agentes-skills/LEIA-ME.md).
-A prática usa Sol 6.1 na condução por escolha explícita, Luna na triagem e Astra
-na revisão independente. No Claude Code, Opus conduz e Sonnet executa. Inclui
+A prática começa pelo plano Opus/Sonnet, passa para Sol 6.1 na execução por
+escolha explícita, Luna na triagem e Astra na revisão independente. Inclui
 árvores, arquivos válidos, prompts, gabarito e passagem de contexto entre plataformas.
 A configuração é um exemplo; a execução deve ser confirmada na instalação do aluno.
 
@@ -39,7 +57,11 @@ A configuração é um exemplo; a execução deve ser confirmada na instalação
 1. Leia [GUIA.md](GUIA.md), que explica a divisão de trabalho e os limites.
 2. Instale e autentique as CLIs que pretende usar, com sua própria assinatura.
 3. Mescle somente os trechos necessários dos exemplos abaixo.
-4. Rode a verificação local e valide uma tarefa pequena na sua instalação.
+4. Prepare a [camada de memória comum](memoria/README.md), cuja instalação e
+   organização serão feitas na próxima aula. O kit contém um modelo público,
+   não um servidor instalado. O exercício atual pode ensaiar a passagem manual,
+   mas a arquitetura completa exige ai-memory configurado e validado.
+5. Rode a verificação local e valide uma tarefa pequena na sua instalação.
 
 O kit não instala CLIs nem inclui autenticação. Não substitua suas configurações
 inteiras pelos exemplos. Não copie configurações privadas para este repositório.
@@ -91,13 +113,30 @@ Copie-os para `~/.codex/agents/` e use o mecanismo de agentes da sua versão.
 Copie as pastas ativas de `skills/` para o diretório da ferramenta, por exemplo
 `~/.agents/skills/` ou `~/.claude/skills/`:
 
-- `cross-model-memory`: plataforma nativa, delegação e revisão opcional.
+- `cross-model-memory`: planejamento, execução, revisão e memória comum obrigatória.
 - `grok-delegation`: leitura isolada, PTY no Windows, limites e síntese.
 - `claude-worker`: chamada delimitada ao Sonnet ou revisão pelo Opus.
 
-O MCP `ai-memory` citado nas regras é opcional e não vem configurado no kit.
-Configure seu próprio servidor ou adapte as referências à memória que usa.
-Não cole endpoint privado nem credencial nestes exemplos públicos.
+O ai-memory é obrigatório na arquitetura ensinada e não vem instalado no kit.
+MCP (Model Context Protocol, protocolo de contexto e ferramentas) conecta cada
+cliente compatível e autorizado ao servidor escolhido. Não conecta qualquer
+aplicativo universalmente. Instalação, organização pessoal/empresarial e testes
+ficam na [próxima aula](memoria/README.md). Não publique endpoints ou credenciais.
+
+### Claude para Codex
+
+O [plugin oficial `openai/codex-plugin-cc`](https://github.com/openai/codex-plugin-cc)
+oferece `/codex:rescue` para delegar trabalho e `/codex:transfer` para criar uma
+sessão Codex continuável no App/TUI. `/codex:review` é somente leitura e não
+implementa o plano. A auditoria local do autor em 23/10/2026 encontrou a versão
+1.0.6 instalada e habilitada; isso não comprova disponibilidade no aluno.
+
+Para a prática completa Sol/Luna/Astra, prefira a passagem sanitizada e sessão
+nova no Codex App. Verifique comandos, modelo, esforço e subagentes efetivos
+antes de usar o plugin. Não presuma que uma chamada rescue permita toda a cadeia
+nativa. Transfer importe somente sessão sintética, sem transcrição privada.
+Se o plugin não estiver disponível, use `PASSAGEM.md` manualmente. O plugin não
+instala memória nem transfere permissões; ai-memory é uma consulta separada.
 
 ### Conector Claude
 
@@ -158,3 +197,7 @@ formulários nem instalador automático.
 [Subagentes do Codex](https://learn.chatgpt.com/docs/agent-configuration/subagents),
 [subagentes do Claude Code](https://code.claude.com/docs/en/sub-agents) e
 [modelos do Claude Code](https://code.claude.com/docs/en/model-config).
+
+A revisão tem data e base de comparação; o commit que a entregar deve ser
+conferido no histórico Git. Não há promessa de sincronização automática entre
+este kit público, instalações pessoais, plugins e servidores dos alunos.

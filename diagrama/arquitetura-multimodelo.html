@@ -3,33 +3,120 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 40%27%3E%3Crect width=%2740%27 height=%2740%27 rx=%278%27 fill=%27%238abaff%27/%3E%3Ctext x=%2720%27 y=%2728%27 text-anchor=%27middle%27 font-family=%27sans-serif%27 font-size=%2725%27%3EC%3C/text%3E%3C/svg%3E">
-<title>Arquitetura multimodelo | Conselho de IA</title>
+<meta name="description" content="Arquitetura multimodelo: Claude Code planeja, Codex executa e testa, Astra revisa em contexto separado e ai-memory mantém a memória comum por MCP.">
+<meta name="theme-color" content="#0D0D0D">
+<meta property="og:title" content="Arquitetura multimodelo | Conselho de IA">
+<meta property="og:description" content="Planejamento, execução, revisão e memória compartilhada em um fluxo de trabalho verificável.">
+<meta property="og:type" content="website">
+<title>Arquitetura multimodelo e memória comum | Conselho de IA</title>
 <style>
-:root{color-scheme:dark;--bg:#0d0d0d;--panel:#191b20;--line:#353a45;--muted:#b6bdca;--blue:#8abaff;--orange:#f2bb96}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f8f9fc;font:18px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;padding:22px 36px}main{max-width:1700px;margin:auto}a{color:var(--blue)}header{display:flex;justify-content:space-between;align-items:baseline;gap:20px;margin-bottom:22px}h1{font-size:clamp(28px,3vw,44px);margin:0;letter-spacing:-.025em}h2{font-size:25px;margin:0 0 8px}h3{font-size:21px;margin:0 0 8px}p{margin:5px 0}.muted{color:var(--muted)}.human,.proof{padding:16px 22px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}.human{display:flex;justify-content:space-between;gap:20px;align-items:center}.human strong{font-size:21px}.human p{max-width:960px}.lanes{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:18px 0}.lane{border:1px solid var(--line);border-top:4px solid var(--blue);border-radius:12px;padding:20px 24px;background:var(--panel)}.lane.claude{border-top-color:var(--orange)}.label{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}.model{font-size:29px;font-weight:750}.codex .model{color:var(--blue)}.claude .model{color:var(--orange)}.connector{margin:10px 0 10px 12px;padding:7px 18px;border-left:2px solid var(--line);color:var(--muted);font-size:15px}.worker{border:1px solid var(--line);padding:13px 17px;border-radius:8px}.worker strong{font-size:23px}.worker p{font-size:16px}.support{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:22px}.support article{border:1px dashed #596273;border-radius:12px;padding:17px 22px}.support p{font-size:16px}.proof{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:20px}.proof p{font-size:15px}.proof strong{font-size:17px}footer{font-size:13px;color:var(--muted);margin-top:16px;display:flex;gap:20px;justify-content:space-between}
-@media(max-width:760px){body{padding:20px 16px;font-size:16px}header,.human{display:block}header a{display:inline-block;margin-top:12px}.human p{margin-top:9px}.lanes,.support,.proof{grid-template-columns:1fr;gap:16px}.lanes{margin:18px 0}.lane{padding:20px}.model{font-size:26px}footer{display:block}footer span{display:block;margin:8px 0}}
-@media print{body{background:#fff;color:#111}.lane,.human,.proof{background:#fff}.muted,.connector,.label,footer{color:#444}.codex .model,.claude .model{color:#111}header a{display:none}}
-h1{line-height:1.1}.human p{font-size:16px}.support article{padding:12px 22px}</style>
+:root{color-scheme:dark;--paper:#0D0D0D;--surface:#1A1A1A;--ink:#FFFFFF;--muted:#A0A0A0;--accent:#4A90D9;--rule:rgba(255,255,255,.16)}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:18px/1.5 "Segoe UI",system-ui,sans-serif}main{max-width:1680px;margin:auto;padding:24px 40px}header,footer{display:flex;justify-content:space-between;align-items:baseline;gap:24px}header{padding-bottom:16px;border-bottom:1px solid var(--rule)}header p{margin:0;color:var(--muted);font-size:16px}a{color:var(--accent);text-underline-offset:4px}a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}figure{margin:16px 0 24px}svg{display:block;width:100%;height:auto}figcaption{margin-top:8px;color:var(--muted);font-size:16px}.notes{max-width:1040px;border-top:1px solid var(--rule);padding-top:24px}.notes h2{margin:0 0 12px;font-size:24px;font-weight:600}.notes p{margin:0 0 12px;color:var(--muted)}.notes strong{color:var(--ink);font-weight:600}footer{margin-top:32px;padding-top:16px;border-top:1px solid var(--rule);color:var(--muted);font-size:14px}
+@media(max-width:720px){main{padding:16px}header,footer{display:block}header a{display:inline-block;margin-top:8px}figure{overflow-x:auto}svg{min-width:960px}footer p{margin:8px 0}}
+@media print{main{max-width:none;padding:0}header,.notes,footer,figcaption{display:none}figure{margin:0}svg{min-width:0;width:100%;print-color-adjust:exact}}
+</style>
 </head>
 <body>
 <main>
-<header><h1>Arquitetura multimodelo</h1><a href="../index.html">Conselho de IA</a></header>
-<section class="human" aria-label="Autoridade humana"><strong>Humano define objetivo, risco e proibições</strong><p class="muted">Ações públicas, financeiras, destrutivas ou irreversíveis exigem autorização explícita. Silêncio não aprova.</p></section>
-<section class="lanes" aria-label="Cadeias nativas separadas">
-<article class="lane codex"><div class="label">Codex, agente principal</div><div class="model">Astra high</div><p>Condução e revisão. Sol 6.1 high pode conduzir por escolha explícita.</p><div class="connector">Delega pacote delimitado. Recebe evidência e integra.</div><div class="worker"><strong>Sol 6.1 e Luna 6</strong><p>Sol high: execução média. Luna high: tarefas simples.</p><p class="muted">Dono explícito por arquivo. Trabalhadores folha.</p></div></article>
-<article class="lane claude"><div class="label">Claude Code, agente principal</div><div class="model">Opus 5.5</div><p>medium por padrão, high para tarefas complexas</p><div class="connector">Delega pacote delimitado. Recebe evidência e integra.</div><div class="worker"><strong>Subagentes Sonnet 5.5</strong><p>high por padrão, medium em tarefas simples</p><p class="muted">Dono explícito por arquivo. Trabalhadores folha.</p></div></article>
+<header><p>Conselho de IA · IA na Prática</p><nav aria-label="Navegação"><a href="../index.html">Início do kit</a></nav></header>
+<h1 class="sr-only">Arquitetura multimodelo e memória comum</h1>
+<figure>
+<!-- Architecture direta: os padrões semânticos disponíveis não descrevem esta combinação de papéis e memória transversal. Perfil igorrocha-ia aprovado, 23/10/2026. -->
+<!-- O SVG contém seus próprios estilos e pode ser extraído para uma aula em 16:9. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="arquitetura-multimodelo-title arquitetura-multimodelo-desc">
+<title id="arquitetura-multimodelo-title">Arquitetura multimodelo com memória comum</title>
+<desc id="arquitetura-multimodelo-desc">O usuário define o objetivo, Claude Code com Opus e apoio Sonnet prepara o plano, Codex com Sol e Luna executa e testa, Astra revisa em contexto separado e a entrega reúne evidências; Claude e Codex consultam e registram contexto no ai-memory por MCP, e uma sessão iniciada no Codex pode consultar Claude pelo claude-worker.</desc>
+<defs>
+<marker id="arquitetura-multimodelo-arrow" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto-start-reverse"><path d="M 0 0 L 8 4 L 0 8 Z" fill="#A0A0A0"/></marker>
+<marker id="arquitetura-multimodelo-arrow-accent" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto-start-reverse"><path d="M 0 0 L 8 4 L 0 8 Z" fill="#4A90D9"/></marker>
+<marker id="arquitetura-multimodelo-arrow-link" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto-start-reverse"><path d="M 0 0 L 8 4 L 0 8 Z" fill="#A0A0A0"/></marker>
+</defs>
+<style>
+.am-text{font-family:"Segoe UI",system-ui,sans-serif;fill:#FFFFFF}.am-muted{fill:#A0A0A0}.am-tech{font-family:Consolas,ui-monospace,monospace}.am-node{fill:#1A1A1A;stroke:#A0A0A0;stroke-width:1.2}.am-focal{fill:#1A1A1A;stroke:#4A90D9;stroke-width:2}.am-edge{fill:none;stroke:#A0A0A0;stroke-width:2;marker-end:url(#arquitetura-multimodelo-arrow)}.am-mask{fill:#0D0D0D}.am-label{font-family:"Segoe UI",system-ui,sans-serif;font-size:24px;fill:#A0A0A0}.am-accent{fill:#4A90D9}
+</style>
+<rect width="1600" height="900" fill="#0D0D0D"/>
+<text class="am-text" x="496" y="80" font-size="40" font-weight="600">Arquitetura multimodelo</text>
+<text class="am-text am-muted" x="496" y="124" font-size="24">Planejamento, execução e memória comum</text>
+<!-- Conexões antes dos nós, sem segmentos compartilhados. -->
+<g id="arquitetura-multimodelo-edges">
+<path class="am-edge" data-from="objetivo" data-to="claude" d="M 176 168 V 300"/>
+<path class="am-edge" data-from="claude" data-to="pacote" d="M 424 412 H 652"/>
+<path class="am-edge" data-from="pacote" data-to="codex" d="M 908 412 H 1136"/>
+<path class="am-edge" data-from="codex" data-to="astra" d="M 1392 524 V 612"/>
+<path class="am-edge" data-from="astra" data-to="entrega" d="M 1392 724 V 768"/>
+<path class="am-edge" data-from="claude" data-to="memoria" data-bidirectional="true" marker-start="url(#arquitetura-multimodelo-arrow)" d="M 244 524 V 644"/>
+<path class="am-edge" data-from="codex" data-to="memoria" data-bidirectional="true" marker-start="url(#arquitetura-multimodelo-arrow)" d="M 1200 524 V 568 Q 1200 576 1192 576 H 1048 Q 1040 576 1040 584 V 720 Q 1040 728 1032 728 H 908"/>
+<path class="am-edge" data-from="codex" data-to="claude" stroke-dasharray="8 8" d="M 1336 300 V 240 Q 1336 232 1328 232 H 320 Q 312 232 312 240 V 300"/>
+</g>
+<!-- Máscaras opacas afastadas 8 px do segmento correspondente. -->
+<g id="arquitetura-multimodelo-edge-labels">
+<rect class="am-mask" x="432" y="368" width="208" height="36" rx="4"/>
+<text class="am-label" x="536" y="396" text-anchor="middle">plano e critérios</text>
+<rect class="am-mask" x="636" y="152" width="400" height="72" rx="4"/>
+<text class="am-label" x="836" y="180" text-anchor="middle">consulta ao Claude</text>
+<text class="am-label am-tech" x="836" y="212" text-anchor="middle" font-size="20">via claude-worker</text>
+<rect class="am-mask" x="252" y="552" width="248" height="36" rx="4"/>
+<text class="am-label" x="264" y="580">consulta e registro</text>
+<rect class="am-mask" x="784" y="592" width="248" height="36" rx="4"/>
+<text class="am-label" x="1020" y="620" text-anchor="end">consulta e registro</text>
+</g>
+<g id="arquitetura-multimodelo-nodes" class="am-text">
+<g data-node="objetivo">
+<rect class="am-node" x="64" y="64" width="360" height="104" rx="8"/>
+<text x="88" y="104" font-size="24" font-weight="600">Objetivo definido</text>
+<text x="88" y="140" font-size="24" class="am-muted">pelo usuário</text>
+</g>
+<g data-node="claude">
+<rect class="am-node" x="64" y="300" width="360" height="224" rx="8"/>
+<text x="88" y="344" font-size="32" font-weight="600">Claude Code</text>
+<text x="88" y="384" font-size="28">Opus 5.5</text>
+<text x="88" y="420" font-size="24" class="am-muted">Planejamento</text>
+<rect x="80" y="444" width="328" height="60" rx="4" fill="#0D0D0D" stroke="#A0A0A0" stroke-opacity=".32"/>
+<text x="104" y="484" font-size="24">Sonnet 5.5 · apoio</text>
+</g>
+<g data-node="pacote">
+<rect class="am-node" x="652" y="328" width="256" height="168" rx="8"/>
+<text x="780" y="368" font-size="24" font-weight="600" text-anchor="middle">Pacote de trabalho</text>
+<text x="780" y="416" font-size="24" text-anchor="middle" class="am-tech">PLANO.md</text>
+<text x="780" y="456" font-size="24" text-anchor="middle" class="am-tech">PASSAGEM.md</text>
+</g>
+<g data-node="codex">
+<rect class="am-focal" x="1136" y="300" width="400" height="224" rx="8"/>
+<text x="1160" y="344" font-size="32" font-weight="600">Codex App</text>
+<text x="1160" y="384" font-size="28">Sol 6.1 e Luna 6</text>
+<text x="1160" y="424" font-size="24">Execução e testes</text>
+<text x="1160" y="480" font-size="24" class="am-muted">Evidências verificáveis</text>
+</g>
+<g data-node="astra">
+<rect class="am-node" x="1136" y="612" width="400" height="112" rx="8"/>
+<text x="1160" y="652" font-size="28" font-weight="600">Astra · revisão</text>
+<text x="1160" y="692" font-size="24" class="am-muted">Contexto separado</text>
+</g>
+<g data-node="entrega">
+<rect class="am-node" x="1136" y="768" width="400" height="72" rx="8"/>
+<text x="1336" y="812" font-size="28" font-weight="600" text-anchor="middle">Entrega com evidências</text>
+</g>
+<g data-node="memoria">
+<rect class="am-focal" x="64" y="644" width="844" height="164" rx="8"/>
+<text x="88" y="688" font-size="32" font-weight="600" class="am-accent">ai-memory</text>
+<text x="88" y="732" font-size="28">Memória compartilhada obrigatória</text>
+<text x="88" y="776" font-size="24" class="am-muted">Clientes compatíveis e autorizados</text>
+<text x="880" y="688" font-size="24" text-anchor="end" class="am-tech am-accent">MCP</text>
+</g>
+</g>
+<!-- Legenda inferior: as duas pontas expressam consulta e registro, não execução. -->
+<line x1="64" y1="856" x2="1536" y2="856" stroke="#FFFFFF" stroke-opacity=".16"/>
+<text class="am-text am-muted" x="64" y="888" font-size="20">Setas nas duas pontas: consulta e registro por MCP. Tracejado: consulta se a sessão começa no Codex.</text>
+</svg>
+<figcaption>Memória mantém contexto de projeto. Histórico não concede instruções, permissões ou autorização para executar tarefas.</figcaption>
+</figure>
+<section class="notes" aria-labelledby="memoria-proxima-aula">
+<h2 id="memoria-proxima-aula">Próxima aula: montar e organizar a memória compartilhada</h2>
+<p>Uso individual e empresarial, com contexto de projeto e acesso delimitado. <strong>O ai-memory não executa tarefas.</strong> MCP conecta clientes compatíveis e autorizados; memória não transfere conversa nem permissões.</p>
+<p>O caminho principal começa no Claude Code. Quando a sessão começa no Codex, a consulta ao Claude usa o conector claude-worker. A revisão do Astra ocorre em contexto separado.</p>
+<p><a href="https://github.com/AIgorrocha/conselho-de-ia/blob/main/memoria/README.md">Material da aula de memória</a></p>
 </section>
-<section class="support" aria-label="Apoio opcional">
-<article><div class="label">Volume, quando necessário</div><h3>Grok 4.7 high</h3><p>Leitura massiva, pesquisa, normalização, comparação e lacunas.</p><p class="muted">Delegação textual isolada, somente leitura, sem subagentes. xhigh exige justificativa.</p></article>
-<article><div class="label">Revisão cruzada opcional</div><h3>Outro fornecedor, escopo delimitado</h3><p>Codex consulta Opus 5.5 high. Claude consulta Astra high.</p><p class="muted">Grok standalone pode consultar um dos dois. Revisão somente leitura, sem retorno recursivo.</p></article>
-</section>
-<section class="proof" aria-label="Regras de execução e aceitação">
-<div><strong>Subagentes em toda sessão real</strong><p class="muted">Ao menos uma tarefa útil. Até três filhos simultâneos. Paralelo se independente; sequência se houver dependência.</p></div>
-<div><strong>Escopo e teto por chamada</strong><p class="muted">Claude externo: 4 turnos, até 8; timeout padrão 180 s. Grok: 4, até 6, com teto de tempo. Sem loop.</p></div>
-<div><strong>O condutor prova o resultado</strong><p class="muted">Testes e fontes atuais, revisão dos achados e memória linkada. Dois turnos sem progresso encerram como inconclusivo.</p></div>
-</section>
-<footer><span>Revisão de 23/10/2026. Fable fora do fluxo padrão. Nenhuma economia de tokens presumida.</span><span>A sessão permanece na plataforma em que começou.</span></footer>
+<footer><p>Atualizado em <time datetime="2026-10-23">23 de outubro de 2026</time>.</p><p><a href="https://github.com/AIgorrocha/conselho-de-ia">Kit completo no GitHub</a></p></footer>
 </main>
 </body>
 </html>

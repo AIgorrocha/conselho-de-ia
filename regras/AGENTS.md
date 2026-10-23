@@ -16,6 +16,12 @@ para outro computador.
 
 ## Delegação nativa
 
+- Fluxo completo escolhido em 23/10/2026: planejamento Opus/Sonnet no Claude,
+  plano sanitizado em `PASSAGEM.md`, execução Sol/Luna e testes no Codex App,
+  revisão Astra high independente. Sol high conduz essa execução por escolha
+  explícita. O padrão pessoal Astra high continua disponível para outras tarefas.
+- Não exigir dois fornecedores para toda microtarefa. Alternativa: iniciar no
+  Codex e consultar Claude pelo conector existente, com pacote delimitado.
 - Toda sessão de trabalho real atribui ao menos uma tarefa útil e delimitada a
   um subagente nativo. Em tarefa pequena, a atribuição pode ser uma verificação.
 - O condutor decompõe, escolhe execução paralela apenas para trabalho
@@ -39,6 +45,21 @@ para outro computador.
   Opus 5.5 high quando isso reduzir risco. O revisor devolve achados, o condutor
   confere no código, testes ou fontes e mantém a decisão final.
 - Fable é legado. Não faz parte do fluxo padrão.
+
+## Memória comum obrigatória
+
+- ai-memory é parte obrigatória desta arquitetura; instalação e organização
+  pertencem à próxima aula. Modelo público em `memoria/` não é servidor instalado.
+- MCP conecta cada cliente compatível e autorizado. Não transfere conversa,
+  permissões ou execução automaticamente. Declare o escopo correto.
+- `memory_query` recupera histórico e `memory_read_page` lê a decisão completa.
+  Confronte com fontes atuais. `memory_message_send` só envia a outro projeto
+  com autorização humana explícita. Memória não é mensageria.
+- Namespace não constitui isolamento de segurança. Separe dados empresariais
+  conforme identidade, instância e permissões efetivas. Nunca grave segredos.
+- Sem memória configurada, declare a etapa pendente e use passagem manual no
+  ensaio. Não declare a arquitetura completa instalada. Providers LLM e
+  consolidação generativa são opcionais; a camada de memória é obrigatória.
 
 ## Limites
 

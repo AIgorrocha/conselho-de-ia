@@ -9,13 +9,12 @@ log de agente. O executor e o revisor devem trabalhar sem consultar o gabarito.
    cadastro do agente e procedimento da skill. Mostrar os dados sintéticos.
 2. Mostrar os modelos selecionados e a versão local. Explicar que disponibilidade
    depende da conta e que arquivo não muda sessão aberta.
-3. No Claude Code, executar o prompt Opus/Sonnet do LEIA-ME. Abrir a atividade
-   nativa para mostrar o filho Sonnet, modelo/esforço e skill. Se falhar, registrar
-   a falha. Não encenar uma resposta do condutor como se fosse subagente.
-4. Conferir as fontes e o `resultado.md` produzido. Preparar `PASSAGEM.md`,
-   encerrar escrita e copiar pacote para nova sessão, se demonstrar continuidade.
-5. No Codex novo, demonstrar Sol high com Luna high usando o primeiro prompt.
-   Se houver resultado da trilha anterior, usar outra cópia para não sobrescrevê-lo.
+3. No Claude Code, executar o prompt Opus/Sonnet de planejamento do LEIA-ME.
+   Mostrar filho Sonnet, modelo/esforço, skill, fatos e lacunas. Opus fixa PLANO.md
+   e PASSAGEM.md. Se falhar, registrar a falha, sem encenar subagente.
+4. Conferir plano e fontes, encerrar escrita e copiar pacote para Codex App novo.
+5. No Codex App, demonstrar Sol high com Luna high executando o plano. Conferir
+   os três casos contra as fontes e salvar resultado.md, sem envio.
 6. Fixar `resultado.md`. Executar o prompt separado de Astra high em novo contexto.
    Mostrar o parecer e a conferência do condutor. Não tratar a opinião como prova.
 7. Comparar a saída com este gabarito e registrar diferenças reais. Revisão cruzada
@@ -57,6 +56,7 @@ nem confirmação de retorno. Não afirmar envio nem inventar condição comerci
 - Versão, plataforma, modelo e esforço efetivos do principal e de cada filho.
 - Atividade nativa e identidade do filho, arquivos lidos e aplicação da skill.
 - Texto recebido, `resultado.md` fixado e parecer Astra em `revisao.md`.
+- `PLANO.md` Opus/Sonnet e `PASSAGEM.md` que levaram à execução Sol/Luna.
 - Conferência por caso e fonte; erros, correções propostas e itens inconclusivos.
 - Tempo, turnos e consumo exibido, quando disponível. Não estimar economia.
 - Passagem preenchida, origem sem escrita ativa e nova sessão no destino.
@@ -72,8 +72,18 @@ somente leitura, com `PASSAGEM.md` sanitizado, quatro turnos e 180 segundos.
 Só execute após pedido explícito e com o pacote de revisão preenchido. Sem
 execução, mostre como exemplo de comando, nunca como parecer recebido.
 
-Se houver ai-memory previamente autorizado, demonstre `memory_query` para
+ai-memory é obrigatório na arquitetura completa. A próxima aula instala e
+organiza a memória comum para uso individual e empresarial; este material não
+instala servidor. O ensaio atual registra essa camada como pendente.
+Se houver ai-memory previamente instalado e autorizado, demonstre `memory_query` para
 recuperar histórico e `memory_read_page` para ler a decisão completa, no escopo
 correto. `memory_message_send` é envio explícito a outro projeto e exige
 autorização humana específica; esta aula não precisa enviá-lo. Memória não é
-mensageria e namespace não é isolamento. Não há servidor ou MCP instalado aqui.
+mensageria e namespace não é isolamento. MCP conecta clientes compatíveis e
+autorizados, sem transferir conversa nem permissões. Não há servidor instalado aqui.
+
+O plugin oficial Claude para Codex é alternativa de passagem, após conferir
+disponibilidade. Review é leitura, rescue recebe tarefa e transfer importa sessão
+sintética sanitizada para continuar no App/TUI. Não presuma subagentes dentro de
+rescue. A gravação principal usa PLANO.md, PASSAGEM.md e Codex App. Microtarefas
+não precisam de dois fornecedores e esta escolha não é ranking de qualidade.

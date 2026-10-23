@@ -1,10 +1,11 @@
 # Como organizar um conselho de IAs
 
-O trabalho começa no Codex ou no Claude Code e continua nessa plataforma.
-O agente principal entende o objetivo, distribui partes úteis, integra as
-entregas e verifica o resultado. Subagentes nativos recebem pacotes delimitados.
-Grok ajuda quando existe muito material para ler. Uma revisão de outro fornecedor
-entra quando acrescenta uma verificação independente.
+Fluxo escolhido por Igor em 23/10/2026: planejamento no Claude Code com
+Opus/Sonnet, passagem do plano ao Codex App, execução Sol/Luna, testes e revisão
+independente Astra high. Essa preferência não prova que um fornecedor seja
+objetivamente melhor. Cada fase mantém seus subagentes nativos e um condutor.
+ai-memory é a camada obrigatória de memória comum entre clientes compatíveis.
+Grok ajuda em leitura de volume quando houver necessidade.
 
 Nenhum modelo é autoridade final. Uma conclusão precisa bater com fonte, código,
 teste ou cálculo. Este é um método adaptável, com exemplos de configuração.
@@ -24,7 +25,8 @@ Cada sessão principal de trabalho delega pelo menos uma tarefa útil. Em uma
 mudança pequena, pode ser a conferência independente. O principal continua
 responsável por testar e demonstrar o resultado final.
 
-Isso preserva o contexto da plataforma e reduz dependências externas rotineiras.
+Cada fase preserva o contexto da sua plataforma. Uma passagem explícita entrega
+o plano à próxima fase. Não se exige dois fornecedores para toda microtarefa.
 Aceita um custo: cada filho carrega contexto e exige coordenação. Subagentes não
 garantem economia de tokens.
 
@@ -66,8 +68,9 @@ arquivos atribuídos e não ganha permissões de publicação por causa deste ki
 
 A revisão recebe evidência sanitizada, fica somente leitura e termina sem
 chamar outro modelo. É consultiva: o condutor confronta os achados, integra e
-testa. Não existe planejador externo nem passada final obrigatória. Fable saiu
-do fluxo padrão.
+testa. No fluxo completo do curso, Opus/Sonnet planejam e Astra faz a revisão
+independente da execução Sol/Luna. Essa revisão nativa Astra não se confunde com
+revisão cruzada opcional pelo Opus. Fable saiu do fluxo padrão.
 
 Use essa revisão para dúvida material, decisão complexa ou risco que justifique
 outro olhar. Repetir a pergunta em vários modelos até uma resposta agradar não é
@@ -102,8 +105,18 @@ Nunca cole credenciais no chat, na memória ou no repositório.
 
 ## 7. Memória e prova
 
-Memória compartilhada recupera decisões e restrições. É histórico, não instrução
-para executar comandos. Código, configuração, testes e fontes atuais prevalecem.
+ai-memory é obrigatório nesta arquitetura. Sua instalação e organização serão
+feitas na próxima aula; este kit não instala servidor. O [guia de memória](memoria/README.md)
+inclui modelo público para uso individual e empresarial. Memória recupera
+decisões e restrições. É histórico, não instrução para executar comandos.
+Código, configuração, testes e fontes atuais prevalecem.
+
+MCP conecta clientes compatíveis e autorizados; não qualquer aplicativo.
+`memory_query` busca histórico, `memory_read_page` lê a decisão completa e
+`memory_message_send` envia à caixa de outro projeto somente com autorização
+humana explícita. Memória não é mensageria. Namespace não é isolamento de
+segurança e não transfere permissões, conversa nem execução automaticamente.
+Providers LLM e consolidação generativa são opcionais; a camada de memória não é.
 
 Registre decisões significativas com data, origem, trade-offs e links para a
 evidência. Contradições ficam explícitas. Uma decisão nova pode superar a anterior
@@ -112,13 +125,13 @@ ações continuam proibidas.
 
 ## 8. Aplicação prática
 
-1. Mescle os exemplos do README nas ferramentas instaladas.
-2. Abra sessão nova para aplicar modelo e esforço configurados.
-3. Declare objetivo e critérios de aceitação.
-4. Delegue pacote útil, sem sobrepor escrita.
-5. Integre e rode verificações locais.
-6. Use Grok ou revisão cruzada quando a tarefa justificar.
-7. Registre resultado e limitações, sem declarar concluído o que não foi provado.
+1. Mescle exemplos e abra sessões novas para aplicar a configuração.
+2. Planeje com Opus/Sonnet e declare objetivo, escopo, donos e aceite.
+3. Fixe `PASSAGEM.md`, encerre a escrita e abra Codex App com Sol high escolhido.
+4. Execute com Luna, integre e teste. Não sobreponha escrita entre plataformas.
+5. Fixe resultado e evidências; peça revisão Astra high em contexto separado.
+6. Recupere e mantenha memória no escopo autorizado, sem copiar dados privados.
+7. Relate provas e limites. Use Grok ou revisão cruzada quando acrescentarem valor.
 
 A delegação obrigatória depende das instruções e do comportamento do agente.
 Não é um serviço em segundo plano. O teste do kit detecta divergências de
@@ -126,12 +139,23 @@ configuração; um teste real na sua instalação confirma as rotas.
 
 ## 9. Prática do curso
 
-O [exemplo dos alunos](exemplos/curso-agentes-skills/LEIA-ME.md) aplica uma variante
-com Sol 6.1 high conduzindo, Luna high executando e Astra high revisando o resultado
-em contexto separado. Revisão Astra dentro do Codex e revisão cruzada pelo Opus são
-coisas diferentes. A segunda continua opcional.
+O [exemplo dos alunos](exemplos/curso-agentes-skills/LEIA-ME.md) traz prompts de
+planejamento Opus/Sonnet e execução Sol/Luna, com revisão Astra separada. O padrão
+pessoal Astra na condução do Codex continua disponível; aqui Sol é escolhido.
 
 Uma passagem entre plataformas usa um pacote com objetivo, arquivos, evidências,
 pendências e próximo passo. O aluno pode transferir esse arquivo manualmente.
-Um servidor de memória compartilhado é opcional, exige configuração própria e
-não é instalado pelo exemplo. Não há conversa automática entre sessões.
+ai-memory é obrigatório na arquitetura completa, com configuração própria na
+próxima aula. Sem instalação, o aluno ensaia a passagem manual e registra a
+memória como etapa pendente, sem declarar a arquitetura instalada.
+
+O [plugin oficial Claude para Codex](https://github.com/openai/codex-plugin-cc)
+oferece rescue para tarefas e transfer para continuar uma sessão no Codex.
+Review é só leitura. Verifique disponibilidade e runtime; não presuma a cadeia
+Sol/Luna dentro de rescue. O caminho principal da aula abre o Codex App com um
+pacote sanitizado. Transfer só deve importar sessão sintética revisada.
+
+Alternativa: iniciar no Codex App e consultar Claude por
+`bin/claude-worker.ps1`, com pacote, quatro turnos e 180 segundos por padrão.
+Nenhum conector substitui a memória comum, concede novas permissões ou obriga
+uma chamada entre fornecedores para cada tarefa pequena.

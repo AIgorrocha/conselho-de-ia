@@ -1,4 +1,4 @@
-# Static coherence checks for the public multimodel kit. Never calls a model.
+﻿# Static coherence checks for the public multimodel kit. Never calls a model.
 # Run from any directory: pwsh -File bin\test-multimodel-routing.ps1
 $ErrorActionPreference = 'Stop'
 
@@ -26,19 +26,29 @@ $files = @{
     astraAgent = Join-Path $root 'config\codex-agents\astra-reviewer.toml'
     claudeAgentHigh = Join-Path $root 'config\claude-agents\native-worker.md'
     claudeAgentMedium = Join-Path $root 'config\claude-agents\native-worker-medium.md'
+    memoryGuide = Join-Path $root 'memoria\README.md'
+    memoryCodex = Join-Path $root 'config\memoria-codex.toml.example'
+    memoryClaude = Join-Path $root 'config\memoria-claude.json.example'
 }
 foreach ($path in $files.Values) {
     Assert-True (Test-Path -LiteralPath $path -PathType Leaf) "Arquivo ausente: $path"
 }
 
 $text = @{}
-foreach ($key in $files.Keys) { $text[$key] = Get-Content -LiteralPath $files[$key] -Raw }
+foreach ($key in $files.Keys) { $text[$key] = Get-Content -LiteralPath $files[$key] -Raw -Encoding UTF8 }
 $claudeConfigObject = Get-Content -LiteralPath $files.claudeConfig -Raw | ConvertFrom-Json
+$memoryClaudeObject = $text.memoryClaude | ConvertFrom-Json
+Assert-True ($memoryClaudeObject.mcpServers.'ai-memory'.command -eq 'ai-memory') 'Bridge Claude incorreto'
+Assert-True ($memoryClaudeObject.mcpServers.'ai-memory'.args -contains '--no-session-id') 'Bridge Claude sem modo explicito'
+Assert-True ($text.memoryCodex.Contains('[mcp_servers.ai-memory]')) 'Registro de memoria Codex ausente'
+Assert-True ($text.memoryCodex.Contains('"mcp-bridge", "--no-session-id"')) 'Bridge Codex incorreto'
+Assert-True ([regex]::IsMatch($text.memoryGuide, 'ai-memory.{0,32}obrigat', 'IgnoreCase')) 'Memoria nao marcada como obrigatoria'
+
 
 foreach ($rules in @($text.codexRules, $text.claudeRules, $text.crossSkill)) {
     Assert-True ($rules.Contains('grok-4.7')) 'Grok 4.7 ausente no roteamento'
     Assert-True ($rules.Contains('xhigh')) 'Regra de justificativa xhigh ausente'
-    Assert-True ($rules.Contains('Fable is a legacy') -or $rules.Contains('Fable é legado')) 'Fable nao marcado como legado'
+    Assert-True ($rules.Contains('Fable is a legacy') -or [regex]::IsMatch($rules, 'Fable . legado')) 'Fable nao marcado como legado'
     Assert-True ([regex]::IsMatch($rules, 'opcional|optional', 'IgnoreCase')) 'Revisao cruzada nao indicada como opcional'
 }
 Assert-True ($text.codexRules.Contains('gpt-6.1-sol') -and $text.codexRules.Contains('gpt-6-luna')) 'Matriz Codex incorreta'

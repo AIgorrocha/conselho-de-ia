@@ -1,0 +1,7 @@
+# Exemplo público, mesclar apenas na próxima aula de configuração.
+# Requer ai-memory instalado e configurado localmente para seu servidor autorizado.
+# O bridge lê o endereço e a autenticação locais; nenhum segredo fica neste arquivo.
+# Este modo não encaminha identidade de sessão: informe workspace e project nas consultas.
+[mcp_servers.ai-memory]
+command = "ai-memory"
+args = ["mcp-bridge", "--no-session-id"]
