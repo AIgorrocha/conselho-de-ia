@@ -5,6 +5,11 @@ ensinada. A próxima aula monta o servidor, conecta clientes compatíveis e
 organiza a memória para uso individual e empresarial. Este diretório é material
 público para copiar e importar, não instalação nem evidência de runtime.
 
+O [guia da Aula 2.4](aula-2-4.md) traz os comandos, a versão fixada e a prova
+isolada realizada no Windows. O [preparador](../scripts/Preparar-Memoria.ps1)
+mostra o plano por padrão. O [teste](../scripts/Testar-Memoria.ps1) usa dados
+temporários e não configura os agentes existentes.
+
 ## O que cada camada faz
 
 | Camada | Responsabilidade |
@@ -56,7 +61,8 @@ wiki-modelo/
 Abra [inicio.md](wiki-modelo/inicio.md). As três páginas são sintéticas e têm
 links de ida e volta. Copie a pasta para seu projeto de estudo. Na próxima aula,
 revise o conteúdo, escolha a instância e o escopo de destino e importe pelas
-ferramentas autorizadas da versão instalada. Não há importador automático aqui.
+ferramentas autorizadas da versão instalada. O teste isolado da Aula 2.4 importa
+essas três páginas somente na base temporária que ele próprio cria.
 
 Antes de importar, confira que cada link resolve. Ao gravar uma página no
 servidor, preserve referência à fonte e o link de volta na página relacionada.

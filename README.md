@@ -11,6 +11,10 @@ independente Astra high. ai-memory é a camada obrigatória de memória comum.
 [Ler o método](GUIA.md) · [Ver o diagrama](diagrama/arquitetura-multimodelo.html) ·
 [Memória comum e próxima aula](memoria/README.md)
 
+A [Aula 2.4](memoria/aula-2-4.md) inclui o preparador de instalação Windows e o
+teste isolado do ai-memory 3.2.0. O teste verifica busca, leitura e persistência
+sem alterar o perfil dos agentes. A conexão dos agentes é uma etapa separada.
+
 ## Fluxo principal e alternativa
 
 1. Claude Code: Opus 5.5 planeja e delega análise delimitada ao Sonnet 5.5.
@@ -57,9 +61,9 @@ A configuração é um exemplo; a execução deve ser confirmada na instalação
 1. Leia [GUIA.md](GUIA.md), que explica a divisão de trabalho e os limites.
 2. Instale e autentique as CLIs que pretende usar, com sua própria assinatura.
 3. Mescle somente os trechos necessários dos exemplos abaixo.
-4. Prepare a [camada de memória comum](memoria/README.md), cuja instalação e
-   organização serão feitas na próxima aula. O kit contém um modelo público,
-   não um servidor instalado. O exercício atual pode ensaiar a passagem manual,
+4. Prepare a [camada de memória comum](memoria/aula-2-4.md), cuja instalação e
+   organização são o tema da Aula 2.4. O kit contém scripts e um modelo público;
+   baixar o kit não instala o servidor. O exercício atual pode ensaiar a passagem manual,
    mas a arquitetura completa exige ai-memory configurado e validado.
 5. Rode a verificação local e valide uma tarefa pequena na sua instalação.
 
@@ -176,8 +180,8 @@ descartável antes de usar em trabalho real.
 
 O site estático usa GitHub Pages com a branch `main` e a raiz do repositório.
 `index.html` apresenta o kit; `diagrama/arquitetura-multimodelo.html` contém o
-diagrama atual. O PNG antigo é um registro histórico de 07/10/2026 e não acompanha as revisões atuais. Não há backend, coleta de
-formulários nem instalador automático.
+diagrama atual. O PNG antigo é um registro histórico de 07/10/2026 e não acompanha as revisões atuais. O site não tem backend nem coleta de
+formulários. O preparador Windows só instala o binário quando executado com `-Aplicar`.
 
 ## Limites e segurança
 
