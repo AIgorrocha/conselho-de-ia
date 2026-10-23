@@ -10,7 +10,7 @@ Mescle as instruções necessárias. Não substitua seu arquivo global completo.
 | Condutor do Claude Code | `claude-opus-5-5` | `medium`, `high` em tarefa complexa |
 | Subagente nativo | `claude-sonnet-5-5` | `high`, `medium` em tarefa simples delimitada |
 | Grok para leitura de volume | `grok-4.7` | `high`, `xhigh` só com justificativa de complexidade |
-| Revisor Codex opcional | `gpt-6.1-sol` | `high`, somente leitura |
+| Revisor Codex opcional | `gpt-6-astra` | `high`, somente leitura |
 
 ## Delegação nativa
 
@@ -32,7 +32,7 @@ Mescle as instruções necessárias. Não substitua seu arquivo global completo.
   lacunas verificáveis. Delegação textual usa perfil isolado, somente leitura,
   assinatura OAuth existente e PTY no Windows (`tty: true`). Nunca use chave
   de API paga como fallback. `xhigh` exige justificativa explícita.
-- Revisão cruzada é opcional, somente leitura. Claude pode pedir ao Sol 6.1 high
+- Revisão cruzada é opcional, somente leitura. Claude pode pedir ao Astra high
   uma crítica delimitada. O condutor confronta os achados com fonte, código ou
   teste e mantém a decisão final.
 - Fable é legado e não faz parte do fluxo padrão.

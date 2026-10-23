@@ -4,34 +4,39 @@
 # config.toml existente. Nomes de perfil foram renomeados para termos
 # neutros (eram nomes de projeto internos do autor).
 
-model = "gpt-6.1-sol"
-model_reasoning_effort = "medium"
+model = "gpt-6-astra"
+model_reasoning_effort = "high"
 
 [agents]
 enabled = true
-default_subagent_model = "gpt-6-luna"
+default_subagent_model = "gpt-6.1-sol"
 default_subagent_reasoning_effort = "high"
 max_concurrent_threads_per_session = 3
 max_depth = 1
 
 # Perfil de uso diario / condutor padrao.
 [profiles.padrao]
-model = "gpt-6.1-sol"
-model_reasoning_effort = "medium"
+model = "gpt-6-astra"
+model_reasoning_effort = "high"
 
 # Perfil explicito de condutor (mesmos valores do padrao; existe para deixar
 # a intencao clara quando voce troca de perfil na CLI).
 [profiles.condutor]
-model = "gpt-6.1-sol"
-model_reasoning_effort = "medium"
+model = "gpt-6-astra"
+model_reasoning_effort = "high"
 
-# Ative apenas quando o escopo exigir esforço adicional.
+# Perfil explícito para tarefas complexas, com high igual ao padrão atual.
 [profiles.condutor-complexo]
-model = "gpt-6.1-sol"
+model = "gpt-6-astra"
 model_reasoning_effort = "high"
 
 # Perfil de volume alternativo: usar so quando o modelo de volume principal
 # (Grok ou equivalente) nao estiver disponivel.
 [profiles.volume-fallback]
 model = "gpt-6-luna"
+model_reasoning_effort = "high"
+
+# Variante explicitamente escolhida para a prática do curso.
+[profiles.curso-sol]
+model = "gpt-6.1-sol"
 model_reasoning_effort = "high"

@@ -17,19 +17,19 @@ h1{line-height:1.1}.human p{font-size:16px}.support article{padding:12px 22px}</
 <header><h1>Arquitetura multimodelo</h1><a href="../index.html">Conselho de IA</a></header>
 <section class="human" aria-label="Autoridade humana"><strong>Humano define objetivo, risco e proibições</strong><p class="muted">Ações públicas, financeiras, destrutivas ou irreversíveis exigem autorização explícita. Silêncio não aprova.</p></section>
 <section class="lanes" aria-label="Cadeias nativas separadas">
-<article class="lane codex"><div class="label">Codex, agente principal</div><div class="model">Sol 6.1</div><p>medium por padrão, high para tarefas complexas</p><div class="connector">Delega pacote delimitado. Recebe evidência e integra.</div><div class="worker"><strong>Subagentes Luna 6</strong><p>high por padrão, medium em tarefas simples</p><p class="muted">Dono explícito por arquivo. Trabalhadores folha.</p></div></article>
+<article class="lane codex"><div class="label">Codex, agente principal</div><div class="model">Astra high</div><p>Condução e revisão. Sol 6.1 high pode conduzir por escolha explícita.</p><div class="connector">Delega pacote delimitado. Recebe evidência e integra.</div><div class="worker"><strong>Sol 6.1 e Luna 6</strong><p>Sol high: execução média. Luna high: tarefas simples.</p><p class="muted">Dono explícito por arquivo. Trabalhadores folha.</p></div></article>
 <article class="lane claude"><div class="label">Claude Code, agente principal</div><div class="model">Opus 5.5</div><p>medium por padrão, high para tarefas complexas</p><div class="connector">Delega pacote delimitado. Recebe evidência e integra.</div><div class="worker"><strong>Subagentes Sonnet 5.5</strong><p>high por padrão, medium em tarefas simples</p><p class="muted">Dono explícito por arquivo. Trabalhadores folha.</p></div></article>
 </section>
 <section class="support" aria-label="Apoio opcional">
 <article><div class="label">Volume, quando necessário</div><h3>Grok 4.7 high</h3><p>Leitura massiva, pesquisa, normalização, comparação e lacunas.</p><p class="muted">Delegação textual isolada, somente leitura, sem subagentes. xhigh exige justificativa.</p></article>
-<article><div class="label">Revisão cruzada opcional</div><h3>Outro fornecedor, escopo delimitado</h3><p>Codex consulta Opus 5.5 high. Claude consulta Sol 6.1 high.</p><p class="muted">Grok standalone pode consultar um dos dois. Revisão somente leitura, sem retorno recursivo.</p></article>
+<article><div class="label">Revisão cruzada opcional</div><h3>Outro fornecedor, escopo delimitado</h3><p>Codex consulta Opus 5.5 high. Claude consulta Astra high.</p><p class="muted">Grok standalone pode consultar um dos dois. Revisão somente leitura, sem retorno recursivo.</p></article>
 </section>
 <section class="proof" aria-label="Regras de execução e aceitação">
 <div><strong>Subagentes em toda sessão real</strong><p class="muted">Ao menos uma tarefa útil. Até três filhos simultâneos. Paralelo se independente; sequência se houver dependência.</p></div>
 <div><strong>Escopo e teto por chamada</strong><p class="muted">Claude externo: 4 turnos, até 8; timeout padrão 180 s. Grok: 4, até 6, com teto de tempo. Sem loop.</p></div>
 <div><strong>O condutor prova o resultado</strong><p class="muted">Testes e fontes atuais, revisão dos achados e memória linkada. Dois turnos sem progresso encerram como inconclusivo.</p></div>
 </section>
-<footer><span>Contrato de 07/10/2026. Fable fora do fluxo padrão. Nenhuma economia de tokens presumida.</span><span>A sessão permanece na plataforma em que começou.</span></footer>
+<footer><span>Revisão de 23/10/2026. Fable fora do fluxo padrão. Nenhuma economia de tokens presumida.</span><span>A sessão permanece na plataforma em que começou.</span></footer>
 </main>
 </body>
 </html>

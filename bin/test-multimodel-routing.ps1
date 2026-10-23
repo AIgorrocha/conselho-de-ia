@@ -22,6 +22,8 @@ $files = @{
     grokConfig = Join-Path $root 'config\grok-config.toml'
     grokIsolated = Join-Path $root 'config\grok-delegation-config.toml'
     codexAgent = Join-Path $root 'config\codex-agents\luna-worker.toml'
+    solAgent = Join-Path $root 'config\codex-agents\sol-worker.toml'
+    astraAgent = Join-Path $root 'config\codex-agents\astra-reviewer.toml'
     claudeAgentHigh = Join-Path $root 'config\claude-agents\native-worker.md'
     claudeAgentMedium = Join-Path $root 'config\claude-agents\native-worker-medium.md'
 }
@@ -54,7 +56,17 @@ Assert-True ($text.claudeAgentMedium.Contains('effort: medium')) 'Agente Claude 
 Assert-True ($claudeConfigObject.model -eq 'claude-opus-5-5') 'Config Claude nao usa Opus 5.5'
 Assert-True ($claudeConfigObject.effortLevel -eq 'medium') 'Config Claude padrao nao e medium'
 Assert-True ($claudeConfigObject.env.CLAUDE_CODE_SUBAGENT_MODEL -eq 'claude-sonnet-5-5') 'Subagente Claude incorreto'
-Assert-True ($text.codexConfig.Contains('gpt-6.1-sol') -and $text.codexConfig.Contains('gpt-6-luna')) 'Config Codex desatualizada'
+Assert-True ($text.codexConfig.Contains('model = "gpt-6-astra"') -and $text.codexConfig.Contains('[profiles.curso-sol]')) 'Config Codex desatualizada'
+foreach ($role in @('solAgent', 'astraAgent')) {
+    foreach ($field in @('name =', 'description =', 'developer_instructions =', 'model_reasoning_effort = "high"')) {
+        Assert-True ($text[$role].Contains($field)) "Campo ausente em ${role}: $field"
+    }
+    Assert-True ($text[$role].Contains('nao crie subagentes')) "Recursao nao proibida em $role"
+    Assert-True ($text[$role].Contains('herdadas')) "Heranca de permissoes ausente em $role"
+}
+Assert-True ($text.solAgent.Contains('model = "gpt-6.1-sol"')) 'Modelo Sol incorreto'
+Assert-True ($text.astraAgent.Contains('model = "gpt-6-astra"')) 'Modelo Astra incorreto'
+Assert-True ($text.astraAgent.Contains('Nao altere arquivos')) 'Revisor sem limite de escrita'
 Assert-True ($text.grokConfig.Contains('default = "grok-4.7"')) 'Config Grok interativa desatualizada'
 Assert-True ($text.grokIsolated.Contains('default = "grok-4.7"')) 'Config Grok isolada desatualizada'
 Assert-True ($text.grokSkill.Contains('"--model", "grok-4.7"')) 'Skill Grok sem modelo 4.7'

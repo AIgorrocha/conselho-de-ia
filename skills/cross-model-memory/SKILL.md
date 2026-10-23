@@ -13,7 +13,7 @@ Claude work unless requested.
 
 | Main platform | Conductor | Native leaf agents |
 |---|---|---|
-| Codex | `gpt-6.1-sol`, medium by default, high for complex work | `gpt-6-luna`, high by default, medium for simple bounded work |
+| Codex | `gpt-6-astra`, high by default; `gpt-6.1-sol`, high when explicitly chosen | `gpt-6.1-sol`, high for medium work; `gpt-6-luna`, high for simple bounded work |
 | Claude Code | `claude-opus-5-5`, medium by default, high for complex work | `claude-sonnet-5-5`, high by default, medium for simple bounded work |
 
 - Every real work session assigns at least one useful bounded task to a native
@@ -34,7 +34,7 @@ Claude work unless requested.
   requires PTY on Windows. Never use a paid API key fallback. `xhigh` requires
   an explicit complexity reason.
 - Cross-review is optional, read-only, and non-recursive. Codex may ask Claude
-  Opus 5.5 high; Claude may ask Codex Sol 6.1 high. Grok may ask either. One
+  Opus 5.5 high; Claude may ask Codex Astra high. Grok may ask either. One
   bounded review per need. The conductor confronts findings with local source,
   code, tests, or primary evidence.
 - Fable is a legacy option only when the user explicitly requests it. It is

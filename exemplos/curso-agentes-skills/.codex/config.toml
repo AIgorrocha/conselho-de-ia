@@ -1,0 +1,10 @@
+# Exemplo de projeto, para uma cópia isolada da pasta.
+# Configuração nova não altera uma sessão já aberta.
+model = "gpt-6.1-sol"
+model_reasoning_effort = "high"
+
+[agents]
+enabled = true
+default_subagent_model = "gpt-6-luna"
+default_subagent_reasoning_effort = "high"
+max_concurrent_threads_per_session = 3

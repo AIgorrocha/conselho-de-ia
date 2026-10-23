@@ -13,10 +13,10 @@ teste ou cálculo. Este é um método adaptável, com exemplos de configuração
 
 | Onde a sessão começa | Quem conduz | Quem recebe trabalho delimitado |
 |---|---|---|
-| Codex | Sol 6.1, medium ou high | Luna 6, high ou medium |
+| Codex | Astra high; Sol 6.1 high quando escolhido | Sol 6.1 high para execução média; Luna 6 high para tarefas simples |
 | Claude Code | Opus 5.5, medium ou high | Sonnet 5.5, high ou medium |
 
-O principal usa `medium` por padrão e `high` quando a complexidade exige.
+No Codex, Astra usa `high` por preferência operacional. No Claude Code, o principal usa `medium` por padrão e `high` quando a complexidade exige.
 O trabalhador usa `high` por padrão e `medium` em tarefa simples, bem delimitada.
 Os nomes exatos estão no README e nos exemplos de configuração.
 
@@ -61,7 +61,7 @@ arquivos atribuídos e não ganha permissões de publicação por causa deste ki
 | Plataforma que conduz | Revisor possível |
 |---|---|
 | Codex | Opus 5.5 high |
-| Claude Code | Sol 6.1 high |
+| Claude Code | Astra high |
 | Grok standalone | Um dos dois, em uma única revisão |
 
 A revisão recebe evidência sanitizada, fica somente leitura e termina sem
@@ -123,3 +123,15 @@ ações continuam proibidas.
 A delegação obrigatória depende das instruções e do comportamento do agente.
 Não é um serviço em segundo plano. O teste do kit detecta divergências de
 configuração; um teste real na sua instalação confirma as rotas.
+
+## 9. Prática do curso
+
+O [exemplo dos alunos](exemplos/curso-agentes-skills/LEIA-ME.md) aplica uma variante
+com Sol 6.1 high conduzindo, Luna high executando e Astra high revisando o resultado
+em contexto separado. Revisão Astra dentro do Codex e revisão cruzada pelo Opus são
+coisas diferentes. A segunda continua opcional.
+
+Uma passagem entre plataformas usa um pacote com objetivo, arquivos, evidências,
+pendências e próximo passo. O aluno pode transferir esse arquivo manualmente.
+Um servidor de memória compartilhado é opcional, exige configuração própria e
+não é instalado pelo exemplo. Não há conversa automática entre sessões.

@@ -1,7 +1,7 @@
 # Conselho de IA
 
 Kit público de regras, configurações e conectores para Codex, Claude Code e Grok
-CLI. Atualizado em **22 de outubro de 2026**. Cada sessão permanece na plataforma
+CLI. Atualizado em **23 de outubro de 2026**. Cada sessão permanece na plataforma
 em que começou, delega trabalho delimitado a subagentes nativos e confere o
 resultado com fontes e testes.
 
@@ -12,7 +12,7 @@ resultado com fontes e testes.
 
 | Plataforma | Principal | Subagentes nativos |
 |---|---|---|
-| Codex | `gpt-6.1-sol`, `medium`; `high` para tarefas complexas | `gpt-6-luna`, `high`; `medium` para tarefas simples |
+| Codex | `gpt-6-astra`, `high`; Sol 6.1 quando escolhido para conduzir | `gpt-6.1-sol`, `high`, para execução média; `gpt-6-luna`, `high`, para tarefas simples |
 | Claude Code | `claude-opus-5-5`, `medium`; `high` para tarefas complexas | `claude-sonnet-5-5`, `high`; `medium` para tarefas simples |
 | Grok CLI | `grok-4.7`, `high`, para volume, pesquisa e normalização | Delegação textual somente leitura, sem redelegação |
 
@@ -22,9 +22,17 @@ sequência para dependências. O condutor integra e testa. Delegação é polít
 instrução, não um hook que inicia processos automaticamente.
 
 Revisão cruzada é opcional: Codex pode consultar Opus 5.5 `high`; Claude pode
-consultar Sol 6.1 `high`; Grok pode consultar um deles. Revisores são somente
+consultar Astra `high`; Grok pode consultar um deles. Revisores são somente
 leitura e não redelegam. Fable saiu do fluxo padrão; seus arquivos permanecem
 como legado.
+
+## Prática para alunos
+
+Abra o [exemplo completo de agentes e skills](exemplos/curso-agentes-skills/LEIA-ME.md).
+A prática usa Sol 6.1 na condução por escolha explícita, Luna na triagem e Astra
+na revisão independente. No Claude Code, Opus conduz e Sonnet executa. Inclui
+árvores, arquivos válidos, prompts, gabarito e passagem de contexto entre plataformas.
+A configuração é um exemplo; a execução deve ser confirmada na instalação do aluno.
 
 ## Comece por aqui
 
@@ -71,11 +79,11 @@ do usuário. Ajuste os caminhos para sua instalação.
 | `config/claude-agents/native-worker-medium.md` | `~/.claude/agents/native-worker-medium.md`, Sonnet em `medium` |
 
 No Claude, escolha esses agentes customizados para fixar modelo e esforço, em vez
-de um agente embutido que force outro modelo. No Codex, `[agents]` define Luna
-como trabalhador nativo padrão. Confira o modelo efetivo nos registros da CLI.
+de um agente embutido que force outro modelo. No Codex, `[agents]` define Sol
+como trabalhador nativo padrão; o agente Luna recebe tarefas simples. Confira o modelo efetivo nos registros da CLI.
 Disponibilidade e nomes podem variar conforme versão e assinatura.
 
-Para agentes Codex nomeados, há exemplos high e medium em `config/codex-agents/`.
+Para agentes Codex nomeados, há Sol, Luna e Astra em `config/codex-agents/`.
 Copie-os para `~/.codex/agents/` e use o mecanismo de agentes da sua versão.
 
 ### Skills
@@ -129,7 +137,7 @@ descartável antes de usar em trabalho real.
 
 O site estático usa GitHub Pages com a branch `main` e a raiz do repositório.
 `index.html` apresenta o kit; `diagrama/arquitetura-multimodelo.html` contém o
-diagrama, e o PNG é a exportação da mesma versão. Não há backend, coleta de
+diagrama atual. O PNG antigo é um registro histórico de 07/10/2026 e não acompanha as revisões atuais. Não há backend, coleta de
 formulários nem instalador automático.
 
 ## Limites e segurança

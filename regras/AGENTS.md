@@ -8,7 +8,8 @@ para outro computador.
 
 | Papel | Modelo | Esforço |
 |---|---|---|
-| Condutor do Codex | `gpt-6.1-sol` | `medium`, `high` em tarefa complexa |
+| Condutor e revisor do Codex | `gpt-6-astra` | `high` |
+| Execução média, ou condução quando escolhida | `gpt-6.1-sol` | `high` |
 | Subagente nativo | `gpt-6-luna` | `high`, `medium` em tarefa simples delimitada |
 | Grok para leitura de volume | `grok-4.7` | `high`, `xhigh` só com justificativa de complexidade |
 | Revisor Claude opcional | `claude-opus-5-5` | `high`, somente leitura |

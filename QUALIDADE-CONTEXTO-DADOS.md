@@ -17,7 +17,7 @@ de roteamento, não garantias de disponibilidade ou de runtime.
 
 ## Roteamento e responsabilidade
 
-- Codex: Sol 6.1 conduz; Luna 6 recebe tarefas delimitadas. Claude Code: Opus
+- Codex: Astra high conduz por padrão; Sol 6.1 executa tarefas médias ou conduz quando escolhido; Luna 6 recebe tarefas simples delimitadas. Claude Code: Opus
   5.5 conduz; Sonnet 5.5 recebe tarefas delimitadas. Use os esforços dos exemplos
   do kit como padrão ajustável, não como ranking absoluto de modelos.
 - Grok é opcional para leitura de volume, pesquisa, comparação e normalização.
