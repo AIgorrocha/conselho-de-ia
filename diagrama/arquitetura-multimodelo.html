@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Arquitetura multimodelo: Claude Code planeja, Codex executa e testa, Astra revisa em contexto separado e ai-memory mantém a memória comum por MCP.">
+<meta name="description" content="Exemplo opcional de passagem Claude para Codex, com revisão independente; Astra high é padrão no Codex e AI Memory é dependência externa.">
 <meta name="theme-color" content="#0D0D0D">
 <meta property="og:title" content="Arquitetura multimodelo | Conselho de IA">
 <meta property="og:description" content="Planejamento, execução, revisão e memória compartilhada em um fluxo de trabalho verificável.">
@@ -25,7 +25,7 @@
 <!-- O SVG contém seus próprios estilos e pode ser extraído para uma aula em 16:9. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="arquitetura-multimodelo-title arquitetura-multimodelo-desc">
 <title id="arquitetura-multimodelo-title">Arquitetura multimodelo com memória comum</title>
-<desc id="arquitetura-multimodelo-desc">O usuário define o objetivo, Claude Code com Opus e apoio Sonnet prepara o plano, Codex com Sol e Luna executa e testa, Astra revisa em contexto separado e a entrega reúne evidências; Claude e Codex consultam e registram contexto no ai-memory por MCP, e uma sessão iniciada no Codex pode consultar Claude pelo claude-worker.</desc>
+<desc id="arquitetura-multimodelo-desc">Exemplo escolhido em 23/10/2026, não fluxo obrigatório: Opus/Sonnet planejam, Sol escolhido com Luna executa e Astra high revisa em contexto separado. Astra high é o condutor padrão no Codex; revisão cruzada é opcional e consultiva. ai-memory é dependência externa com pacote de integração próprio.</desc>
 <defs>
 <marker id="arquitetura-multimodelo-arrow" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto-start-reverse"><path d="M 0 0 L 8 4 L 0 8 Z" fill="#A0A0A0"/></marker>
 <marker id="arquitetura-multimodelo-arrow-accent" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto-start-reverse"><path d="M 0 0 L 8 4 L 0 8 Z" fill="#4A90D9"/></marker>
@@ -35,8 +35,8 @@
 .am-text{font-family:"Segoe UI",system-ui,sans-serif;fill:#FFFFFF}.am-muted{fill:#A0A0A0}.am-tech{font-family:Consolas,ui-monospace,monospace}.am-node{fill:#1A1A1A;stroke:#A0A0A0;stroke-width:1.2}.am-focal{fill:#1A1A1A;stroke:#4A90D9;stroke-width:2}.am-edge{fill:none;stroke:#A0A0A0;stroke-width:2;marker-end:url(#arquitetura-multimodelo-arrow)}.am-mask{fill:#0D0D0D}.am-label{font-family:"Segoe UI",system-ui,sans-serif;font-size:24px;fill:#A0A0A0}.am-accent{fill:#4A90D9}
 </style>
 <rect width="1600" height="900" fill="#0D0D0D"/>
-<text class="am-text" x="496" y="80" font-size="40" font-weight="600">Arquitetura multimodelo</text>
-<text class="am-text am-muted" x="496" y="124" font-size="24">Planejamento, execução e memória comum</text>
+<text class="am-text" x="496" y="80" font-size="40" font-weight="600">Exemplo: passagem entre plataformas</text>
+<text class="am-text am-muted" x="496" y="124" font-size="24">23/10: Sol escolhido; Astra high é padrão no Codex</text>
 <!-- Conexões antes dos nós, sem segmentos compartilhados. -->
 <g id="arquitetura-multimodelo-edges">
 <path class="am-edge" data-from="objetivo" data-to="claude" d="M 176 168 V 300"/>
@@ -84,12 +84,12 @@
 <rect class="am-focal" x="1136" y="300" width="400" height="224" rx="8"/>
 <text x="1160" y="344" font-size="32" font-weight="600">Codex App</text>
 <text x="1160" y="384" font-size="28">Sol 6.1 e Luna 6</text>
-<text x="1160" y="424" font-size="24">Execução e testes</text>
-<text x="1160" y="480" font-size="24" class="am-muted">Evidências verificáveis</text>
+<text x="1160" y="424" font-size="24">Execução escolhida e testes</text>
+<text x="1160" y="480" font-size="24" class="am-muted">Sol escolhido neste exemplo</text>
 </g>
 <g data-node="astra">
 <rect class="am-node" x="1136" y="612" width="400" height="112" rx="8"/>
-<text x="1160" y="652" font-size="28" font-weight="600">Astra · revisão</text>
+<text x="1160" y="652" font-size="28" font-weight="600">Astra high · revisão</text>
 <text x="1160" y="692" font-size="24" class="am-muted">Contexto separado</text>
 </g>
 <g data-node="entrega">
@@ -100,7 +100,7 @@
 <rect class="am-focal" x="64" y="644" width="844" height="164" rx="8"/>
 <text x="88" y="688" font-size="32" font-weight="600" class="am-accent">ai-memory</text>
 <text x="88" y="732" font-size="28">Memória compartilhada obrigatória</text>
-<text x="88" y="776" font-size="24" class="am-muted">Clientes compatíveis e autorizados</text>
+<text x="88" y="776" font-size="24" class="am-muted">Dependência externa: kit separado</text>
 <text x="880" y="688" font-size="24" text-anchor="end" class="am-tech am-accent">MCP</text>
 </g>
 </g>
@@ -111,12 +111,12 @@
 <figcaption>Memória mantém contexto de projeto. Histórico não concede instruções, permissões ou autorização para executar tarefas.</figcaption>
 </figure>
 <section class="notes" aria-labelledby="memoria-proxima-aula">
-<h2 id="memoria-proxima-aula">Próxima aula: montar e organizar a memória compartilhada</h2>
+<h2 id="memoria-proxima-aula">AI Memory: dependência com pacote próprio</h2>
 <p>Uso individual e empresarial, com contexto de projeto e acesso delimitado. <strong>O ai-memory não executa tarefas.</strong> MCP conecta clientes compatíveis e autorizados; memória não transfere conversa nem permissões.</p>
-<p>O caminho principal começa no Claude Code. Quando a sessão começa no Codex, a consulta ao Claude usa o conector claude-worker. A revisão do Astra ocorre em contexto separado.</p>
-<p><a href="https://github.com/AIgorrocha/conselho-de-ia/blob/main/memoria/README.md">Material da aula de memória</a></p>
+<p>Este diagrama preserva o exemplo escolhido em 23/10/2026. A sessão pode começar e continuar no Codex com Astra high, ou Sol quando escolhido, ou no Claude Code com Opus 5.5 e Sonnet 5.5. Revisão cruzada é opcional e consultiva; as setas deste exemplo não tornam a passagem obrigatória.</p>
+<p><a href="https://github.com/AIgorrocha/ai-memory-integracao">Pacote AI Memory Integração</a> · <a href="https://github.com/akitaonrails/ai-memory">Original do Akita</a>. O Conselho trata da orquestração; o pacote separado integra o original, sem ser um fork do servidor.</p>
 </section>
-<footer><p>Atualizado em <time datetime="2026-10-23">23 de outubro de 2026</time>.</p><p><a href="https://github.com/AIgorrocha/conselho-de-ia">Kit completo no GitHub</a></p></footer>
+<footer><p>Atualizado em <time datetime="2026-10-26">26 de outubro de 2026</time>.</p><p><a href="https://github.com/AIgorrocha/conselho-de-ia">Kit completo no GitHub</a></p></footer>
 </main>
 </body>
 </html>

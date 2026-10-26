@@ -1,4 +1,18 @@
-# Memória comum: preparação da próxima aula
+# Memória comum: acervo histórico de 23/10/2026
+
+Encaminhamento atualizado em **26/10/2026**. O Conselho de IA trata da
+orquestração. A instalação e o material atual da Aula 2.4 de AI Memory estão no
+[pacote separado AI Memory Integração](https://github.com/AIgorrocha/ai-memory-integracao).
+Esse pacote contém nossa camada de integração do
+[projeto original de Fabio Akita](https://github.com/akitaonrails/ai-memory),
+não um fork do servidor.
+
+Os arquivos deste diretório permanecem como histórico da revisão de 23/10/2026.
+O texto abaixo preserva o plano daquela data; referências a próxima aula e
+comandos devem ser lidas nesse contexto. Para a prática atual, use o pacote
+separado. ai-memory continua sendo dependência obrigatória da arquitetura.
+
+## Material preservado de 23/10/2026
 
 Revisão v2026.10.23, de 23/10/2026. ai-memory é obrigatório na arquitetura
 ensinada. A próxima aula monta o servidor, conecta clientes compatíveis e

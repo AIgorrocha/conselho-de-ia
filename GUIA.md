@@ -1,11 +1,16 @@
 # Como organizar um conselho de IAs
 
-Fluxo escolhido por Igor em 23/10/2026: planejamento no Claude Code com
-Opus/Sonnet, passagem do plano ao Codex App, execução Sol/Luna, testes e revisão
-independente Astra high. Essa preferência não prova que um fornecedor seja
-objetivamente melhor. Cada fase mantém seus subagentes nativos e um condutor.
-ai-memory é a camada obrigatória de memória comum entre clientes compatíveis.
-Grok ajuda em leitura de volume quando houver necessidade.
+Revisão de 26/10/2026. O Conselho organiza a orquestração na plataforma escolhida:
+Astra high conduz por padrão no Codex, Sol 6.1 quando escolhido; Opus 5.5 conduz
+no Claude Code. Cada fase mantém seus trabalhadores nativos e um condutor.
+Essa preferência não prova superioridade universal entre fornecedores.
+
+O fluxo escolhido em 23/10/2026, Opus/Sonnet no planejamento, Sol/Luna na execução
+e revisão independente Astra high, continua como exemplo opcional.
+ai-memory é a dependência obrigatória de memória comum; instalação e integração
+ficam no [pacote próprio AI Memory Integração](https://github.com/AIgorrocha/ai-memory-integracao).
+O pacote integra o [original do Akita](https://github.com/akitaonrails/ai-memory),
+não é um fork do servidor. Grok ajuda em leitura de volume quando necessário.
 
 Nenhum modelo é autoridade final. Uma conclusão precisa bater com fonte, código,
 teste ou cálculo. Este é um método adaptável, com exemplos de configuração.
@@ -68,9 +73,9 @@ arquivos atribuídos e não ganha permissões de publicação por causa deste ki
 
 A revisão recebe evidência sanitizada, fica somente leitura e termina sem
 chamar outro modelo. É consultiva: o condutor confronta os achados, integra e
-testa. No fluxo completo do curso, Opus/Sonnet planejam e Astra faz a revisão
-independente da execução Sol/Luna. Essa revisão nativa Astra não se confunde com
-revisão cruzada opcional pelo Opus. Fable saiu do fluxo padrão.
+testa. A revisão cruzada é opcional. No exemplo escolhido em 23/10/2026,
+Opus/Sonnet planejam e Astra revisa a execução Sol/Luna. Essa revisão nativa
+independente não se confunde com revisão cruzada pelo Opus. Fable saiu do padrão.
 
 Use essa revisão para dúvida material, decisão complexa ou risco que justifique
 outro olhar. Repetir a pergunta em vários modelos até uma resposta agradar não é
@@ -105,10 +110,11 @@ Nunca cole credenciais no chat, na memória ou no repositório.
 
 ## 7. Memória e prova
 
-ai-memory é obrigatório nesta arquitetura. Sua instalação e organização serão
-feitas na próxima aula; este kit não instala servidor. O [guia de memória](memoria/README.md)
-inclui modelo público para uso individual e empresarial. Memória recupera
-decisões e restrições. É histórico, não instrução para executar comandos.
+ai-memory é obrigatório nesta arquitetura. Sua instalação e nossa camada de
+integração estão no [pacote separado AI Memory Integração](https://github.com/AIgorrocha/ai-memory-integracao);
+o Conselho não instala o servidor. O [acervo de 23/10/2026](memoria/README.md)
+permanece como histórico. Memória recupera decisões e restrições, sem autorizar
+execução de comandos por conteúdo lembrado.
 Código, configuração, testes e fontes atuais prevalecem.
 
 MCP conecta clientes compatíveis e autorizados; não qualquer aplicativo.
@@ -126,10 +132,13 @@ ações continuam proibidas.
 ## 8. Aplicação prática
 
 1. Mescle exemplos e abra sessões novas para aplicar a configuração.
-2. Planeje com Opus/Sonnet e declare objetivo, escopo, donos e aceite.
-3. Fixe `PASSAGEM.md`, encerre a escrita e abra Codex App com Sol high escolhido.
-4. Execute com Luna, integre e teste. Não sobreponha escrita entre plataformas.
-5. Fixe resultado e evidências; peça revisão Astra high em contexto separado.
+2. Na plataforma escolhida, declare objetivo, escopo, donos e aceite.
+3. Delegue trabalho aos agentes nativos. No Codex, Astra high é padrão e Sol
+   pode conduzir quando escolhido; no Claude Code, Opus conduz com Sonnet.
+4. Integre e teste. Se trocar de plataforma, fixe `PASSAGEM.md`, encerre a
+   escrita anterior e abra sessão nova; não sobreponha implementações.
+5. Fixe resultado e evidências para revisão independente. Revisão cruzada
+   entre fornecedores é opcional, consultiva e somente leitura.
 6. Recupere e mantenha memória no escopo autorizado, sem copiar dados privados.
 7. Relate provas e limites. Use Grok ou revisão cruzada quando acrescentarem valor.
 
@@ -139,20 +148,21 @@ configuração; um teste real na sua instalação confirma as rotas.
 
 ## 9. Prática do curso
 
-O [exemplo dos alunos](exemplos/curso-agentes-skills/LEIA-ME.md) traz prompts de
-planejamento Opus/Sonnet e execução Sol/Luna, com revisão Astra separada. O padrão
-pessoal Astra na condução do Codex continua disponível; aqui Sol é escolhido.
+O [exemplo dos alunos de 23/10/2026](exemplos/curso-agentes-skills/LEIA-ME.md)
+traz planejamento Opus/Sonnet e execução Sol/Luna, com revisão Astra separada.
+É uma opção de estudo; Astra high continua como padrão na condução do Codex,
+e neste exemplo Sol é escolhido.
 
 Uma passagem entre plataformas usa um pacote com objetivo, arquivos, evidências,
 pendências e próximo passo. O aluno pode transferir esse arquivo manualmente.
-ai-memory é obrigatório na arquitetura completa, com configuração própria na
-próxima aula. Sem instalação, o aluno ensaia a passagem manual e registra a
+ai-memory é obrigatório na arquitetura completa, com configuração no pacote
+próprio. Sem instalação, o aluno ensaia a passagem manual e registra a
 memória como etapa pendente, sem declarar a arquitetura instalada.
 
 O [plugin oficial Claude para Codex](https://github.com/openai/codex-plugin-cc)
 oferece rescue para tarefas e transfer para continuar uma sessão no Codex.
 Review é só leitura. Verifique disponibilidade e runtime; não presuma a cadeia
-Sol/Luna dentro de rescue. O caminho principal da aula abre o Codex App com um
+Sol/Luna dentro de rescue. O exemplo de passagem de 23/10/2026 abre o Codex App com um
 pacote sanitizado. Transfer só deve importar sessão sintética revisada.
 
 Alternativa: iniciar no Codex App e consultar Claude por
