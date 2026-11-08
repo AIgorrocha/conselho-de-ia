@@ -1,8 +1,8 @@
 # Conselho de IA
 
 Kit público de orquestração para Codex, Claude Code e Grok CLI: regras,
-configurações, delegação, conectores e revisão. Revisão **v2026.10.26**, de
-**26 de outubro de 2026**. A plataforma em que o trabalho começa mantém a
+configurações, delegação, conectores e revisão. Revisão **v2026.11.08**, de
+**8 de novembro de 2026**. A plataforma em que o trabalho começa mantém a
 condução; trocar de plataforma é uma opção, não uma etapa obrigatória.
 É uma preferência de trabalho, não um ranking universal entre fornecedores.
 
@@ -15,6 +15,12 @@ não é um fork do servidor nem uma instalação automática do Conselho.
 [Abrir o site](https://aigorrocha.github.io/conselho-de-ia/) ·
 [Ler o método](GUIA.md) · [Ver o diagrama](diagrama/arquitetura-multimodelo.html) ·
 [Pacote de memória comum](https://github.com/AIgorrocha/ai-memory-integracao)
+
+Novidade: [seguranca, continuidade, TDD e backups](SEGURANCA-E-OPERACAO.md).
+O [roteador experimental para CLIs](roteadores/README.md) usa papeis explicitos,
+sem API JEV. Testes offline nao comprovam OAuth real ou suporte ao Codex App,
+Grok e Kimi. Protecao de trafego web e roteamento de modelos sao integracoes
+diferentes; nenhuma e ativada automaticamente por este kit.
 
 O [acervo de memória de 23/10/2026](memoria/README.md) permanece como histórico,
 incluindo o preparador Windows e o teste isolado do ai-memory 3.2.0. O material
