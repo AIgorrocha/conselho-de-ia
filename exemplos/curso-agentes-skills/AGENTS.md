@@ -9,7 +9,7 @@ ai-memory é a camada obrigatória, instalada e organizada na próxima aula.
 
 - Neste exercício, o usuário escolhe Sol 6.1 high como condutor. O padrão pessoal
   atual do autor é Astra high na condução; esta escolha é específica da aula.
-- Delegue a triagem ao agente nativo `luna-triagem`, Luna 6 high. Espere sua
+- Delegue a triagem ao agente nativo `terra-triagem`, Terra 6.1 high. Espere sua
   entrega antes de integrar. Depois delegue a revisão final independente a
   `astra-revisao`, Astra high, em contexto novo, com fontes e resultado fixado.
 - Até três filhos simultâneos. Nesta prática as etapas são sequenciais. Cada

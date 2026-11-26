@@ -11,12 +11,12 @@ Ao usar, substitua este estado por fatos e evidências observados.
   autenticação ou envio foi executado por este template.
 - Artefatos: `PLANO.md`, `resultado.md` e `revisao.md` ainda não produzidos.
 - Decisões do exercício: Opus 5.5 high com Sonnet 5.5 high no Claude;
-  Sol 6.1 high com Luna 6 high e revisão independente Astra high no Codex.
+  Sol 6.1 high com Terra 6.1 high e revisão independente Astra high no Codex.
 - Aceite: Ana pede pedido; Bruno pede pedido e produto; Carla sem novo rascunho;
   nenhuma promessa, urgência ou confirmação de envio inventada.
 - Próximo passo: confirmar modelos/permissões, planejar com Opus/Sonnet e
   fixar PLANO.md. Encerrar escrita no Claude, abrir Codex App com o pacote e
-  executar Sol/Luna. Fixar resultado para revisão independente Astra high.
+  executar Sol/Terra. Fixar resultado para revisão independente Astra high.
 - Dono da escrita: apenas o condutor da sessão de destino, depois de encerrar
   a sessão escritora de origem. Filhos devolvem texto, sem editar arquivos.
 - Proibições: sem envio, outros conectores, leitura de credenciais, instalação,

@@ -33,7 +33,7 @@ model_reasoning_effort = "high"
 # Perfil de volume alternativo: usar so quando o modelo de volume principal
 # (Grok ou equivalente) nao estiver disponivel.
 [profiles.volume-fallback]
-model = "gpt-6-luna"
+model = "gpt-6.1-terra"
 model_reasoning_effort = "high"
 
 # Variante explicitamente escolhida para a prática do curso.

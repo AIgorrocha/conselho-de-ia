@@ -15,7 +15,7 @@ Mescle as instruções necessárias. Não substitua seu arquivo global completo.
 ## Delegação nativa
 
 - Fluxo completo escolhido em 23/10/2026: Opus/Sonnet planejam aqui; o plano
-  sanitizado segue em `PASSAGEM.md` para execução Sol/Luna no Codex App, testes
+  sanitizado segue em `PASSAGEM.md` para execução Sol/Terra no Codex App, testes
   e revisão Astra high independente. Não exigir dois fornecedores por microtarefa.
 - Use passagem manual para uma sessão Codex nova ou confira o plugin oficial
   `openai/codex-plugin-cc`: rescue recebe tarefas; transfer importa sessão

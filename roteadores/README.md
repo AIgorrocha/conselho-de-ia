@@ -16,7 +16,7 @@ O servidor fica no loopback durante a vida de uma CLI. Cada perfil tem porta e e
 | --- | --- | --- |
 | high | gpt-6-astra | claude-opus-5-5 |
 | medium | gpt-6.1-sol | claude-sonnet-5-5 |
-| simple | gpt-6-luna | claude-sonnet-5-5 |
+| simple | gpt-6.1-terra | claude-sonnet-5-5 |
 
 O papel seleciona o modelo somente quando a CLI pede a sentinela `jev-router`. Modelo manual permitido prevalece. Continuacoes Codex usam IDs confirmados pelo provedor, modelo anterior e identidade OAuth do perfil. ID desconhecido, expirado ou de outra identidade e recusado. Uma troca manual num turno novo e permitida.
 
@@ -39,7 +39,7 @@ Loopback nao autentica todos os processos locais. Outro processo da mesma maquin
 Windows, Node20+ e executavel nativo no PATH. O wrapper remove `NODE_OPTIONS` e `NODE_PATH` antes de iniciar Node. Os exemplos abaixo sao formatos de uso, nao prova de que os modelos estao disponiveis na sua conta:
 
 ```powershell
-.\windows\jev-continuous.ps1 codex --role medium --catalog 'gpt-6-astra,gpt-6.1-sol,gpt-6-luna' --effort high
+.\windows\jev-continuous.ps1 codex --role medium --catalog 'gpt-6-astra,gpt-6.1-sol,gpt-6.1-terra' --effort high
 .\windows\jev-continuous.ps1 claude --role high --catalog 'claude-opus-5-5,claude-sonnet-5-5' --effort high
 ```
 

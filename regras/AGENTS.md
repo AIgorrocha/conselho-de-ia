@@ -10,14 +10,14 @@ para outro computador.
 |---|---|---|
 | Condutor e revisor do Codex | `gpt-6-astra` | `high` |
 | Execução média, ou condução quando escolhida | `gpt-6.1-sol` | `high` |
-| Subagente nativo | `gpt-6-luna` | `high`, `medium` em tarefa simples delimitada |
+| Subagente nativo | `gpt-6.1-terra` | `high`, `medium` em tarefa simples delimitada |
 | Grok para leitura de volume | `grok-4.7` | `high`, `xhigh` só com justificativa de complexidade |
 | Revisor Claude opcional | `claude-opus-5-5` | `high`, somente leitura |
 
 ## Delegação nativa
 
 - Fluxo completo escolhido em 23/10/2026: planejamento Opus/Sonnet no Claude,
-  plano sanitizado em `PASSAGEM.md`, execução Sol/Luna e testes no Codex App,
+  plano sanitizado em `PASSAGEM.md`, execução Sol/Terra e testes no Codex App,
   revisão Astra high independente. Sol high conduz essa execução por escolha
   explícita. O padrão pessoal Astra high continua disponível para outras tarefas.
 - Não exigir dois fornecedores para toda microtarefa. Alternativa: iniciar no

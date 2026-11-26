@@ -5,7 +5,7 @@ Dados sintéticos. Leia `contexto.md` e `casos.md`. Aplique a skill
 
 - Opus 5.5 high conduz. Delegue a triagem ao subagente nativo `sonnet-triagem`,
   Sonnet 5.5 high, para levantar fatos e lacunas. Confira as fontes e prepare
-  `PLANO.md` e `PASSAGEM.md` para execução Sol/Luna no Codex App.
+  `PLANO.md` e `PASSAGEM.md` para execução Sol/Terra no Codex App.
 - Até três filhos simultâneos; esta prática usa um filho por etapa. Cada pacote
   informa objetivo, arquivos, dono, aceite, tempo e condição de parada.
   Trabalhadores não delegam nem chamam outros modelos.

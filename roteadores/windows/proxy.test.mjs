@@ -4,7 +4,7 @@ import http from 'node:http';
 import { readFile, readdir } from 'node:fs/promises';
 import { startSession, startTestSession, buildProfile } from './proxy.mjs';
 
-const codexCatalog = ['gpt-6-astra', 'gpt-6.1-sol', 'gpt-6-luna'];
+const codexCatalog = ['gpt-6-astra', 'gpt-6.1-sol', 'gpt-6.1-terra'];
 const claudeCatalog = ['claude-opus-5-5', 'claude-sonnet-5-5'];
 const canary = 'PRIVATE_CANARY_83c1a9';
 const nativeHeaders = { authorization: 'Bearer synthetic-native-oauth', 'chatgpt-account-id': 'synthetic-account' };
@@ -55,7 +55,7 @@ test('two explicit roles produce two actual upstream model ids, with native head
   const simple = await session(t, upstream, { role: 'simple' });
   const results = await Promise.all([send(high, { reasoning: { effort: 'xhigh' } }), send(simple, { reasoning: { effort: 'high' } })]);
   assert.deepEqual(results.map(r => r.status), [200, 200]);
-  assert.deepEqual(new Set(upstream.received.map(r => r.body.model)), new Set(['gpt-6-astra', 'gpt-6-luna']));
+  assert.deepEqual(new Set(upstream.received.map(r => r.body.model)), new Set(['gpt-6-astra', 'gpt-6.1-terra']));
   assert.equal(upstream.received.find(r => r.body.model === 'gpt-6-astra').body.reasoning.effort, 'xhigh');
   assert.ok(upstream.received.every(r => r.headers.authorization === nativeHeaders.authorization && r.headers['chatgpt-account-id'] === nativeHeaders['chatgpt-account-id']));
 });
@@ -65,7 +65,7 @@ test('manual model is preserved and continuation remains pinned; switching fails
   const proxy = await session(t, upstream);
   assert.equal((await send(proxy, { model: 'gpt-6.1-sol' })).status, 200);
   assert.equal((await send(proxy, { previous_response_id: 'resp_1' })).status, 200);
-  assert.equal((await send(proxy, { model: 'gpt-6-luna', previous_response_id: 'resp_1' })).status, 409);
+  assert.equal((await send(proxy, { model: 'gpt-6.1-terra', previous_response_id: 'resp_1' })).status, 409);
   assert.deepEqual(upstream.received.map(r => r.body.model), ['gpt-6.1-sol', 'gpt-6.1-sol']);
   assert.equal(upstream.received[1].body.previous_response_id, 'resp_1');
 });
@@ -112,7 +112,7 @@ test('parallel profiles bind known previous ids to their own OAuth identity', as
   assert.equal((await send(b, { previous_response_id: ra.id })).status, 409);
   await Promise.all([send(a, { previous_response_id: ra.id }), send(b, { previous_response_id: rb.id })]);
   assert.equal(upstream.received.filter(r => r.body.model === 'gpt-6.1-sol').length, 2);
-  assert.equal(upstream.received.filter(r => r.body.model === 'gpt-6-luna').length, 2);
+  assert.equal(upstream.received.filter(r => r.body.model === 'gpt-6.1-terra').length, 2);
 });
 
 test('upstream timeout is bounded and no redirect is followed', async t => {
@@ -187,17 +187,17 @@ test('a rejected upstream request cannot pin another model into the profile', as
     res.end('{}');
   });
   const proxy = await session(t, upstream);
-  assert.equal((await send(proxy, { model: 'gpt-6-luna' })).status, 401);
+  assert.equal((await send(proxy, { model: 'gpt-6.1-terra' })).status, 401);
   assert.equal((await send(proxy, { model: 'gpt-6-astra' })).status, 200);
-  assert.deepEqual(upstream.received.map(r => r.body.model), ['gpt-6-luna', 'gpt-6-astra']);
+  assert.deepEqual(upstream.received.map(r => r.body.model), ['gpt-6.1-terra', 'gpt-6-astra']);
 });
 
 test('manual model for a new turn remains allowed without previous_response_id', async t => {
   const upstream = await provider(t);
   const proxy = await session(t, upstream);
   assert.equal((await send(proxy)).status, 200);
-  assert.equal((await send(proxy, { model: 'gpt-6-luna' })).status, 200);
-  assert.deepEqual(upstream.received.map(r => r.body.model), ['gpt-6-astra', 'gpt-6-luna']);
+  assert.equal((await send(proxy, { model: 'gpt-6.1-terra' })).status, 200);
+  assert.deepEqual(upstream.received.map(r => r.body.model), ['gpt-6-astra', 'gpt-6.1-terra']);
 });
 
 test('active SSE can outlive the response-header deadline without being truncated', async t => {
@@ -232,7 +232,7 @@ test('known old response keeps its own model after manual new turn; unknown and 
   const upstream = await provider(t);
   const proxy = await session(t, upstream);
   const a = await (await send(proxy)).json();
-  await (await send(proxy, { model: 'gpt-6-luna' })).json();
+  await (await send(proxy, { model: 'gpt-6.1-terra' })).json();
   assert.equal((await send(proxy, { previous_response_id: a.id })).status, 200);
   assert.equal(upstream.received.at(-1).body.model, 'gpt-6-astra');
   assert.equal((await send(proxy, { previous_response_id: 'resp_unknown' })).status, 409);
@@ -253,7 +253,7 @@ test('SSE observer learns only response id while forwarding split UTF8 bytes unc
   await (await send(proxy)).json();
   assert.equal((await send(proxy, { previous_response_id: 'resp_stream' })).status, 409);
   assert.deepEqual(Buffer.from(await (await send(proxy, { stream: true })).arrayBuffer()), expected);
-  const manual = await send(proxy, { model: 'gpt-6-luna' });
+  const manual = await send(proxy, { model: 'gpt-6.1-terra' });
   assert.equal(manual.status, 200);
   await manual.json();
   assert.equal((await send(proxy, { previous_response_id: 'resp_stream' })).status, 200);
@@ -271,11 +271,11 @@ test('SSE without Content-Type learns response id and preserves split UTF8 bytes
     push();
   });
   const proxy = await session(t, upstream);
-  const first = await send(proxy, { stream: true, model: 'gpt-6-luna' });
+  const first = await send(proxy, { stream: true, model: 'gpt-6.1-terra' });
   assert.equal(first.headers.get('content-type'), null);
   assert.deepEqual(Buffer.from(await first.arrayBuffer()), expected);
   assert.equal((await send(proxy, { previous_response_id: 'resp_no_content_type' })).status, 200);
-  assert.equal(upstream.received.at(-1).body.model, 'gpt-6-luna');
+  assert.equal(upstream.received.at(-1).body.model, 'gpt-6.1-terra');
 });
 
 test('SSE without Content-Type and data-only frame learns the typed response id', async t => {

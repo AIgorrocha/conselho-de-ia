@@ -13,7 +13,7 @@ log de agente. O executor e o revisor devem trabalhar sem consultar o gabarito.
    Mostrar filho Sonnet, modelo/esforço, skill, fatos e lacunas. Opus fixa PLANO.md
    e PASSAGEM.md. Se falhar, registrar a falha, sem encenar subagente.
 4. Conferir plano e fontes, encerrar escrita e copiar pacote para Codex App novo.
-5. No Codex App, demonstrar Sol high com Luna high executando o plano. Conferir
+5. No Codex App, demonstrar Sol high com Terra high executando o plano. Conferir
    os três casos contra as fontes e salvar resultado.md, sem envio.
 6. Fixar `resultado.md`. Executar o prompt separado de Astra high em novo contexto.
    Mostrar o parecer e a conferência do condutor. Não tratar a opinião como prova.
@@ -56,7 +56,7 @@ nem confirmação de retorno. Não afirmar envio nem inventar condição comerci
 - Versão, plataforma, modelo e esforço efetivos do principal e de cada filho.
 - Atividade nativa e identidade do filho, arquivos lidos e aplicação da skill.
 - Texto recebido, `resultado.md` fixado e parecer Astra em `revisao.md`.
-- `PLANO.md` Opus/Sonnet e `PASSAGEM.md` que levaram à execução Sol/Luna.
+- `PLANO.md` Opus/Sonnet e `PASSAGEM.md` que levaram à execução Sol/Terra.
 - Conferência por caso e fonte; erros, correções propostas e itens inconclusivos.
 - Tempo, turnos e consumo exibido, quando disponível. Não estimar economia.
 - Passagem preenchida, origem sem escrita ativa e nova sessão no destino.

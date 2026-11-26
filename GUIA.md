@@ -5,7 +5,7 @@ Astra high conduz por padrão no Codex, Sol 6.1 quando escolhido; Opus 5.5 condu
 no Claude Code. Cada fase mantém seus trabalhadores nativos e um condutor.
 Essa preferência não prova superioridade universal entre fornecedores.
 
-O fluxo escolhido em 23/10/2026, Opus/Sonnet no planejamento, Sol/Luna na execução
+O fluxo escolhido em 23/10/2026, Opus/Sonnet no planejamento, Sol/Terra na execução
 e revisão independente Astra high, continua como exemplo opcional.
 ai-memory é a dependência obrigatória de memória comum; instalação e integração
 ficam no [pacote próprio AI Memory Integração](https://github.com/AIgorrocha/ai-memory-integracao).
@@ -19,7 +19,7 @@ teste ou cálculo. Este é um método adaptável, com exemplos de configuração
 
 | Onde a sessão começa | Quem conduz | Quem recebe trabalho delimitado |
 |---|---|---|
-| Codex | Astra high; Sol 6.1 high quando escolhido | Sol 6.1 high para execução média; Luna 6 high para tarefas simples |
+| Codex | Astra high; Sol 6.1 high quando escolhido | Sol 6.1 high para execução média; Terra 6.1 high para tarefas simples |
 | Claude Code | Opus 5.5, medium ou high | Sonnet 5.5, high ou medium |
 
 No Codex, Astra usa `high` por preferência operacional. No Claude Code, o principal usa `medium` por padrão e `high` quando a complexidade exige.
@@ -74,7 +74,7 @@ arquivos atribuídos e não ganha permissões de publicação por causa deste ki
 A revisão recebe evidência sanitizada, fica somente leitura e termina sem
 chamar outro modelo. É consultiva: o condutor confronta os achados, integra e
 testa. A revisão cruzada é opcional. No exemplo escolhido em 23/10/2026,
-Opus/Sonnet planejam e Astra revisa a execução Sol/Luna. Essa revisão nativa
+Opus/Sonnet planejam e Astra revisa a execução Sol/Terra. Essa revisão nativa
 independente não se confunde com revisão cruzada pelo Opus. Fable saiu do padrão.
 
 Use essa revisão para dúvida material, decisão complexa ou risco que justifique
@@ -149,7 +149,7 @@ configuração; um teste real na sua instalação confirma as rotas.
 ## 9. Prática do curso
 
 O [exemplo dos alunos de 23/10/2026](exemplos/curso-agentes-skills/LEIA-ME.md)
-traz planejamento Opus/Sonnet e execução Sol/Luna, com revisão Astra separada.
+traz planejamento Opus/Sonnet e execução Sol/Terra, com revisão Astra separada.
 É uma opção de estudo; Astra high continua como padrão na condução do Codex,
 e neste exemplo Sol é escolhido.
 
@@ -162,7 +162,7 @@ memória como etapa pendente, sem declarar a arquitetura instalada.
 O [plugin oficial Claude para Codex](https://github.com/openai/codex-plugin-cc)
 oferece rescue para tarefas e transfer para continuar uma sessão no Codex.
 Review é só leitura. Verifique disponibilidade e runtime; não presuma a cadeia
-Sol/Luna dentro de rescue. O exemplo de passagem de 23/10/2026 abre o Codex App com um
+Sol/Terra dentro de rescue. O exemplo de passagem de 23/10/2026 abre o Codex App com um
 pacote sanitizado. Transfer só deve importar sessão sintética revisada.
 
 Alternativa: iniciar no Codex App e consultar Claude por

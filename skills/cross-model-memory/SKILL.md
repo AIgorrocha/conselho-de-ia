@@ -7,7 +7,7 @@ description: Coordinate Claude planning, Codex execution and independent Astra r
 
 The user chooses objective and permissions. The course flow selected on
 2026-10-23 plans with Claude Opus/Sonnet, passes a sanitized plan to a new Codex
-App session for Sol/Luna execution, runs tests, then requests independent Astra
+App session for Sol/Terra execution, runs tests, then requests independent Astra
 high review. Each phase stays native. Do not run two writers on the same files.
 This is a chosen preference, not a universal quality ranking or a requirement
 to use two vendors for every small task. Starting in Codex and consulting Claude
@@ -17,7 +17,7 @@ through the existing connector is an alternative.
 
 | Main platform | Conductor | Native leaf agents |
 |---|---|---|
-| Codex | `gpt-6-astra`, high by default; `gpt-6.1-sol`, high when explicitly chosen | `gpt-6.1-sol`, high for medium work; `gpt-6-luna`, high for simple bounded work |
+| Codex | `gpt-6-astra`, high by default; `gpt-6.1-sol`, high when explicitly chosen | `gpt-6.1-sol`, high for medium work; `gpt-6.1-terra`, high for simple bounded work |
 | Claude Code | `claude-opus-5-5`, medium by default, high for complex work | `claude-sonnet-5-5`, high by default, medium for simple bounded work |
 
 - Every real work session assigns at least one useful bounded task to a native

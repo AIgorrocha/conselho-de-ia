@@ -32,14 +32,14 @@ validação na instalação do aluno.
 1. Comece na plataforma escolhida. No Codex, Astra high conduz por padrão;
    Sol 6.1 pode conduzir quando escolhido. No Claude Code, Opus 5.5 conduz.
 2. Atribua objetivo, arquivos, fontes, aceite e limites aos trabalhadores
-   nativos: Sol 6.1/Luna 6 no Codex e Sonnet 5.5 no Claude Code.
+   nativos: Sol 6.1/Terra 6.1 no Codex e Sonnet 5.5 no Claude Code.
 3. O condutor integra, testa e apresenta evidências. Quando útil, peça revisão
    cruzada consultiva, somente leitura, da versão fixada em contexto separado.
 4. Consulte e mantenha ai-memory no escopo autorizado. Ela preserva decisões e
    histórico, sem transferir automaticamente conversa, permissões ou ações.
 
 O exemplo do curso de 23/10/2026 planejava com Opus/Sonnet e passava a execução
-para Sol/Luna, com revisão independente Astra high. Essa sequência continua
+para Sol/Terra, com revisão independente Astra high. Essa sequência continua
 como opção de estudo, não como obrigação de planejar no Claude e executar no Codex.
 Ao trocar de plataforma, fixe plano, fontes, versão, provas e permissões em
 `PASSAGEM.md`, encerre a escrita anterior e abra uma sessão nova.
@@ -52,7 +52,7 @@ microtarefa. Cada fase preserva sua plataforma e seus subagentes nativos.
 
 | Plataforma | Principal | Subagentes nativos |
 |---|---|---|
-| Codex | `gpt-6-astra`, `high`; Sol 6.1 quando escolhido para conduzir | `gpt-6.1-sol`, `high`, para execução média; `gpt-6-luna`, `high`, para tarefas simples |
+| Codex | `gpt-6-astra`, `high`; Sol 6.1 quando escolhido para conduzir | `gpt-6.1-sol`, `high`, para execução média; `gpt-6.1-terra`, `high`, para tarefas simples |
 | Claude Code | `claude-opus-5-5`, `medium`; `high` para tarefas complexas | `claude-sonnet-5-5`, `high`; `medium` para tarefas simples |
 | Grok CLI | `grok-4.7`, `high`, para volume, pesquisa e normalização | Delegação textual somente leitura, sem redelegação |
 
@@ -70,7 +70,7 @@ como legado.
 
 Abra o [exemplo completo de agentes e skills](exemplos/curso-agentes-skills/LEIA-ME.md).
 O exemplo de 23/10/2026 começa pelo plano Opus/Sonnet, passa para Sol 6.1 na
-execução por escolha explícita, Luna na triagem e Astra na revisão independente.
+execução por escolha explícita, Terra na triagem e Astra na revisão independente.
 É uma sequência opcional de estudo. Inclui
 árvores, arquivos válidos, prompts, gabarito e passagem de contexto entre plataformas.
 A configuração é um exemplo; a execução deve ser confirmada na instalação do aluno.
@@ -124,10 +124,10 @@ do usuário. Ajuste os caminhos para sua instalação.
 
 No Claude, escolha esses agentes customizados para fixar modelo e esforço, em vez
 de um agente embutido que force outro modelo. No Codex, `[agents]` define Sol
-como trabalhador nativo padrão; o agente Luna recebe tarefas simples. Confira o modelo efetivo nos registros da CLI.
+como trabalhador nativo padrão; o agente Terra recebe tarefas simples. Confira o modelo efetivo nos registros da CLI.
 Disponibilidade e nomes podem variar conforme versão e assinatura.
 
-Para agentes Codex nomeados, há Sol, Luna e Astra em `config/codex-agents/`.
+Para agentes Codex nomeados, há Sol, Terra e Astra em `config/codex-agents/`.
 Copie-os para `~/.codex/agents/` e use o mecanismo de agentes da sua versão.
 
 ### Skills
@@ -154,7 +154,7 @@ sessão Codex continuável no App/TUI. `/codex:review` é somente leitura e não
 implementa o plano. A auditoria local do autor em 23/10/2026 encontrou a versão
 1.0.6 instalada e habilitada; isso não comprova disponibilidade no aluno.
 
-Para estudar a passagem opcional de 23/10/2026 com Sol/Luna/Astra, use a passagem
+Para estudar a passagem opcional de 23/10/2026 com Sol/Terra/Astra, use a passagem
 sanitizada e sessão nova no Codex App. Verifique comandos, modelo, esforço e subagentes efetivos
 antes de usar o plugin. Não presuma que uma chamada rescue permita toda a cadeia
 nativa. Transfer importe somente sessão sintética, sem transcrição privada.

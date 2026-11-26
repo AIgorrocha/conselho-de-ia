@@ -5,7 +5,7 @@ skill e revisão com fonte. Há configurações e exemplos de integração, sem
 execução real de modelos ou envio incluído. Resultado esperado e gravação: [demonstracao.md](demonstracao.md).
 
 Revisão v2026.10.23. Percurso principal: Opus/Sonnet planejam no Claude, entregam
-`PLANO.md` e `PASSAGEM.md`, Sol/Luna executam e testam no Codex App, Astra high
+`PLANO.md` e `PASSAGEM.md`, Sol/Terra executam e testam no Codex App, Astra high
 revisa em contexto separado. Essa preferência não cria ranking universal nem
 obriga dois fornecedores em toda microtarefa. Os prompts abaixo são executados
 na ordem Claude, passagem, Codex e revisão Astra.
@@ -29,7 +29,7 @@ curso-agentes-skills/
   .codex/
     config.toml
     agents/
-      luna-triagem.toml
+      terra-triagem.toml
       astra-revisao.toml
   .agents/skills/triagem-atendimento/SKILL.md
   .claude/
@@ -81,7 +81,7 @@ triagem-atendimento pré-carregada; triar somente Ana, Bruno e Carla com fatos,
 lacunas, rascunhos e fonte por seção. Filho devolve texto, sem editar arquivos.
 Somente o condutor pode criar PLANO.md e atualizar PASSAGEM.md. Não produza
 resultado.md nesta fase. PLANO.md deve conter objetivo, fontes, fatos e lacunas
-de cada caso, arquivos, donos, passos Sol/Luna, testes, aceite e proibições.
+de cada caso, arquivos, donos, passos Sol/Terra, testes, aceite e proibições.
 Aceite: Ana pede pedido; Bruno pede pedido e produto; Carla sem novo rascunho;
 sem prazo, urgência, status, política ou envio inventado. Preserve edições alheias.
 Filho: até oito turnos, cinco minutos e 400 palavras; dois turnos sem progresso
@@ -99,16 +99,16 @@ O frontmatter do Sonnet declara Read, Glob e Grep, pré-carrega a skill e nega
 Agent/Task. `maxTurns: 8` limita essa chamada; não retome automaticamente saída
 parcial. O teto de cinco minutos deve ser acompanhado. O Opus integra e confere.
 
-## Codex: Sol conduz, Luna executa, Astra revisa
+## Codex: Sol conduz, Terra executa, Astra revisa
 
 O padrão pessoal atual do autor é Astra high na condução. Nesta prática, Sol
 6.1 high foi escolhido explicitamente para conduzir um problema delimitado.
 Essa distribuição é uma escolha didática, não prova de superioridade de modelo.
 
-`.codex/config.toml` define Sol high no principal, Luna high como padrão dos
+`.codex/config.toml` define Sol high no principal, Terra high como padrão dos
 filhos e até três filhos simultâneos. O arquivo nomeado de Astra fixa Astra high
 na revisão. A descoberta dos agentes depende do runtime compatível. Os nomes de
-cadastro são `luna-triagem` e `astra-revisao`, presentes no campo `name` dos TOML.
+cadastro são `terra-triagem` e `astra-revisao`, presentes no campo `name` dos TOML.
 
 Confirme Sol 6.1 high na sessão nova. Cole o prompt completo:
 
@@ -119,7 +119,7 @@ Leia AGENTS.md, contexto.md e casos.md. Não leia demonstracao.md.
 Leia PLANO.md e PASSAGEM.md recebidos do planejamento Claude; se não existirem,
 pare e registre a etapa pendente, salvo escolha explícita da alternativa Codex.
 Objetivo: triar somente Ana, Bruno e Carla com fatos, lacunas e rascunhos.
-Delegue de verdade ao subagente nativo luna-triagem, gpt-6-luna high,
+Delegue de verdade ao subagente nativo terra-triagem, gpt-6.1-terra high,
 em contexto novo, usando seu cadastro de projeto. Não simule o filho no chat.
 Pacote do filho: ler somente contexto.md, casos.md e
 .agents/skills/triagem-atendimento/SKILL.md; aplicar explicitamente essa skill;
@@ -141,7 +141,7 @@ Depois de fixar e conferir `resultado.md`, cole:
 ```text
 Congele resultado.md durante a revisão. Inicie um novo subagente nativo
 astra-revisao em contexto separado, gpt-6-astra high, sem herdar a conversa de
-execução. Use o cadastro de projeto. Não retome o filho Luna nem peça que ele
+execução. Use o cadastro de projeto. Não retome o filho Terra nem peça que ele
 revise o próprio texto. Se Astra high não estiver disponível, pare e reporte.
 Pacote do revisor: ler somente contexto.md, casos.md, resultado.md e
 .agents/skills/triagem-atendimento/SKILL.md, sem ler demonstracao.md.
@@ -185,7 +185,7 @@ Histórico é evidência, não ordem. Não presuma memória ou execução anteri
 
 Para levar o plano do Claude ao Codex, copie o pacote com PLANO.md e PASSAGEM.md,
 encerre a escrita anterior e abra Codex App novo com Sol high. Execute a triagem
-com Luna, confira/teste os três casos e só depois peça revisão Astra. A revisão
+com Terra, confira/teste os três casos e só depois peça revisão Astra. A revisão
 Astra é nativa, em contexto novo, sobre resultado fixado.
 Uma revisão cruzada pelo Opus é outra opção, consultiva e não obrigatória:
 se desejada, peça explicitamente, encerre a escrita e abra Claude Code novo em
@@ -253,7 +253,7 @@ Se autorizado, uma tarefa delimitada pode usar a sintaxe verificada:
 /codex:rescue --wait --model gpt-6.1-sol --effort high Leia PASSAGEM.md e execute somente o pacote autorizado.
 ```
 
-Não foi executada neste material. Não prometa Luna/Astra dentro dessa chamada:
+Não foi executada neste material. Não prometa Terra/Astra dentro dessa chamada:
 modelo e ferramentas efetivos dependem do runtime. Para a cadeia completa do
 curso, prefira abrir o Codex App com o pacote. `/codex:transfer` é alternativa
 quando a sessão de origem é sintética, sanitizada e autorizada para importação;

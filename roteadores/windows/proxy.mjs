@@ -5,7 +5,7 @@ import https from 'node:https';
 import { createHash } from 'node:crypto';
 
 const MODELS = Object.freeze({
-  codex: Object.freeze({ high: 'gpt-6-astra', medium: 'gpt-6.1-sol', simple: 'gpt-6-luna' }),
+  codex: Object.freeze({ high: 'gpt-6-astra', medium: 'gpt-6.1-sol', simple: 'gpt-6.1-terra' }),
   claude: Object.freeze({ high: 'claude-opus-5-5', medium: 'claude-sonnet-5-5', simple: 'claude-sonnet-5-5' }),
 });
 const ENDPOINTS = Object.freeze({

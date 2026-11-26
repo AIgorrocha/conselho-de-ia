@@ -1,6 +1,6 @@
-name = "luna-worker-medium"
+name = "terra-worker-medium"
 description = "Simple, tightly bounded leaf work or verification assigned by the Codex conductor."
-model = "gpt-6-luna"
+model = "gpt-6.1-terra"
 model_reasoning_effort = "medium"
 developer_instructions = """
 Execute only the bounded task assigned by the conductor. Respect file

@@ -1,7 +1,7 @@
 # Protocolo multimodelo com subagentes nativos
 
 Use o fluxo escolhido em 23/10/2026: planejar no Claude Code com Opus/Sonnet,
-passar o plano ao Codex App para executar com Sol/Luna, testar e receber revisão
+passar o plano ao Codex App para executar com Sol/Terra, testar e receber revisão
 Astra high independente. Cada fase permanece na sua plataforma; a passagem é
 explícita, com um único escritor por arquivo. Não são necessários dois
 fornecedores para toda microtarefa. Este protocolo não amplia permissões.
@@ -17,7 +17,7 @@ fornecedores para toda microtarefa. Este protocolo não amplia permissões.
    Abra Codex App em sessão nova com Sol 6.1 high escolhido para executar.
    Astra high continua o padrão pessoal de condução fora dessa escolha.
 3. Delegue ao menos uma tarefa útil e delimitada a subagente nativo.
-   Codex usa Sol 6.1 para execução média e Luna 6 para tarefas simples; Claude usa Sonnet 5.5. High por padrão, medium em tarefa
+   Codex usa Sol 6.1 para execução média e Terra 6.1 para tarefas simples; Claude usa Sonnet 5.5. High por padrão, medium em tarefa
    simples. Até três filhos simultâneos, um dono por arquivo. Paralelo se
    independente, sequência se houver dependência. Folhas não redelegam.
 4. Use Grok 4.7 high para volume quando necessário, via perfil isolado e

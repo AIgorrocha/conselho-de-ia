@@ -1,6 +1,6 @@
-name = "luna-triagem"
-description = "Luna 6 high executa triagem dos três atendimentos sintéticos, com fontes e rascunhos, sem envio."
-model = "gpt-6-luna"
+name = "terra-triagem"
+description = "Terra 6.1 high executa triagem dos três atendimentos sintéticos, com fontes e rascunhos, sem envio."
+model = "gpt-6.1-terra"
 model_reasoning_effort = "high"
 developer_instructions = """
 Você é trabalhador folha. Leia somente contexto.md, casos.md e

@@ -21,7 +21,7 @@ $files = @{
     claudeConfig = Join-Path $root 'config\claude-settings.json'
     grokConfig = Join-Path $root 'config\grok-config.toml'
     grokIsolated = Join-Path $root 'config\grok-delegation-config.toml'
-    codexAgent = Join-Path $root 'config\codex-agents\luna-worker.toml'
+    codexAgent = Join-Path $root 'config\codex-agents\terra-worker.toml'
     solAgent = Join-Path $root 'config\codex-agents\sol-worker.toml'
     astraAgent = Join-Path $root 'config\codex-agents\astra-reviewer.toml'
     claudeAgentHigh = Join-Path $root 'config\claude-agents\native-worker.md'
@@ -51,12 +51,12 @@ foreach ($rules in @($text.codexRules, $text.claudeRules, $text.crossSkill)) {
     Assert-True ($rules.Contains('Fable is a legacy') -or [regex]::IsMatch($rules, 'Fable . legado')) 'Fable nao marcado como legado'
     Assert-True ([regex]::IsMatch($rules, 'opcional|optional', 'IgnoreCase')) 'Revisao cruzada nao indicada como opcional'
 }
-Assert-True ($text.codexRules.Contains('gpt-6.1-sol') -and $text.codexRules.Contains('gpt-6-luna')) 'Matriz Codex incorreta'
+Assert-True ($text.codexRules.Contains('gpt-6.1-sol') -and $text.codexRules.Contains('gpt-6.1-terra')) 'Matriz Codex incorreta'
 Assert-True ($text.claudeRules.Contains('claude-opus-5-5') -and $text.claudeRules.Contains('claude-sonnet-5-5')) 'Matriz Claude incorreta'
 Assert-True ($text.crossSkill.Contains('Maximum three concurrent children')) 'Limite de tres agentes ausente'
 Assert-True ($text.crossSkill.Contains('No loops')) 'Regra sem loops ausente'
 Assert-True ($text.codexAgent.Contains('developer_instructions')) 'TOML de agente Codex sem instrucoes'
-Assert-True ($text.codexAgent.Contains('gpt-6-luna') -and $text.codexAgent.Contains('high')) 'Agente Codex nao usa Luna high'
+Assert-True ($text.codexAgent.Contains('gpt-6.1-terra') -and $text.codexAgent.Contains('high')) 'Agente Codex nao usa Terra high'
 foreach ($agent in @($text.claudeAgentHigh, $text.claudeAgentMedium)) {
     Assert-True ($agent.Contains('claude-sonnet-5-5')) 'Agente Claude nao usa Sonnet 5.5'
     Assert-True ($agent.Contains('Agent') -and $agent.Contains('Task')) 'Agente Claude permite delegacao recursiva'
