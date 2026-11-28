@@ -129,9 +129,15 @@ evidência. Contradições ficam explícitas. Uma decisão nova pode superar a a
 sem apagar o histórico. Handoff registra o que foi provado, o que falta e quais
 ações continuam proibidas.
 
-## 8. Aplicação prática
+## 8. Aplicação prática pelo aplicativo
 
-1. Mescle exemplos e abra sessões novas para aplicar a configuração.
+Comece por uma cópia da pasta fictícia `exemplos/curso-agentes-skills/`, por
+exemplo `C:\mentoria\aurora-servicos-teste`. No aplicativo do Claude, abra a aba
+Code e selecione a cópia como projeto. No Codex, abra essa pasta como projeto
+no aplicativo. Os adaptadores de terminal são opcionais e têm requisitos
+próprios descritos no README.
+
+1. Leia o LEIA-ME do exemplo e abra uma conversa nova no aplicativo para conferir a configuração.
 2. Na plataforma escolhida, declare objetivo, escopo, donos e aceite.
 3. Delegue trabalho aos agentes nativos. No Codex, Astra high é padrão e Sol
    pode conduzir quando escolhido; no Claude Code, Opus conduz com Sonnet.
@@ -165,7 +171,9 @@ Review é só leitura. Verifique disponibilidade e runtime; não presuma a cadei
 Sol/Terra dentro de rescue. O exemplo de passagem de 23/10/2026 abre o Codex App com um
 pacote sanitizado. Transfer só deve importar sessão sintética revisada.
 
-Alternativa: iniciar no Codex App e consultar Claude por
+Alternativa avançada pelo terminal: iniciar no Codex App e consultar Claude por
 `bin/claude-worker.ps1`, com pacote, quatro turnos e 180 segundos por padrão.
+Esse conector exige a CLI Claude instalada e autenticada. Para a prática inicial
+no aplicativo, a passagem manual descrita acima continua disponível.
 Nenhum conector substitui a memória comum, concede novas permissões ou obriga
 uma chamada entre fornecedores para cada tarefa pequena.

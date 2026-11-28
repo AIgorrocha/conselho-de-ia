@@ -45,11 +45,11 @@ symlink; mantenha ambas alinhadas quando editar o procedimento.
 
 1. Copie esta pasta inteira, incluindo `.codex`, `.agents` e `.claude`, para uma
    nova pasta de trabalho fora deste repositório. Não copie para pastas globais.
-2. Use Codex ou Claude Code já instalado e autenticado com sua própria conta.
+2. Use o aplicativo do Codex ou a aba Code do aplicativo do Claude, já instalado e autenticado com sua própria conta.
    Versão, assinatura, políticas da organização e catálogo determinam quais
    modelos, esforço, agentes e skills estão disponíveis. Confira a documentação
    atual e registre a versão local. Este pacote não instala ferramentas.
-3. Abra a cópia como projeto confiável apenas após ler os arquivos. No Codex,
+3. Abra a cópia como projeto no aplicativo, por exemplo `C:\mentoria\aurora-servicos-teste`, e confirme a confiança apenas após ler os arquivos. No Codex,
    confira se a configuração de projeto foi carregada; instalações podem ignorar
    configuração em projeto ainda não confiável. Mescle conflitos conscientemente.
 4. Abra sessão nova. Configuração em arquivo não troca modelo ou esforço de
@@ -65,7 +65,7 @@ consulte apenas o escopo de estudo, sem ampliar acesso ou importar dados reais.
 
 ## Claude Code: primeiro, Opus e Sonnet preparam o plano
 
-Abra nova sessão na cópia. Selecione `claude-opus-5-5` e esforço `high` pelos
+Na aba Code do aplicativo do Claude, abra nova conversa na cópia. Selecione `claude-opus-5-5` e esforço `high` pelos
 controles da sua versão. Confira o modelo principal e variáveis/políticas que
 possam sobrepor modelo ou esforço dos filhos. Cole:
 
@@ -192,7 +192,11 @@ se desejada, peça explicitamente, encerre a escrita e abra Claude Code novo em
 Opus 5.5 high com o pacote, solicitando revisão das fontes e do resultado, sem
 editar, delegar ou chamar modelos. Um revisor não dispara o outro em sequência.
 
-## Conectores e camada obrigatória de memória
+## Conector de terminal opcional e camada de memória
+
+A prática acima usa os aplicativos e a passagem por arquivo. O adaptador a
+seguir usa a CLI Claude e PowerShell. Seus requisitos se aplicam quando você
+escolhe testar esse conector. Leia a seção inteira antes de executá-lo.
 
 A prática atual ensaia subagentes nativos e passagem manual; a próxima aula
 instala e organiza a memória comum obrigatória via MCP. O kit maior

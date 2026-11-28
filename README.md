@@ -1,6 +1,6 @@
 # Conselho de IA
 
-Kit público de orquestração para Codex, Claude Code e Grok CLI: regras,
+Kit público de orquestração para Codex e Claude Code, com orientações para os aplicativos e adaptadores de Grok CLI: regras,
 configurações, delegação, conectores e revisão. Revisão **v2026.11.08**, de
 **8 de novembro de 2026**. A plataforma em que o trabalho começa mantém a
 condução; trocar de plataforma é uma opção, não uma etapa obrigatória.
@@ -75,15 +75,27 @@ execução por escolha explícita, Terra na triagem e Astra na revisão independ
 árvores, arquivos válidos, prompts, gabarito e passagem de contexto entre plataformas.
 A configuração é um exemplo; a execução deve ser confirmada na instalação do aluno.
 
-## Comece por aqui
+## Comece pelo aplicativo
 
 1. Leia [GUIA.md](GUIA.md), que explica a divisão de trabalho e os limites.
-2. Instale e autentique as CLIs que pretende usar, com sua própria assinatura.
-3. Mescle somente os trechos necessários dos exemplos abaixo.
-4. Prepare a [camada de memória comum no pacote próprio](https://github.com/AIgorrocha/ai-memory-integracao),
-   tema da Aula 2.4. Baixar o Conselho não instala o servidor; a arquitetura
-   completa exige ai-memory configurado e validado.
-5. Rode a verificação local e valide uma tarefa pequena na sua instalação.
+2. Copie a pasta `exemplos/curso-agentes-skills/`, incluindo as pastas ocultas,
+   para uma pasta de estudo, por exemplo `C:\mentoria\aurora-servicos-teste`.
+3. No aplicativo do Claude, entre na aba Code e abra essa cópia como projeto.
+   No Codex, abra a cópia como projeto no aplicativo. Use uma conversa nova,
+   sua própria conta e o modo de permissões escolhido para a prática.
+4. Leia o LEIA-ME do exemplo e confira os arquivos fictícios `contexto.md` e
+   `casos.md`. Faça a prática na ordem indicada e confira modelos, agentes,
+   skills e resultados na atividade do aplicativo.
+5. Ao passar para outra plataforma, use `PASSAGEM.md`, confira as fontes e
+   encerre a escrita anterior. Registre o que foi efetivamente executado.
+6. A [camada de memória comum](https://github.com/AIgorrocha/ai-memory-integracao)
+   tem configuração e testes próprios. A passagem manual permite estudar o
+   exercício e registrar essa configuração como pendente. A arquitetura
+   completa continua exigindo ai-memory configurado e validado.
+
+O início da prática usa os aplicativos. As CLIs e seus adaptadores são um
+caminho opcional, apresentado nas seções avançadas abaixo. Confira os requisitos
+apenas quando escolher esse caminho.
 
 O kit não instala CLIs nem inclui autenticação. Não substitua suas configurações
 inteiras pelos exemplos. Não copie configurações privadas para este repositório.
@@ -98,7 +110,7 @@ depende do runtime; instalar o arquivo não comprova essa disponibilidade.
 com critérios para priorizar qualidade, escolher tarefas por capacidade e validar
 memória, RAG, MCP e pilotos sem presumir que configuração prova runtime.
 
-## Instalação manual
+## Configuração avançada e adaptadores opcionais de terminal
 
 ### Regras
 
@@ -125,7 +137,7 @@ do usuário. Ajuste os caminhos para sua instalação.
 
 No Claude, escolha esses agentes customizados para fixar modelo e esforço, em vez
 de um agente embutido que force outro modelo. No Codex, `[agents]` define Sol
-como trabalhador nativo padrão; o agente Terra recebe tarefas simples. Confira o modelo efetivo nos registros da CLI.
+como trabalhador nativo padrão; o agente Terra recebe tarefas simples. Confira o modelo efetivo no seletor e na atividade do aplicativo. Ao usar um adaptador de terminal, confira também os registros da CLI.
 Disponibilidade e nomes podem variar conforme versão e assinatura.
 
 Para agentes Codex nomeados, há Sol, Terra e Astra em `config/codex-agents/`.
@@ -171,7 +183,9 @@ nativa. Transfer importe somente sessão sintética, sem transcrição privada.
 Se o plugin não estiver disponível, use `PASSAGEM.md` manualmente. O plugin não
 instala memória nem transfere permissões; ai-memory é uma consulta separada.
 
-### Conector Claude
+### Conector Claude por CLI, opcional
+
+Este adaptador chama um executável de terminal. O exercício inicial no aplicativo pode usar a passagem manual descrita acima. Confira os requisitos abaixo ao escolher experimentar o conector.
 
 Copie `bin/claude-worker.ps1` para uma pasta local de scripts. Exemplo de revisão:
 
@@ -195,6 +209,15 @@ assinatura esperada; não é usado neste conector.
 memória. O kit não instala hooks nem conecta servidores por conta própria.
 
 ## Validação
+
+No aplicativo, confirme a leitura das instruções e a chamada dos agentes do
+exemplo. Compare a entrega com `contexto.md`, `casos.md` e o gabarito. Registre
+modelo, esforço e resultado observado. Uma configuração presente em disco
+precisa dessa conferência na versão instalada.
+
+### Verificação local dos adaptadores, opcional
+
+O comando abaixo usa PowerShell para conferir os arquivos do kit.
 
 ```powershell
 powershell -NoProfile -File .\bin\test-multimodel-routing.ps1
