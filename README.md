@@ -121,6 +121,7 @@ do usuário. Ajuste os caminhos para sua instalação.
 | `config/grok-delegation-config.toml` | Perfil isolado em `~/.grok-delegation/config.toml` |
 | `config/claude-agents/native-worker.md` | `~/.claude/agents/native-worker.md`, Sonnet em `high` |
 | `config/claude-agents/native-worker-medium.md` | `~/.claude/agents/native-worker-medium.md`, Sonnet em `medium` |
+| `config/claude-agents/native-reviewer.md` | `~/.claude/agents/native-reviewer.md`, revisor somente leitura, Sonnet em `high` |
 
 No Claude, escolha esses agentes customizados para fixar modelo e esforço, em vez
 de um agente embutido que force outro modelo. No Codex, `[agents]` define Sol
@@ -129,6 +130,15 @@ Disponibilidade e nomes podem variar conforme versão e assinatura.
 
 Para agentes Codex nomeados, há Sol, Terra e Astra em `config/codex-agents/`.
 Copie-os para `~/.codex/agents/` e use o mecanismo de agentes da sua versão.
+
+### Ciclo de qualidade
+
+Em mudança de risco médio ou alto, o resultado de quem implementou passa por um
+revisor de contexto limpo e somente leitura, com critérios de aceite escritos:
+`native-reviewer` no Claude Code, `astra-reviewer` no Codex. Reprovou, os achados
+voltam para correção, no máximo duas voltas; reprovou de novo, pare e relate. O
+condutor faz o papel de crítico e prova o resultado com teste local antes de
+aceitar. O passo a passo e os pedidos prontos estão em `CICLO-DE-QUALIDADE.md`.
 
 ### Skills
 
